@@ -6,6 +6,16 @@ const User = db.define('user', {
   email: {
     type: Sequelize.STRING,
     unique: true,
+    allowNull: false,
+    validate: {
+      isEmail: true,
+    }
+  },
+  name: {
+    type: Sequelize.STRING
+  },
+  type: {
+    type: Sequelize.ENUM('admin', 'authenticated', 'unauthenticated'),
     allowNull: false
   },
   password: {
@@ -26,6 +36,10 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  sessionId: {
+    type: Sequelize.STRING,
+    defaultValue: null,
   }
 })
 
