@@ -4,7 +4,10 @@ const db = require('../db')
 
 const Reviews = db.define('review', {
   text: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    validate: {
+      len: [6, 140]
+    }
   }
 })
 

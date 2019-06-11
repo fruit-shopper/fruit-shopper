@@ -14,14 +14,21 @@ const Product = require('./product')
  *    BlogPost.belongsTo(User)
  */
 
-User.hasMany(Order);
-Order.belongsTo(User);
+User.hasMany(Order)
+Order.belongsTo(User)
 
-User.hasMany(Review);
-Review.belongsTo(User);
+User.hasMany(Review)
+Review.belongsTo(User)
 
-Review.belongsTo(Product);
-Product.hasMany(Review);
+Review.belongsTo(Product)
+Product.hasMany(Review)
+
+Order.belongsToMany(Product, {through: 'Order_Product'})
+Product.belongsToMany(Order, {through: 'Order_Product'})
+
+User.belongsToMany(Product, {through: 'Cart_Product'})
+Product.belongsToMany(User, {through: 'Cart_Product'})
+
 
 
 /**
