@@ -15,7 +15,7 @@ const User = db.define('user', {
     type: Sequelize.STRING
   },
   type: {
-    type: Sequelize.ENUM('admin', 'authenticated', 'unauthenticated'),
+    type: Sequelize.ENUM('admin', 'user'),
     allowNull: false
   },
   password: {
@@ -36,10 +36,6 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
-  },
-  sessionId: {
-    type: Sequelize.STRING,
-    defaultValue: null,
   }
 })
 
