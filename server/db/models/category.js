@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Category = deb.define('category', {
+const Category = db.define('category', {
   name: {
     type: Sequelize.ENUM(
       'citrus',
