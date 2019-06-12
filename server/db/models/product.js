@@ -30,16 +30,11 @@ const Product = db.define('product', {
     type: Sequelize.STRING,
     defaultValue: '/placeholderFruit.jpg'
   },
-  category: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
-    allowNull: false
-  },
   available: {
     type: Sequelize.BOOLEAN,
     allowNull: false,
     defaultValue: true
   }
-
 })
 
 module.exports = Product

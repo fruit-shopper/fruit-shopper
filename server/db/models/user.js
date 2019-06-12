@@ -8,15 +8,16 @@ const User = db.define('user', {
     unique: true,
     allowNull: false,
     validate: {
-      isEmail: true,
+      isEmail: true
     }
   },
   name: {
     type: Sequelize.STRING
   },
-  type: {
-    type: Sequelize.ENUM('admin', 'user'),
-    allowNull: false
+  admin: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
   },
   password: {
     type: Sequelize.STRING,
