@@ -4,6 +4,8 @@ const db = require('../server/db')
 const {User} = require('../server/db/models')
 const {Review} = require('../server/db/models')
 const {Order} = require('../server/db/models')
+const {Product} = require('../server/db/models')
+const {Category} = require('../server/db/models')
 const faker = require('faker')
 
 async function seed() {
@@ -14,9 +16,18 @@ async function seed() {
   //   User.create({email: 'cody@email.com', password: '123'}),
   //   User.create({email: 'murphy@email.com', password: '123'}),
   // ])
+  //if you add any fruits to the following array, need to increment the Product.create math.random function
+  const fruitTypes = [
+    'orange',
+    'banana',
+    'strawberry',
+    'watermelon',
+    'pineapple',
+    'mango'
+  ]
 
   let createArr = []
-  for (let i = 0; i < 3; i++) {
+  for (let i = 1; i < 50; i++) {
     createArr.push(
       User.create({
         email: faker.internet.email(),
@@ -26,15 +37,31 @@ async function seed() {
       })
     )
     createArr.push(Review.create({text: faker.lorem.words()}))
-    // createArr.push(Order.create({}))
+    createArr.push(Order.create({status: 'completed'}))
+    createArr.push(
+      Product.create({
+        name: `${fruitTypes[Math.floor(Math.random() * 6)]}${i}`,
+        price: faker.commerce.price(),
+        quantity: faker.random.number(),
+        description: faker.lorem.sentence()
+      })
+    )
   }
-  const users = await Promise.all(createArr)
 
-  //products
-  //types of fruit[orange, banana, strawberry, watermelon]
-  const fruitTypes = ['orange', 'banana', 'strawberry', 'watermelon']
+  //adding category types - these are not random
+  let categoryTypes = []
+  categoryTypes.push(Category.create({name: 'citrus'}))
+  categoryTypes.push(Category.create({name: 'berries'}))
+  categoryTypes.push(Category.create({name: 'melons'}))
+  categoryTypes.push(Category.create({name: 'tropical'}))
+  categoryTypes.push(Category.create({name: 'US-grown'}))
+  categoryTypes.push(Category.create({name: 'organic'}))
+
+  const users = await Promise.all(createArr)
+  const categories = await Promise.all(categoryTypes)
 
   console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${categories.length} users`)
   console.log(`seeded successfully`)
 }
 
