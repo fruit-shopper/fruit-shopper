@@ -20,10 +20,10 @@ script:
   - npm run build-client # make the bundle
 
 # before_deploy:
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
+  - rm -rf node_modules # omit from the tarball, since we skip cleanup
 # deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+  skip_cleanup: true # prevents travis from deleting the build
+  provider: heroku
+  app: fruit-shopper # see README
+  api_key:
+    secure: Uew17uAhA4zEXfiVgxyM8rtci0cNhK5zLKwxyfjm0uO3RQyy1i0QqwTgxrlk818V5o1CLmKcJFiejAxtndGgtYnlx2JNVMB6k3PZXsaWqENI+FLky3dAh6WWqNKOf1z6EX7Qh4WSlvk4ExcvMXHcgl/6z+u/ZsFopdS4Cf1vBXFclrl+Jo69Tz8ATqsm+COaObyJ4B3vUqvREKfZhe7xqCzjRKLw547qGTz1+yHW1yDgQUXEuA/vpGJBkP50sDKhm0IBSKrF3dtfR6NAk8dAxfa9e8thLBpFSst5g6LJpg+POrbEGVsymcFXkG2NtswSxYXjaIsjKV0MUr7r4Ix0PzmR8ZhsJx4aGm0tsmBl+W0DQzhTci/IgdvJzyC4xlz0uGAPUXtds69EyPzBmA+G+xegk44+DGHDqv1JXBLbU1qw+RcE660EWkNAFKGPBaF5mNha4lairAGasw9XaNK9wP5kIwlJyGGFySndRjzKUHoSJqaZSdU7jz86+vW9rL4j76TC10Hv0Om9ERkY59DqzhYUiMdZKalGF9MpRX6ldRuzZ7+2rcjp43bRIbejzI1eZ2dwJK9CrypITPYMVpNls5OzbFwUVRHcksq8YBXD26zTD2ITCHOvs3QY242F5ILtEBkQmBBPWc5mF/rPVve44i1XRVBM08J3nltMb5QX+sE= # see README
