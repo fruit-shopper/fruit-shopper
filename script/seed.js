@@ -9,25 +9,27 @@ const {Category} = require('../server/db/models')
 const {OrderProduct} = require('../server/db/models')
 const faker = require('faker')
 
+const fruitTypes = [
+  'orange',
+  'banana',
+  'strawberry',
+  'watermelon',
+  'pineapple',
+  'mango'
+]
+let createArr = []
+let pastOrders = []
+let orderHistory = []
+let categoryTypes = []
+const pastReviews = []
+
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  // const users = await Promise.all([
-  //   User.create({email: 'cody@email.com', password: '123'}),
-  //   User.create({email: 'murphy@email.com', password: '123'}),
-  // ])
   //if you add any fruits to the following array, need to increment the Product.create math.random function
-  const fruitTypes = [
-    'orange',
-    'banana',
-    'strawberry',
-    'watermelon',
-    'pineapple',
-    'mango'
-  ]
 
-  let createArr = []
+  //seeds users and products
   for (let i = 1; i < 50; i++) {
     createArr.push(
       User.create({
@@ -37,7 +39,7 @@ async function seed() {
         password: faker.internet.password()
       })
     )
-    createArr.push(Review.create({text: faker.lorem.words()}))
+
     createArr.push(
       Product.create({
         name: `${fruitTypes[Math.floor(Math.random() * 6)]}${i}`,
@@ -50,18 +52,18 @@ async function seed() {
 
   const users = await Promise.all(createArr)
 
-  let pastOrders = []
+  //seeds past orders
   for (let i = 0; i < 5; i++) {
     pastOrders.push(
       Order.create({
         status: 'completed',
-        userId: 1
+        userId: Math.floor(Math.random() * 50) + 1
       })
     )
   }
   const historicOrders = await Promise.all(pastOrders)
 
-  let orderHistory = []
+  //seeds order-product relation
   for (let i = 1; i < 5; i++) {
     orderHistory.push(
       OrderProduct.create({
@@ -71,24 +73,46 @@ async function seed() {
         productId: Math.floor(Math.random() * 50) + 1
       })
     )
-    console.log(Math.floor(Math.random() * 3) + 1)
   }
   const orders = await Promise.all(orderHistory)
 
-  //adding category types - these are not random
-  let categoryTypes = []
-  categoryTypes.push(Category.create({name: 'citrus'}))
-  categoryTypes.push(Category.create({name: 'berries'}))
-  categoryTypes.push(Category.create({name: 'melons'}))
-  categoryTypes.push(Category.create({name: 'tropical'}))
-  categoryTypes.push(Category.create({name: 'US-grown'}))
-  categoryTypes.push(Category.create({name: 'organic'}))
+  //seeds reviews
+  for (let i = 0; i < 20; i++) {
+    pastReviews.push(
+      Review.create({
+        text: faker.lorem.words(),
+        userId: Math.floor(Math.random() * 50) + 1,
+        productId: Math.floor(Math.random() * 50) + 1
+      })
+    )
+  }
+  const reviews = await Promise.all(pastReviews)
+
+  //seeds category types - these are not random
+  // categoryTypes.push(Category.create({name: 'citrus'}))
+  // categoryTypes.push(Category.create({name: 'berries'}))
+  // categoryTypes.push(Category.create({name: 'melons'}))
+  // categoryTypes.push(Category.create({name: 'tropical'}))
+  // categoryTypes.push(Category.create({name: 'US-grown'}))
+  // categoryTypes.push(Category.create({name: 'organic'}))
+
+  categoryTypes.push(
+    Category.create({name: 'citrus'}),
+    Category.create({name: 'berries'}),
+    Category.create({name: 'melons'}),
+    Category.create({name: 'tropical'}),
+    Category.create({name: 'US-grown'}),
+    Category.create({name: 'organic'})
+  )
 
   const categories = await Promise.all(categoryTypes)
 
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded ${categories.length} users`)
-  console.log(`seeded ${orders.length} users`)
+  console.log(
+    `seeded ${users.length} users`,
+    `seeded ${categories.length} users`,
+    `seeded ${orders.length} users`,
+    `seeded ${reviews.length} users`
+  )
   console.log(`seeded successfully`)
 }
 
