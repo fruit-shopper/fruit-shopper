@@ -6,6 +6,7 @@ const {Review} = require('../server/db/models')
 const {Order} = require('../server/db/models')
 const {Product} = require('../server/db/models')
 const {Category} = require('../server/db/models')
+const {OrderProduct} = require('../server/db/models')
 const faker = require('faker')
 
 async function seed() {
@@ -37,7 +38,6 @@ async function seed() {
       })
     )
     createArr.push(Review.create({text: faker.lorem.words()}))
-    createArr.push(Order.create({status: 'completed'}))
     createArr.push(
       Product.create({
         name: `${fruitTypes[Math.floor(Math.random() * 6)]}${i}`,
@@ -48,6 +48,33 @@ async function seed() {
     )
   }
 
+  const users = await Promise.all(createArr)
+
+  let pastOrders = []
+  for (let i = 0; i < 5; i++) {
+    pastOrders.push(
+      Order.create({
+        status: 'completed',
+        userId: 1
+      })
+    )
+  }
+  const historicOrders = await Promise.all(pastOrders)
+
+  let orderHistory = []
+  for (let i = 1; i < 5; i++) {
+    orderHistory.push(
+      OrderProduct.create({
+        quantity: Math.floor(Math.random() * 10),
+        price: Math.floor(Math.random() * 20),
+        orderId: Math.floor(Math.random() * 3) + 1,
+        productId: Math.floor(Math.random() * 50) + 1
+      })
+    )
+    console.log(Math.floor(Math.random() * 3) + 1)
+  }
+  const orders = await Promise.all(orderHistory)
+
   //adding category types - these are not random
   let categoryTypes = []
   categoryTypes.push(Category.create({name: 'citrus'}))
@@ -57,11 +84,11 @@ async function seed() {
   categoryTypes.push(Category.create({name: 'US-grown'}))
   categoryTypes.push(Category.create({name: 'organic'}))
 
-  const users = await Promise.all(createArr)
   const categories = await Promise.all(categoryTypes)
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${categories.length} users`)
+  console.log(`seeded ${orders.length} users`)
   console.log(`seeded successfully`)
 }
 

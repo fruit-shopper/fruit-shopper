@@ -7,7 +7,6 @@ const Category = db.define('category', {
       'citrus',
       'berries',
       'melons',
-      'pomes',
       'tropical',
       'US-grown',
       'organic'

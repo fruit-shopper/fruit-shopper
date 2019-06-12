@@ -1,5 +1,5 @@
 const User = require('./user')
-const Order_Product = require('./order-product')
+const OrderProduct = require('./order-product')
 const Order = require('./order')
 const Review = require('./review')
 const Product = require('./product')
@@ -35,7 +35,7 @@ Product.belongsToMany(Category, {through: 'Category_Product'})
  */
 module.exports = {
   User,
-  Order_Product,
+  OrderProduct,
   Order,
   Review,
   Product,
