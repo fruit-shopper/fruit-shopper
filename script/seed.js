@@ -2,15 +2,37 @@
 
 const db = require('../server/db')
 const {User} = require('../server/db/models')
+const {Review} = require('../server/db/models')
+const {Order} = require('../server/db/models')
+const faker = require('faker')
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
+  // const users = await Promise.all([
+  //   User.create({email: 'cody@email.com', password: '123'}),
+  //   User.create({email: 'murphy@email.com', password: '123'}),
+  // ])
+
+  let createArr = []
+  for (let i = 0; i < 3; i++) {
+    createArr.push(
+      User.create({
+        email: faker.internet.email(),
+        name: faker.name.findName(),
+        admin: faker.random.boolean(),
+        password: faker.internet.password()
+      })
+    )
+    createArr.push(Review.create({text: faker.lorem.words()}))
+    // createArr.push(Order.create({}))
+  }
+  const users = await Promise.all(createArr)
+
+  //products
+  //types of fruit[orange, banana, strawberry, watermelon]
+  const fruitTypes = ['orange', 'banana', 'strawberry', 'watermelon']
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
