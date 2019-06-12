@@ -97,7 +97,7 @@ export const putProduct = product => {
   }
 }
 
-export const createProductAssociation = (productId, categoryId) => {
+export const createProCatAssociation = (productId, categoryId) => {
   return async dispatch => {
     try {
       const res = await axios.post(
@@ -105,12 +105,12 @@ export const createProductAssociation = (productId, categoryId) => {
       )
       dispatch(updateProduct(res.data))
     } catch (error) {
-      console.log('Error inside thunk method createProductAssociation: ', error)
+      console.log('Error inside thunk method createProCatAssociation: ', error)
     }
   }
 }
 
-export const removeProductAssociation = (productId, categoryId) => {
+export const removeProCatAssociation = (productId, categoryId) => {
   return async dispatch => {
     try {
       const res = await axios.delete(
@@ -118,7 +118,23 @@ export const removeProductAssociation = (productId, categoryId) => {
       )
       dispatch(updateProduct(res.data))
     } catch (error) {
-      console.log('Error inside thunk method removeProductAssociation: ', error)
+      console.log('Error inside thunk method removeProCatAssociation: ', error)
+    }
+  }
+}
+
+export const createProOrderAssociation = (productId, orderId) => {
+  return async dispatch => {
+    try {
+      const res = await axios.post(
+        `/api/products/association/${productId}/${orderId}`
+      )
+      dispatch(updateProduct(res.data))
+    } catch (error) {
+      console.log(
+        'Error inside thunk method createProOrderAssociation: ',
+        error
+      )
     }
   }
 }

@@ -41,6 +41,21 @@ router.post('/association/:productId/:categoryId', async (req, res, next) => {
   }
 })
 
+// set association for product and order(cart)
+router.post('/association/:productId/:orderId', async (req, res, next) => {
+  try {
+    let theOrder = await Order.findByPk(req.params.orderId)
+    let theProduct = await Product.findByPk(req.params.productId)
+    await theProduct.addOrder(theOrder)
+    let productToReturn = await Product.findByPk(req.params.productId, {
+      include: [Review, Order, Category]
+    })
+    res.json(productToReturn)
+  } catch (error) {
+    next(error)
+  }
+})
+
 // add product
 router.post('/', async (req, res, next) => {
   try {
