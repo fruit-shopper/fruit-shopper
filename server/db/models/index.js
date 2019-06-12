@@ -4,6 +4,7 @@ const Order = require('./order')
 const Review = require('./review')
 const Product = require('./product')
 const Category = require('./category')
+const CategoryProduct = require('./category-product')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -39,5 +40,6 @@ module.exports = {
   Order,
   Review,
   Product,
-  Category
+  Category,
+  CategoryProduct
 }

@@ -7,8 +7,10 @@ const {Order} = require('../server/db/models')
 const {Product} = require('../server/db/models')
 const {Category} = require('../server/db/models')
 const {OrderProduct} = require('../server/db/models')
+const {CategoryProduct} = require('../server/db/models')
 const faker = require('faker')
 
+//if you add any fruits to the following array, need to increment the Product.create math.random function
 const fruitTypes = [
   'orange',
   'banana',
@@ -21,16 +23,15 @@ let createArr = []
 let pastOrders = []
 let orderHistory = []
 let categoryTypes = []
-const pastReviews = []
+let pastReviews = []
+let categoryProduct = []
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  //if you add any fruits to the following array, need to increment the Product.create math.random function
-
   //seeds users and products
-  for (let i = 1; i < 50; i++) {
+  for (let i = 1; i < 51; i++) {
     createArr.push(
       User.create({
         email: faker.internet.email(),
@@ -50,7 +51,7 @@ async function seed() {
     )
   }
 
-  const users = await Promise.all(createArr)
+  const usersAndProducts = await Promise.all(createArr)
 
   //seeds past orders
   for (let i = 0; i < 5; i++) {
@@ -89,17 +90,10 @@ async function seed() {
   const reviews = await Promise.all(pastReviews)
 
   //seeds category types - these are not random
-  // categoryTypes.push(Category.create({name: 'citrus'}))
-  // categoryTypes.push(Category.create({name: 'berries'}))
-  // categoryTypes.push(Category.create({name: 'melons'}))
-  // categoryTypes.push(Category.create({name: 'tropical'}))
-  // categoryTypes.push(Category.create({name: 'US-grown'}))
-  // categoryTypes.push(Category.create({name: 'organic'}))
-
   categoryTypes.push(
-    Category.create({name: 'citrus'}),
-    Category.create({name: 'berries'}),
-    Category.create({name: 'melons'}),
+    Category.create({name: 'gift'}),
+    Category.create({name: 'top pick'}),
+    Category.create({name: 'in season'}),
     Category.create({name: 'tropical'}),
     Category.create({name: 'US-grown'}),
     Category.create({name: 'organic'})
@@ -107,11 +101,22 @@ async function seed() {
 
   const categories = await Promise.all(categoryTypes)
 
+  for (let i = 1; i < 51; i++) {
+    categoryProduct.push(
+      CategoryProduct.create({
+        productId: `${i}`,
+        categoryId: Math.floor(Math.random() * 6) + 1
+      })
+    )
+  }
+
+  const categoryToProducts = await Promise.all(categoryProduct)
+
   console.log(
-    `seeded ${users.length} users`,
+    `seeded ${usersAndProducts.length} users`,
     `seeded ${categories.length} users`,
     `seeded ${orders.length} users`,
-    `seeded ${reviews.length} users`
+    `seeded ${reviews.length} users``seeded ${categoryToProducts.length} users`
   )
   console.log(`seeded successfully`)
 }
