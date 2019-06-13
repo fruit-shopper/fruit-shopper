@@ -5,7 +5,8 @@ const SET_PRODUCTS = 'SET_PRODUCTS'
 const ADD_PRODUCT = 'ADD_PRODUCTS'
 const DELETE_PRODUCT = 'DELETE_PRODUCT'
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
-const REORDER_PRICE = 'REORDER_PRIORITY'
+const REORDER_DES_PRICE = 'REORDER_DES_PRICE'
+const REORDER_INC_PRICE = 'REORDER_INC_PRICE'
 const FILTER_PRODUCTS = 'FILTER_PRODUCTS'
 
 // define action creator
@@ -35,9 +36,15 @@ export const updateProduct = product => {
   }
 }
 
-export const reorderByPrice = () => {
+export const reorderByDesPrice = () => {
   return {
-    type: REORDER_PRICE
+    type: REORDER_DES_PRICE
+  }
+}
+
+export const reorderByIncPrice = () => {
+  return {
+    type: REORDER_INC_PRICE
   }
 }
 
@@ -156,10 +163,16 @@ const productReducer = function(state = initialState, action) {
         if (elem.id === action.product.id) return action.product
         else return elem
       })
-    case REORDER_PRICE:
+    case REORDER_DES_PRICE:
       return (() => {
         let newState = state.slice()
         newState.sort((a, b) => b.price - a.price)
+        return newState
+      })()
+    case REORDER_INC_PRICE:
+      return (() => {
+        let newState = state.slice()
+        newState.sort((a, b) => a.price - b.price)
         return newState
       })()
     case FILTER_PRODUCTS:
