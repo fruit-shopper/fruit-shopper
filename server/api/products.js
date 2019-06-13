@@ -20,7 +20,8 @@ router.get('/:productId', async (req, res, next) => {
     const product = await Product.findByPk(req.params.productId, {
       include: [Review, Order, Category]
     })
-    res.json(product)
+
+    res.json(product.dataValues).end()
   } catch (err) {
     next(err)
   }
