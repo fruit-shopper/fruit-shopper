@@ -25,6 +25,9 @@ class SingleProduct extends Component {
     this.setState({
       [event.target.name]: event.target.value
     })
+    this.setState({
+      price: this.props.product.price
+    })
   }
   handleClick() {
     event.preventDefault()

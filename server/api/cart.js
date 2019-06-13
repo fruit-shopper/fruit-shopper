@@ -5,7 +5,7 @@ module.exports = router
 
 //routes
 //pull order by userID, where order status is cart
-router.get('/:productId', async (req, res, next) => {
+router.post('/:productId', async (req, res, next) => {
   try {
     const newCart = await Order.findOrCreate({
       where: {
