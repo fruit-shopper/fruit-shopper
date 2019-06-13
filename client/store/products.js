@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import axios from 'axios'
 
 // define const action type
@@ -8,6 +9,7 @@ const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 const REORDER_DES_PRICE = 'REORDER_DES_PRICE'
 const REORDER_INC_PRICE = 'REORDER_INC_PRICE'
 const FILTER_PRODUCTS = 'FILTER_PRODUCTS'
+const FILTER_BY_CATEGORY = 'FILTER_BY_CATEGORY'
 
 // define action creator
 export const setProducts = products => ({
@@ -53,6 +55,13 @@ export const filterProducts = filterCriterion => {
   return {
     type: FILTER_PRODUCTS,
     filterCriterion
+  }
+}
+
+export const filterByCategory = category => {
+  return {
+    type: FILTER_BY_CATEGORY,
+    category
   }
 }
 
@@ -181,6 +190,8 @@ const productReducer = function(state = initialState, action) {
           key => elem[key] === action.filterCriterion[key]
         )
       )
+    case FILTER_BY_CATEGORY:
+      return state.filter(elem => elem.categories.includes(action.category))
     default:
       return state
   }
