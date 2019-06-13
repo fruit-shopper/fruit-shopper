@@ -30,6 +30,11 @@ async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
+  const codyAndMurphy = await Promise.all([
+    User.create({email: 'cody@email.com', name: 'Cody', password: '123'}),
+    User.create({email: 'murphy@email.com', password: '123'})
+  ])
+
   //seeds users and products
   for (let i = 1; i < 51; i++) {
     createArr.push(
