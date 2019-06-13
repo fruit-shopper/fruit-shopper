@@ -2,12 +2,20 @@ import React from 'react'
 // import {Navbar} from '../components'
 import {connect} from 'react-redux'
 import Products from './products'
-import {createProOrderAssociation, reorderByPrice} from '../store/products'
+import {
+  createProOrderAssociation,
+  reorderByDesPrice,
+  reorderByIncPrice
+} from '../store/products'
 import {Button} from 'semantic-ui-react'
 
 export const AllProducts = props => {
-  const handlePriceReorder = function() {
-    props.reorderByP()
+  const handleDesPriceReorder = function() {
+    props.reorderByDesP()
+  }
+
+  const handleIncPriceReorder = function() {
+    props.reorderByIncP()
   }
 
   // if this is the first assign, create an order as well as an orderId, storing in the session as an part of cart
@@ -23,13 +31,8 @@ export const AllProducts = props => {
       </div>
       {/* <Navbar /> */}
       <hr />
-      <Button
-        type="button"
-        className="reorderButton"
-        onClick={handlePriceReorder}
-      >
-        Decending Price
-      </Button>
+      <Button onClick={handleDesPriceReorder}>Decending Price</Button>
+      <Button onClick={handleIncPriceReorder}>Ascending Price</Button>
       <hr />
       {!props.products || props.products.length === 0 ? (
         <div>No Products!</div>
@@ -52,7 +55,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    reorderByP: () => dispatch(reorderByPrice()),
+    reorderByDesP: () => dispatch(reorderByDesPrice()),
+    reorderByIncP: () => dispatch(reorderByIncPrice()),
     assign: (productId, orderId) =>
       dispatch(createProOrderAssociation(productId, orderId))
   }
