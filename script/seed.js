@@ -114,9 +114,10 @@ async function seed() {
 
   console.log(
     `seeded ${usersAndProducts.length} users`,
-    `seeded ${categories.length} users`,
-    `seeded ${orders.length} users`,
-    `seeded ${reviews.length} users``seeded ${categoryToProducts.length} users`
+    `seeded ${categories.length} categories`,
+    `seeded ${orders.length} orders`,
+    `seeded ${reviews.length} reviews`,
+    `seeded ${categoryToProducts.length} category to product association`
   )
   console.log(`seeded successfully`)
 }
