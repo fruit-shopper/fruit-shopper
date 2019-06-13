@@ -1,20 +1,30 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchProduct} from '../store/product'
-import {Grid, Image, Button} from 'semantic-ui-react'
+import {Grid, Image, Button, Input} from 'semantic-ui-react'
 import Review from './Review'
 
 class SingleProduct extends Component {
   constructor() {
     super()
     this.state = {
-      name: ''
+      name: '',
+      quantity: 0
     }
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
     const productId = this.props.match.params.productId
     this.props.loadProduct(productId)
+    // console.log(productId)
+  }
+
+  handleChange(event) {
+    event.preventDefault()
+    this.setState({
+      [event.target.name]: event.target.value
+    })
   }
 
   render() {
@@ -35,6 +45,12 @@ class SingleProduct extends Component {
             <h4>{this.props.product.name}</h4>
             <p>Description: {this.props.product.description}</p>
             <p>Price: ${this.props.product.price}</p>
+            <Input
+              placeholder="Quantity"
+              value={this.state.quantity}
+              name="quantity"
+              onChange={this.handleChange}
+            />
             <Button color="green">Add To Cart</Button>
           </Grid.Column>
           <Grid.Column width={5} />
