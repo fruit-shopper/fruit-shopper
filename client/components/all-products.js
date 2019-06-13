@@ -2,7 +2,7 @@ import React from 'react'
 import {Navbar} from '../components'
 import {connect} from 'react-redux'
 import Products from './products'
-import {createProOrderAssociation, reorderByPrice} from '../store/product'
+import {createProOrderAssociation, reorderByPrice} from '../store/products'
 
 export const AllProducts = props => {
   const handlePriceReorder = function() {
