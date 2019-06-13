@@ -18,7 +18,7 @@ const Products = props => {
             {handleAssign ? (
               <button
                 className="assignButton"
-                onClick={event => handleAssign(orderId, product.id)}
+                onClick={event => handleAssign(product.id)}
                 type="button"
               >
                 Add to Cart
