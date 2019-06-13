@@ -12,7 +12,6 @@ import SingleProduct from './components/Single-Product'
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
-    this.props.loadInitialProducts()
   }
 
   render() {
@@ -54,8 +53,8 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
-    },
-    loadInitialProducts: () => dispatch(fetchProducts())
+      dispatch(fetchProducts())
+    }
   }
 }
 

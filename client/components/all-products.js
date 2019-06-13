@@ -30,11 +30,11 @@ export const AllProducts = props => {
         Order by Price
       </button>
       <hr />
-      {!props.products || props.projects.length === 0 ? (
-        <div>No Projects!</div>
+      {!props.products || props.products.length === 0 ? (
+        <div>No Products!</div>
       ) : (
         <Products
-          displayedProjects={props.projects}
+          displayedProducts={props.products}
           handleAssign={handleAssign}
         />
       )}
@@ -44,6 +44,7 @@ export const AllProducts = props => {
 
 const mapStateToProps = state => {
   return {
+    state: state,
     products: state.products
   }
 }
