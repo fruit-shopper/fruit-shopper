@@ -189,7 +189,7 @@ async function seed() {
   const orders = await Promise.all(orderHistory)
 
   //seeds reviews
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 100; i++) {
     pastReviews.push(
       Review.create({
         text: faker.lorem.paragraph(),

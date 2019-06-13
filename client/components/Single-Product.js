@@ -46,9 +46,13 @@ class SingleProduct extends Component {
           <Grid.Column className="ui centered row" width={3}>
             <Image src={this.props.product.image} />
           </Grid.Column>
-          <Grid.Column className="ui centered row" width={3}>
-            <h4>{this.props.product.name}</h4>
-            <p>Description: {this.props.product.description}</p>
+          <Grid.Column width={3}>
+            <h4 className="justify-text">{this.props.product.name}</h4>
+
+            <p className="justify-text">
+              Description: {this.props.product.description}
+            </p>
+
             <p>Price: ${this.props.product.price}</p>
             <Input
               placeholder="Quantity"
