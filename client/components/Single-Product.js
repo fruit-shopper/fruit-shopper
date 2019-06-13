@@ -15,6 +15,7 @@ class SingleProduct extends Component {
   componentDidMount() {
     const productId = this.props.match.params.productId
     this.props.loadProduct(productId)
+    // console.log(productId)
   }
 
   render() {
