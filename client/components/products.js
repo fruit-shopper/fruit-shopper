@@ -2,6 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 const Products = props => {
+  console.log(props)
   const {displayedProducts, handleUnassign, orderId, handleAssign} = props
   return (
     <div id="products" className="items-flex-container">
