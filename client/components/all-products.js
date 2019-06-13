@@ -3,6 +3,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import Products from './products'
 import {createProOrderAssociation, reorderByPrice} from '../store/products'
+import {Button} from 'semantic-ui-react'
 
 export const AllProducts = props => {
   const handlePriceReorder = function() {
@@ -22,13 +23,13 @@ export const AllProducts = props => {
       </div>
       {/* <Navbar /> */}
       <hr />
-      <button
+      <Button
         type="button"
         className="reorderButton"
         onClick={handlePriceReorder}
       >
-        Order by Price
-      </button>
+        Decending Price
+      </Button>
       <hr />
       {!props.products || props.products.length === 0 ? (
         <div>No Products!</div>

@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {Button} from 'semantic-ui-react'
 
 const Products = props => {
   const {displayedProducts, handleUnassign, orderId, handleAssign} = props
@@ -16,24 +17,16 @@ const Products = props => {
           <p>Quantity: {product.quantity}</p>
           <div>
             {handleAssign ? (
-              <button
-                className="assignButton"
-                onClick={event => handleAssign(product.id)}
-                type="button"
-              >
+              <Button color="green" onClick={event => handleAssign(product.id)}>
                 Add to Cart
-              </button>
+              </Button>
             ) : (
               <div />
             )}
             {handleUnassign ? (
-              <button
-                className="unassignButton"
-                onClick={event => handleUnassign(orderId, product.id)}
-                type="button"
-              >
+              <Button onClick={event => handleUnassign(orderId, product.id)}>
                 unassign
-              </button>
+              </Button>
             ) : (
               <div />
             )}
