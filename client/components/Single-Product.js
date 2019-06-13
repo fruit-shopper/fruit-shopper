@@ -3,21 +3,22 @@ import {connect} from 'react-redux'
 import {fetchProduct} from '../store/product'
 import {Grid, Image, Button, Input} from 'semantic-ui-react'
 import Review from './Review'
+import {setQuantityPrice} from '../store/cart '
 
 class SingleProduct extends Component {
   constructor() {
     super()
     this.state = {
-      name: '',
-      quantity: 0
+      quantity: 0,
+      price: 0
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
     const productId = this.props.match.params.productId
     this.props.loadProduct(productId)
-    // console.log(productId)
   }
 
   handleChange(event) {
@@ -25,6 +26,10 @@ class SingleProduct extends Component {
     this.setState({
       [event.target.name]: event.target.value
     })
+  }
+  handleClick() {
+    event.preventDefault()
+    this.props.setQuantityPrice(this.state)
   }
 
   render() {
@@ -51,7 +56,9 @@ class SingleProduct extends Component {
               name="quantity"
               onChange={this.handleChange}
             />
-            <Button color="green">Add To Cart</Button>
+            <Button color="green" type="submit" onClick={this.handleClick}>
+              Add To Cart
+            </Button>
           </Grid.Column>
           <Grid.Column width={5} />
           <Grid.Row className="ui centered column" width={10}>
@@ -71,7 +78,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadProduct: productId => dispatch(fetchProduct(productId))
+    loadProduct: productId => dispatch(fetchProduct(productId)),
+    setQuantityPrice: quantityPrice => dispatch(setQuantityPrice(quantityPrice))
   }
 }
 
