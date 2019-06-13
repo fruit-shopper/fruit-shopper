@@ -71,6 +71,7 @@ export const fetchProducts = () => {
     try {
       const {data} = await axios.get('/api/products')
       dispatch(setProducts(data))
+      console.log('Result from thunk fetchProducts: ', data)
     } catch (error) {
       console.log('Error inside thunk method fetchPoducts: ', error)
     }
@@ -191,7 +192,9 @@ const productReducer = function(state = initialState, action) {
         )
       )
     case FILTER_BY_CATEGORY:
-      return state.filter(elem => elem.categories.includes(action.category))
+      return state.filter(elem =>
+        elem.categories.some(cat => cat.name === action.category)
+      )
     default:
       return state
   }
