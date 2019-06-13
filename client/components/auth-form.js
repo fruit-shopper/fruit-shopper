@@ -23,12 +23,7 @@ const AuthForm = props => {
           {/* <label htmlFor="password"> */}
           {/* <small>Password</small> */}
           {/* </label> */}
-          <Input
-            foocus
-            name="password"
-            type="password"
-            placeholder="password"
-          />
+          <Input focus name="password" type="password" placeholder="password" />
         </div>
         <div>
           <Button type="submit" color="blue" size="large">
