@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {fetchProduct} from '../store/product'
 import {Grid, Image, Button, Input} from 'semantic-ui-react'
 import Review from './Review'
-import {setQuantityPrice} from '../store/cart '
+import {setQuantityPrice} from '../store/cart'
 
 class SingleProduct extends Component {
   constructor() {
@@ -15,7 +15,6 @@ class SingleProduct extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
-
   componentDidMount() {
     const productId = this.props.match.params.productId
     this.props.loadProduct(productId)
@@ -29,7 +28,8 @@ class SingleProduct extends Component {
   }
   handleClick() {
     event.preventDefault()
-    this.props.setQuantityPrice(this.state)
+    const productId = this.props.match.params.productId
+    this.props.setQuantityPrice(productId, this.state)
   }
 
   render() {
@@ -79,7 +79,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return {
     loadProduct: productId => dispatch(fetchProduct(productId)),
-    setQuantityPrice: quantityPrice => dispatch(setQuantityPrice(quantityPrice))
+    setQuantityPrice: (productId, quantityPrice) =>
+      dispatch(setQuantityPrice(productId, quantityPrice))
   }
 }
 
