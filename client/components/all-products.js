@@ -5,9 +5,10 @@ import Products from './products'
 import {
   createProOrderAssociation,
   reorderByDesPrice,
-  reorderByIncPrice
+  reorderByIncPrice,
+  filterByCategory
 } from '../store/products'
-import {Button} from 'semantic-ui-react'
+import {Select, Button} from 'semantic-ui-react'
 
 export const AllProducts = props => {
   const handleDesPriceReorder = function() {
@@ -18,11 +19,28 @@ export const AllProducts = props => {
     props.reorderByIncP()
   }
 
+  const handleSelectByCat = function(evt) {
+    console.log('Category evt.target: ', evt.target)
+    props.filterByCat(evt.target.value)
+  }
+
   // if this is the first assign, create an order as well as an orderId, storing in the session as an part of cart
   const handleAssign = function(productId) {
     // first, get the orderId
     // props.assign(productId, orderId)
   }
+  let catOptions = [
+    'tropical',
+    'US-grown',
+    'organic',
+    'gift',
+    'top pick',
+    'in season'
+  ].map(cat => ({
+    key: cat,
+    text: cat,
+    value: cat
+  }))
 
   return (
     <div id="allProductsPage">
@@ -33,6 +51,11 @@ export const AllProducts = props => {
       <hr />
       <Button onClick={handleDesPriceReorder}>Decending Price</Button>
       <Button onClick={handleIncPriceReorder}>Ascending Price</Button>
+      <Select
+        placeholder="Select by Category"
+        options={catOptions}
+        onChange={evt => handleSelectByCat(evt)}
+      />
       <hr />
       {!props.products || props.products.length === 0 ? (
         <div>No Products!</div>
@@ -57,6 +80,7 @@ const mapDispatchToProps = dispatch => {
   return {
     reorderByDesP: () => dispatch(reorderByDesPrice()),
     reorderByIncP: () => dispatch(reorderByIncPrice()),
+    filterByCat: category => dispatch(filterByCategory(category)),
     assign: (productId, orderId) =>
       dispatch(createProOrderAssociation(productId, orderId))
   }
