@@ -97,7 +97,6 @@ class AllProducts extends React.Component {
           })}
           results={this.state.results}
           value={this.state.value}
-          {...this.props.products}
         />
         <hr />
         {!this.props.products || this.props.products.length === 0 ? (
