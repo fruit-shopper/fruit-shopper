@@ -3,9 +3,21 @@ const {Product, Order, User} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
-  console.log(req.user)
+  const userId = req.user.id
   try {
-    res.json()
+    let pastOrders = await Order.findAll({
+      where: {
+        userId: userId,
+        status: 'completed'
+      },
+      include: [
+        {
+          model: Product
+        }
+      ]
+    })
+    pastOrders = pastOrders[0].dataValues.products
+    res.json(pastOrders)
   } catch (err) {
     next(err)
   }
