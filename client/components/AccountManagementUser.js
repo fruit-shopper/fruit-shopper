@@ -2,8 +2,9 @@ import React, {Component} from 'react'
 import {Dropdown} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 
-export class AccountManagementUser extends Component {
+class AccountManagementUser extends Component {
   render() {
+    console.log(this.props)
     return (
       <Dropdown text="Manage my account" align="right">
         <Dropdown.Menu>
