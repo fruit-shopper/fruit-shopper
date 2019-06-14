@@ -1,88 +1,128 @@
+import _ from 'loadsh'
 import React from 'react'
 // import {Navbar} from '../components'
 import {connect} from 'react-redux'
 import Products from './products'
 import {
-  createProOrderAssociation,
+  fetchProducts,
   reorderByDesPrice,
   reorderByIncPrice,
   filterByCategory
 } from '../store/products'
-import {Select, Button} from 'semantic-ui-react'
+import {Select, Button, Search} from 'semantic-ui-react'
 
-export const AllProducts = props => {
-  const handleDesPriceReorder = function() {
-    props.reorderByDesP()
+class AllProducts extends React.Component {
+  constructor(props) {
+    super(props)
+    this.catOptions = [
+      'tropical',
+      'US-grown',
+      'organic',
+      'gift',
+      'top pick',
+      'in season'
+    ].map(cat => ({
+      key: cat,
+      text: cat,
+      value: cat
+    }))
+    this.initialState = {isLoading: false, results: [], value: ''}
+
+    this.state = this.initialState
+    this.handleDesPriceReorder = this.handleDesPriceReorder.bind(this)
+    this.handleIncPriceReorder = this.handleIncPriceReorder.bind(this)
+    this.handleSelectByCat = this.handleSelectByCat.bind(this)
+    this.handleSearchChange = this.handleSearchChange.bind(this)
+    this.handleResultSelect = this.handleResultSelect.bind(this)
+  }
+  componentDidMount() {
+    this.props.fetchInitialProducts()
   }
 
-  const handleIncPriceReorder = function() {
-    props.reorderByIncP()
+  handleDesPriceReorder() {
+    this.props.reorderByDesP()
   }
 
-  const handleSelectByCat = function(evt) {
-    console.log('Category evt.target: ', evt.target)
-    props.filterByCat(evt.target.value)
+  handleIncPriceReorder() {
+    this.props.reorderByIncP()
   }
 
-  // if this is the first assign, create an order as well as an orderId, storing in the session as an part of cart
-  const handleAssign = function(productId) {
-    // first, get the orderId
-    // props.assign(productId, orderId)
+  handleSelectByCat(evt) {
+    this.props.filterByCat(evt.target.textContent)
   }
-  let catOptions = [
-    'tropical',
-    'US-grown',
-    'organic',
-    'gift',
-    'top pick',
-    'in season'
-  ].map(cat => ({
-    key: cat,
-    text: cat,
-    value: cat
-  }))
 
-  return (
-    <div id="allProductsPage">
-      <div id="header">
-        <h1>All Products</h1>
-      </div>
-      {/* <Navbar /> */}
-      <hr />
-      <Button onClick={handleDesPriceReorder}>Decending Price</Button>
-      <Button onClick={handleIncPriceReorder}>Ascending Price</Button>
-      <Select
-        placeholder="Select by Category"
-        options={catOptions}
-        onChange={evt => handleSelectByCat(evt)}
-      />
-      <hr />
-      {!props.products || props.products.length === 0 ? (
-        <div>No Products!</div>
-      ) : (
-        <Products
-          displayedProducts={props.products}
-          handleAssign={handleAssign}
+  handleResultSelect(evt, {result}) {
+    // this.setState({value: result.name})
+    // console.log('Select result: ', result)
+    let link = `/products/${result.id}`
+    this.props.toSingleProductPage(link)
+  }
+
+  handleSearchChange = (evt, {value}) => {
+    this.setState({isLoading: true, value})
+
+    setTimeout(() => {
+      if (this.state.value.length < 1) return this.setState(this.initialState)
+
+      const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
+      const isMatch = result => re.test(result.name)
+
+      this.setState({
+        isLoading: false,
+        results: _.filter(this.props.products, isMatch)
+      })
+    }, 300)
+  }
+
+  render() {
+    return (
+      <div id="allProductsPage">
+        <div id="header">
+          <h1>All Products</h1>
+        </div>
+        {/* <Navbar /> */}
+        <hr />
+        <Button onClick={this.handleDesPriceReorder}>Decending Price</Button>
+        <Button onClick={this.handleIncPriceReorder}>Ascending Price</Button>
+        <Select
+          placeholder="Select by Category"
+          options={this.catOptions}
+          onChange={evt => this.handleSelectByCat(evt)}
         />
-      )}
-    </div>
-  )
+        <Search
+          loading={this.state.isLoading}
+          onResultSelect={this.handleResultSelect}
+          onSearchChange={_.debounce(this.handleSearchChange, 500, {
+            leading: true
+          })}
+          results={this.state.results}
+          value={this.state.value}
+          {...this.props.products}
+        />
+        <hr />
+        {!this.props.products || this.props.products.length === 0 ? (
+          <div>No Products!</div>
+        ) : (
+          <Products displayedProducts={this.props.products} />
+        )}
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = state => {
   return {
-    state: state,
     products: state.products
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     reorderByDesP: () => dispatch(reorderByDesPrice()),
     reorderByIncP: () => dispatch(reorderByIncPrice()),
     filterByCat: category => dispatch(filterByCategory(category)),
-    assign: (productId, orderId) =>
-      dispatch(createProOrderAssociation(productId, orderId))
+    fetchInitialProducts: () => dispatch(fetchProducts()),
+    toSingleProductPage: link => dispatch(() => ownProps.history.push(link))
   }
 }
 
