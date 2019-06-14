@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom'
 import {Button, Grid, Image} from 'semantic-ui-react'
 
 const Products = props => {
-  console.log(props)
   const {displayedProducts, handleUnassign, orderId, handleAssign} = props
   return (
     <Grid columns="equal" className="centered">
