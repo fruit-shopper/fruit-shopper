@@ -157,7 +157,7 @@ async function seed() {
         name: newName,
         price: Math.floor(Math.random() * 20),
         quantity: faker.random.number(),
-        description: faker.lorem.paragraph()
+        description: `${newName}${', '} ${faker.lorem.paragraph()}`
       })
     )
   }
