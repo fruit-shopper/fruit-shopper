@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 
+// display any past orders that user has
 class PastOrders extends Component {
   render() {
     console.log('props in past orders ', this.props)

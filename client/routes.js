@@ -9,7 +9,8 @@ import {
   AllProducts,
   OpenOrders,
   PastOrders,
-  SingleProduct
+  SingleProduct,
+  Cart
 } from './components'
 import {me, fetchProducts} from './store'
 
@@ -39,6 +40,7 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route path="/open_orders_user" component={OpenOrders} />
             <Route path="/past_orders_user" component={PastOrders} />
+            <Route path="/cart" component={Cart} />
           </Switch>
         )}
 

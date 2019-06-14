@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 
 class OpenOrders extends Component {
   render() {
+    console.log('props in open orders ', this.props)
+
     return <p>Open Orders</p>
   }
 }
