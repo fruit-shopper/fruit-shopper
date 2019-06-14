@@ -69,7 +69,19 @@ class AllProducts extends React.Component {
 
       this.setState({
         isLoading: false,
-        results: _.filter(this.props.products, isMatch)
+        results: _.filter(
+          this.props.products.map(product => {
+            return {
+              id: product.id,
+              name: product.name,
+              title: product.name,
+              price: String(product.price),
+              image: product.image,
+              description: product.description
+            }
+          }),
+          isMatch
+        )
       })
     }, 300)
   }
