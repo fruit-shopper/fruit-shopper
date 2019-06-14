@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Order, OrderProduct} = require('../db/models')
+const {Order, OrderProduct, Product} = require('../db/models')
 
 module.exports = router
 
@@ -28,14 +28,30 @@ router.post('/:productId', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
   try {
-    const newCart = await Order.findOrCreate({
+    const cartOrderId = await Order.findAll({
       where: {
         userId: req.user.id,
         status: 'cart'
       }
     })
-
-    res.json(newCart)
+    console.log('cart order id', cartOrderId[0].dataValues.id)
+    const cartContents = await OrderProduct.findAll({
+      where: {
+        orderId: cartOrderId[0].dataValues.id
+      }
+    })
+    console.log('cart contents', cartContents[0].dataValues)
+    let products = []
+    for (let i = 0; i < cartContents.length; i++) {
+      products.push(Product.findByPk(cartContents[i].productId))
+    }
+    const productInfo = await Promise.all(products)
+    // const cartProducts = await Product.findAll({
+    //   where: {
+    //     id: cartContents.
+    //   }
+    // })
+    res.json(productInfo)
   } catch (error) {
     next(error)
   }
