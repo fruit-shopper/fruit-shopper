@@ -19,7 +19,7 @@ export class Cart extends Component {
   }
   render() {
     if (!this.props.cartContents || this.props.cartContents.length === 0) {
-      return <div>Loading</div>
+      return <div>Your cart is empty! Time to shop!</div>
     }
     return (
       <div id="allProductsPage">
