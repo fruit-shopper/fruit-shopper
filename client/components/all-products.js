@@ -52,7 +52,10 @@ class AllProducts extends React.Component {
   }
 
   handleResultSelect(evt, {result}) {
-    this.setState({value: result.name})
+    // this.setState({value: result.name})
+    console.log('Select result: ', result)
+    let link = `/products/${result.id}`
+    this.props.toSingleProductPage(link)
   }
 
   handleSearchChange = (evt, {value}) => {
@@ -94,6 +97,7 @@ class AllProducts extends React.Component {
           })}
           results={this.state.results}
           value={this.state.value}
+          {...this.props.products}
         />
         <hr />
         {!this.props.products || this.props.products.length === 0 ? (
@@ -112,12 +116,13 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     reorderByDesP: () => dispatch(reorderByDesPrice()),
     reorderByIncP: () => dispatch(reorderByIncPrice()),
     filterByCat: category => dispatch(filterByCategory(category)),
-    fetchInitialProducts: () => dispatch(fetchProducts())
+    fetchInitialProducts: () => dispatch(fetchProducts()),
+    toSingleProductPage: link => dispatch(() => ownProps.history.push(link))
   }
 }
 

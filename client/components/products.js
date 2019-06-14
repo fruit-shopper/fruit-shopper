@@ -8,7 +8,7 @@ const Products = props => {
   return (
     <Grid columns="equal" className="centered">
       {displayedProducts.map(product => (
-        <div className="product" key={product.id} className="centered">
+        <div key={product.id} className="centered">
           <Grid.Column>
             <Image src={product.image} alt="image" />
             <Link to={`/products/${product.id}`}>
@@ -21,7 +21,6 @@ const Products = props => {
                 ''
               )}
             </p>
-            <p>{product.description}</p>
             <div className="justify-text">{product.description}</div>
             <p>Price: {product.price}</p>
             {/* <p>Quantity: {product.quantity}</p> */}
