@@ -5,8 +5,19 @@ module.exports = router
 
 router.use(async (req, res, next) => {
   if (req.user.id) {
-    const order = await Order.findOrCreate({})
+    const order = await Order.findOrCreate({
+      where: {
+        userId: req.user.id,
+        status: 'cart'
+      }
+    })
     req.order = order
+  } else {
+    const order = await Order.Create({
+      where: {
+        status: 'cart'
+      }
+    })
   }
 })
 
@@ -21,7 +32,6 @@ router.post('/:productId', async (req, res, next) => {
         status: 'cart'
       }
     })
-    req.secure.cart = orderId
 
     const addProduct = await OrderProduct.create({
       productId: req.params.productId,
