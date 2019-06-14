@@ -3,8 +3,16 @@ const {Order, OrderProduct, Product} = require('../db/models')
 
 module.exports = router
 
+router.use(async (req, res, next) => {
+  if (req.user.id) {
+    const order = await Order.findOrCreate({})
+    req.order = order
+  }
+})
+
 //routes
 //pull order by userID, where order status is cart
+//check here to see if the user is looged in or not(in the route)
 router.post('/:productId', async (req, res, next) => {
   try {
     const newCart = await Order.findOrCreate({
@@ -13,7 +21,8 @@ router.post('/:productId', async (req, res, next) => {
         status: 'cart'
       }
     })
-    //console.log("new cart", newCart[0].dataValues.id)
+    req.secure.cart = orderId
+
     const addProduct = await OrderProduct.create({
       productId: req.params.productId,
       orderId: newCart[0].dataValues.id,
@@ -27,7 +36,7 @@ router.post('/:productId', async (req, res, next) => {
 })
 
 router.get('/', async (req, res, next) => {
-  req.session.cart = 1
+  req.session.cart = 'orderId'
   console.log(req.session.cart)
   try {
     const cartContents = await Order.findAll({
