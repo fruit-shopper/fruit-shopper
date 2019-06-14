@@ -18,21 +18,25 @@ export class Cart extends Component {
     console.log(this.props)
   }
   render() {
+    if (!this.props.cartContents || this.props.cartContents.length === 0) {
+      return <div>Loading</div>
+    }
     return (
       <div id="allProductsPage">
         <div id="header">
           <Header as="h1">Your Cart</Header>
         </div>
         <Container>
-          {/* <Grid columns={3} divided>
-            {this.props.cartContents.map(product => (
+          <Grid columns={3} divided>
+            {this.props.cartContents[0].products.map(product => (
               <Grid.Column key={product.id}>
-              <Image src={product.image} alt="image" bordered />
-              <p>{product.description}</p>
-
+                <Image src={product.image} alt="image" bordered />
+                <p>{product.description}</p>
+                <p>Price: ${product.price}</p>
+                <p>Quantity: {product.Order_Product.quantity}</p>
               </Grid.Column>
-            ))} */}
-          {/* </Grid> */}
+            ))}
+          </Grid>
         </Container>
       </div>
     )
@@ -41,7 +45,7 @@ export class Cart extends Component {
 
 const mapStateToProps = state => {
   return {
-    cartContents: state.cartContents
+    cartContents: state.cart
   }
 }
 

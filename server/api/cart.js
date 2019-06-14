@@ -28,30 +28,18 @@ router.post('/:productId', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
   try {
-    const cartOrderId = await Order.findAll({
+    const cartContents = await Order.findAll({
       where: {
         userId: req.user.id,
         status: 'cart'
-      }
+      },
+      include: [
+        {
+          model: Product
+        }
+      ]
     })
-    console.log('cart order id', cartOrderId[0].dataValues.id)
-    const cartContents = await OrderProduct.findAll({
-      where: {
-        orderId: cartOrderId[0].dataValues.id
-      }
-    })
-    console.log('cart contents', cartContents[0].dataValues)
-    let products = []
-    for (let i = 0; i < cartContents.length; i++) {
-      products.push(Product.findByPk(cartContents[i].productId))
-    }
-    const productInfo = await Promise.all(products)
-    // const cartProducts = await Product.findAll({
-    //   where: {
-    //     id: cartContents.
-    //   }
-    // })
-    res.json(productInfo)
+    res.json(cartContents)
   } catch (error) {
     next(error)
   }
