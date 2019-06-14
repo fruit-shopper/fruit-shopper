@@ -44,7 +44,7 @@ export class Cart extends Component {
                 <Image
                   src={product.image}
                   size="tiny"
-                  verticalAlign="middle"
+                  verticalalign="middle"
                   floated="left"
                   alt="image"
                 />
@@ -55,18 +55,18 @@ export class Cart extends Component {
                   </List.Description>
                   {/* <List.Description>Quantity: {product.Order_Product.quantity}</List.Description> */}
                   <List.Description>{product.description}</List.Description>
-                  <List.Description verticalAlign="bottom">
+                  <List.Description verticalalign="bottom">
                     Price: ${product.price}.00
                   </List.Description>
                 </List.Content>
                 <List.Content floated="right">
-                  <List.Content verticalAlign="top">
+                  <List.Content verticalalign="top">
                     Quantity: {product.Order_Product.quantity}
                   </List.Content>
-                  {/* <List.Content verticalAlign='top'>
+                  {/* <List.Content verticalalign='top'>
                   Price: ${product.price}.00
                   </List.Content> */}
-                  <List.Content verticalAlign="bottom">
+                  <List.Content verticalalign="bottom">
                     <Button
                       value={product.id}
                       name="productRemove"
