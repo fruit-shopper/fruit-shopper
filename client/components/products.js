@@ -7,12 +7,19 @@ const Products = props => {
   return (
     <Grid columns="equal" className="centered">
       {displayedProducts.map(product => (
-        <div className="product" key={product.id} className="centered">
+        <div key={product.id} className="centered">
           <Grid.Column>
             <Image src={product.image} alt="image" />
             <Link to={`/products/${product.id}`}>
               <h3> {product.name}</h3>
             </Link>
+            <p>
+              Category:{' '}
+              {product.categories.reduce(
+                (result, elem) => result + '  ' + elem.name,
+                ''
+              )}
+            </p>
             <div className="justify-text">{product.description}</div>
             <p>Price: {product.price}</p>
             {/* <p>Quantity: {product.quantity}</p> */}

@@ -49,6 +49,8 @@
     "faker": "^4.1.0",
     "gulp": "^4.0.2",
     "history": "^4.9.0",
+    "loadsh": "0.0.4",
+    "lodash": "^4.17.11",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "passport-google-oauth": "^2.0.0",
