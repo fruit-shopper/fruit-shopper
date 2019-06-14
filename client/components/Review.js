@@ -1,16 +1,25 @@
-import React, {Component} from 'react'
-import {Card} from 'semantic-ui-react'
+import React from 'react'
+import {Container, Rating, Divider} from 'semantic-ui-react'
 
 export const Review = props => {
-  console.log('props ', props)
   return (
-    <Card className="centered">
-      <p align="left">
-        review by <b>some_name</b>
-      </p>
+    <Container className="centered" text>
+      <Divider />
+      <h4 align="left">
+        review by <i>{props.review.user.name}</i>
+      </h4>
+      <div align="left">
+        <Rating icon="star" rating={props.review.rating} maxRating={5} />
+      </div>
+
       {/* <div className="ui star rating" data-rating="3"></div> */}
-      <Card.Content>{props.review.text}</Card.Content>
-    </Card>
+      <div className="justify-text">{props.review.text}</div>
+      <Divider />
+      {/* <h3 align="right">
+        Rating:{' '}
+        <Rating icon="star" rating={props.review.rating} maxRating={5} />
+      </h3> */}
+    </Container>
   )
 }
 

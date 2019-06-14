@@ -19,3 +19,9 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.justify-text {
+  max-width: 500px;
+  text-align: justify;
+  margin: auto;
+}

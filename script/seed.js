@@ -11,14 +11,117 @@ const {CategoryProduct} = require('../server/db/models')
 const faker = require('faker')
 
 //if you add any fruits to the following array, need to increment the Product.create math.random function
+// const fruitTypes = [
+//   'orange',
+//   'banana',
+//   'strawberry',
+//   'watermelon',
+//   'pineapple',
+//   'mango'
+// ]
 const fruitTypes = [
-  'orange',
-  'banana',
-  'strawberry',
-  'watermelon',
-  'pineapple',
-  'mango'
+  'Açaí',
+  'Apple',
+  'Akee',
+  'Apricot',
+  'Avocado',
+  'Banana',
+  'Bilberry',
+  'Blackberry',
+  'Blackcurrant',
+  'Black sapote',
+  'Blueberry',
+  'Boysenberry',
+  'Buddhas hand (fingered citron)',
+  'Crab apples',
+  'Currant',
+  'Cherry',
+  'Cherimoya (Custard Apple)',
+  'Chico fruit',
+  'Cloudberry',
+  'Coconut',
+  'Cranberry',
+  'Cucumber',
+  'Damson',
+  'Date',
+  'Dragonfruit (or Pitaya)',
+  'Durian',
+  'Elderberry',
+  'Feijoa',
+  'Fig',
+  'Goji berry',
+  'Gooseberry',
+  'Grape',
+  'Raisin',
+  'Grapefruit',
+  'Guava',
+  'Honeyberry',
+  'Huckleberry',
+  'Jabuticaba',
+  'Jackfruit',
+  'Jambul',
+  'Japanese plum',
+  'Jostaberry',
+  'Jujube',
+  'Juniper berry',
+  'Kiwano (horned melon)',
+  'Kiwifruit',
+  'Kumquat',
+  'Lemon',
+  'Lime',
+  'Loquat',
+  'Longan',
+  'Lychee',
+  'Mango',
+  'Mangosteen',
+  'Marionberry',
+  'Melon',
+  'Cantaloupe',
+  'Honeydew',
+  'Watermelon',
+  'Miracle fruit',
+  'Mulberry","Nectarine',
+  'Nance',
+  'Orange',
+  'Blood orange',
+  'Clementine',
+  'Mandarine',
+  'Tangerine',
+  'Papaya',
+  'Passionfruit',
+  'Peach',
+  'Pear',
+  'Persimmon',
+  'Plantain',
+  'Plum',
+  'Prune (dried plum)',
+  'Pineapple',
+  'Pineberry',
+  'Plumcot (or Pluot)',
+  'Pomegranate',
+  'Pomelo',
+  'Purple mangosteen',
+  'Quince',
+  'Raspberry',
+  'Salmonberry',
+  'Rambutan (or Mamin Chino)',
+  'Redcurrant',
+  'Salal berry',
+  'Salak',
+  'Satsuma',
+  'Soursop',
+  'Star apple',
+  'Star fruit',
+  'Strawberry',
+  'Surinam cherry',
+  'Tamarillo',
+  'Tamarind',
+  'Ugli fruit',
+  'White currant',
+  'White sapote',
+  'Yuzu'
 ]
+
 let createArr = []
 let pastOrders = []
 let orderHistory = []
@@ -45,13 +148,16 @@ async function seed() {
         password: faker.internet.password()
       })
     )
-
+    let newName = `${faker.commerce.color()} ${
+      fruitTypes[Math.floor(Math.random() * 6)]
+    }`
+    newName = newName.charAt(0).toUpperCase() + newName.slice(1)
     createArr.push(
       Product.create({
-        name: `${fruitTypes[Math.floor(Math.random() * 6)]}${i}`,
-        price: faker.commerce.price(),
+        name: newName,
+        price: Math.floor(Math.random() * 20),
         quantity: faker.random.number(),
-        description: faker.lorem.sentence()
+        description: faker.lorem.paragraph()
       })
     )
   }
@@ -74,7 +180,7 @@ async function seed() {
     orderHistory.push(
       OrderProduct.create({
         quantity: Math.floor(Math.random() * 10),
-        price: Math.floor(Math.random() * 20),
+        price: Math.floor(Math.random() * 20) + 1,
         orderId: Math.floor(Math.random() * 3) + 1,
         productId: Math.floor(Math.random() * 50) + 1
       })
@@ -83,12 +189,13 @@ async function seed() {
   const orders = await Promise.all(orderHistory)
 
   //seeds reviews
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 100; i++) {
     pastReviews.push(
       Review.create({
-        text: faker.lorem.words(),
+        text: faker.lorem.paragraph(),
         userId: Math.floor(Math.random() * 50) + 1,
-        productId: Math.floor(Math.random() * 50) + 1
+        productId: Math.floor(Math.random() * 50) + 1,
+        rating: Math.floor(Math.random() * 5) + 1
       })
     )
   }
