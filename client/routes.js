@@ -37,8 +37,8 @@ class Routes extends Component {
             <Route path="/products/:productId" component={SingleProduct} />
             <Route path="/products" component={AllProducts} />
             <Route path="/home" component={UserHome} />
-            <Route path="/open_orders" component={OpenOrders} />
-            <Route path="/past_orders" component={PastOrders} />
+            <Route path="/open_orders_user" component={OpenOrders} />
+            <Route path="/past_orders_user" component={PastOrders} />
           </Switch>
         )}
 
