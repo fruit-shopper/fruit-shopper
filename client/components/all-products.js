@@ -53,7 +53,7 @@ class AllProducts extends React.Component {
 
   handleResultSelect(evt, {result}) {
     // this.setState({value: result.name})
-    console.log('Select result: ', result)
+    // console.log('Select result: ', result)
     let link = `/products/${result.id}`
     this.props.toSingleProductPage(link)
   }
