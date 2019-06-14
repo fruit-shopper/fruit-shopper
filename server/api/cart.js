@@ -1,11 +1,11 @@
 const router = require('express').Router()
-const {Order, OrderProduct} = require('../db/models')
+const {Order, OrderProduct, Product} = require('../db/models')
 
 module.exports = router
 
 //routes
 //pull order by userID, where order status is cart
-router.get('/:productId', async (req, res, next) => {
+router.post('/:productId', async (req, res, next) => {
   try {
     const newCart = await Order.findOrCreate({
       where: {
@@ -28,14 +28,18 @@ router.get('/:productId', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
   try {
-    const newCart = await Order.findOrCreate({
+    const cartContents = await Order.findAll({
       where: {
         userId: req.user.id,
         status: 'cart'
-      }
+      },
+      include: [
+        {
+          model: Product
+        }
+      ]
     })
-
-    res.json(newCart)
+    res.json(cartContents)
   } catch (error) {
     next(error)
   }
