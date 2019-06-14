@@ -4,20 +4,37 @@ const {Order, OrderProduct, Product} = require('../db/models')
 module.exports = router
 
 router.use(async (req, res, next) => {
-  if (req.user.id) {
-    const order = await Order.findOrCreate({
-      where: {
-        userId: req.user.id,
+  try {
+    let order
+    if (req.user) {
+      order = await Order.findOrCreate({
+        where: {
+          userId: req.user.id,
+          status: 'cart'
+        }
+      })
+      order = order[0].dataValues
+    } else if (req.session.cart) {
+      //req.session.cart = 'orderId'
+      order = await Order.findOne({
+        where: {
+          id: req.session.cart,
+          status: 'cart'
+        }
+      })
+      order = order.dataValues
+    } else {
+      order = await Order.create({
         status: 'cart'
-      }
-    })
+      })
+      order = order.dataValues
+      req.session.cart = order.id
+    }
     req.order = order
-  } else {
-    const order = await Order.Create({
-      where: {
-        status: 'cart'
-      }
-    })
+    console.log('order in middleware', order)
+    next()
+  } catch (error) {
+    next(error)
   }
 })
 
@@ -26,16 +43,16 @@ router.use(async (req, res, next) => {
 //check here to see if the user is looged in or not(in the route)
 router.post('/:productId', async (req, res, next) => {
   try {
-    const newCart = await Order.findOrCreate({
-      where: {
-        userId: req.user.id,
-        status: 'cart'
-      }
-    })
-
+    // const newCart = await Order.findOrCreate({
+    //   where: {
+    //     userId: req.user.id,
+    //     status: 'cart'
+    //   }
+    // })
     const addProduct = await OrderProduct.create({
       productId: req.params.productId,
-      orderId: newCart[0].dataValues.id,
+      // orderId: newCart[0].dataValues.id,
+      orderId: req.order.id,
       quantity: req.body.quantity,
       price: req.body.price
     })
@@ -46,7 +63,6 @@ router.post('/:productId', async (req, res, next) => {
 })
 
 router.get('/', async (req, res, next) => {
-  req.session.cart = 'orderId'
   console.log(req.session.cart)
   try {
     const cartContents = await Order.findAll({
