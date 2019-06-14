@@ -4,6 +4,7 @@ import {fetchProduct} from '../store/product'
 import {Grid, Image, Button, Input} from 'semantic-ui-react'
 import Review from './Review'
 import {setQuantityPrice} from '../store/cart'
+import {Link} from 'react-router-dom'
 
 class SingleProduct extends Component {
   constructor() {
@@ -63,9 +64,11 @@ class SingleProduct extends Component {
               name="quantity"
               onChange={this.handleChange}
             />
-            <Button color="green" type="submit" onClick={this.handleClick}>
-              Add To Cart
-            </Button>
+            <Link to="/cart">
+              <Button color="green" type="submit" onClick={this.handleClick}>
+                Add To Cart
+              </Button>
+            </Link>
           </Grid.Column>
           <Grid.Column width={5} />
           <Grid.Row className="ui centered column" width={10}>

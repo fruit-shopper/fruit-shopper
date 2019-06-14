@@ -7,7 +7,8 @@ import {
   Image,
   Container,
   GridColumn,
-  GridRow
+  GridRow,
+  List
 } from 'semantic-ui-react'
 import {getCartProducts} from '../store/cart'
 
@@ -27,16 +28,24 @@ export class Cart extends Component {
           <Header as="h1">Your Cart</Header>
         </div>
         <Container>
-          <Grid columns={3} divided>
+          <List divided relaxed>
             {this.props.cartContents[0].products.map(product => (
-              <Grid.Column key={product.id}>
-                <Image src={product.image} alt="image" bordered />
+              <List.Item key={product.id}>
+                <Image
+                  src={product.image}
+                  size="tiny"
+                  verticalAlign="middle"
+                  floated="left"
+                  alt="image"
+                  bordered
+                />
+                <p>{product.name}</p>
                 <p>{product.description}</p>
                 <p>Price: ${product.price}</p>
                 <p>Quantity: {product.Order_Product.quantity}</p>
-              </Grid.Column>
+              </List.Item>
             ))}
-          </Grid>
+          </List>
         </Container>
       </div>
     )
