@@ -2,9 +2,17 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, AllProducts, Cart} from './components'
+import {
+  Login,
+  Signup,
+  UserHome,
+  AllProducts,
+  OpenOrders,
+  PastOrders,
+  SingleProduct,
+  Cart
+} from './components'
 import {me, fetchProducts} from './store'
-import SingleProduct from './components/Single-Product'
 
 /**
  * COMPONENT
@@ -15,6 +23,7 @@ class Routes extends Component {
   }
 
   render() {
+    // console.log('props in routes', this.props)
     const {isLoggedIn} = this.props
 
     return (
@@ -29,6 +38,8 @@ class Routes extends Component {
             <Route path="/products/:productId" component={SingleProduct} />
             <Route path="/products" component={AllProducts} />
             <Route path="/home" component={UserHome} />
+            <Route path="/open_orders_user" component={OpenOrders} />
+            <Route path="/past_orders_user" component={PastOrders} />
             <Route path="/cart" component={Cart} />
           </Switch>
         )}
