@@ -14,6 +14,13 @@ const Products = props => {
             <Link to={`/products/${product.id}`}>
               <h3> {product.name}</h3>
             </Link>
+            <p>
+              Category:{' '}
+              {product.categories.reduce(
+                (result, elem) => result + '  ' + elem.name,
+                ''
+              )}
+            </p>
             <p>{product.description}</p>
             <p>Price: {product.price}</p>
             <p>Quantity: {product.quantity}</p>

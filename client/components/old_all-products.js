@@ -1,4 +1,3 @@
-import _ from 'loadsh'
 import React from 'react'
 // import {Navbar} from '../components'
 import {connect} from 'react-redux'
@@ -9,7 +8,7 @@ import {
   reorderByIncPrice,
   filterByCategory
 } from '../store/products'
-import {Select, Button, Search} from 'semantic-ui-react'
+import {Select, Button} from 'semantic-ui-react'
 
 class AllProducts extends React.Component {
   constructor(props) {
@@ -26,14 +25,9 @@ class AllProducts extends React.Component {
       text: cat,
       value: cat
     }))
-    this.initialState = {isLoading: false, results: [], value: ''}
-
-    this.state = this.initialState
     this.handleDesPriceReorder = this.handleDesPriceReorder.bind(this)
     this.handleIncPriceReorder = this.handleIncPriceReorder.bind(this)
     this.handleSelectByCat = this.handleSelectByCat.bind(this)
-    this.handleSearchChange = this.handleSearchChange.bind(this)
-    this.handleResultSelect = this.handleResultSelect.bind(this)
   }
   componentDidMount() {
     this.props.fetchInitialProducts()
@@ -51,26 +45,6 @@ class AllProducts extends React.Component {
     this.props.filterByCat(evt.target.textContent)
   }
 
-  handleResultSelect(evt, {result}) {
-    this.setState({value: result.name})
-  }
-
-  handleSearchChange = (evt, {value}) => {
-    this.setState({isLoading: true, value})
-
-    setTimeout(() => {
-      if (this.state.value.length < 1) return this.setState(this.initialState)
-
-      const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
-      const isMatch = result => re.test(result.name)
-
-      this.setState({
-        isLoading: false,
-        results: _.filter(this.props.products, isMatch)
-      })
-    }, 300)
-  }
-
   render() {
     return (
       <div id="allProductsPage">
@@ -85,15 +59,6 @@ class AllProducts extends React.Component {
           placeholder="Select by Category"
           options={this.catOptions}
           onChange={evt => this.handleSelectByCat(evt)}
-        />
-        <Search
-          loading={this.state.isLoading}
-          onResultSelect={this.handleResultSelect}
-          onSearchChange={_.debounce(this.handleSearchChange, 500, {
-            leading: true
-          })}
-          results={this.state.results}
-          value={this.state.value}
         />
         <hr />
         {!this.props.products || this.props.products.length === 0 ? (
