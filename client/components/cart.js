@@ -10,20 +10,30 @@ import {
   GridRow,
   List
 } from 'semantic-ui-react'
-import {getCartProducts} from '../store/cart'
+import {getCartProducts, removeProductFromCart} from '../store/cart'
 
 export class Cart extends Component {
+  constructor() {
+    super()
+    this.state = {
+      productRemove: 0
+    }
+    this.handleClick = this.handleClick.bind(this)
+  }
   componentDidMount() {
     console.log('comp mounting')
     this.props.getCartProducts()
     console.log(this.props)
+  }
+  handleClick(event) {
+    this.props.removeItem(event.target.value)
   }
   render() {
     if (!this.props.cartContents || this.props.cartContents.length === 0) {
       return <div>Your cart is empty! Time to shop!</div>
     }
     return (
-      <div id="allProductsPage">
+      <div id="cartPage">
         <div id="header">
           <Header as="h1">Your Cart</Header>
         </div>
@@ -37,12 +47,35 @@ export class Cart extends Component {
                   verticalAlign="middle"
                   floated="left"
                   alt="image"
-                  bordered
                 />
-                <p>{product.name}</p>
-                <p>{product.description}</p>
-                <p>Price: ${product.price}</p>
-                <p>Quantity: {product.Order_Product.quantity}</p>
+                <List.Content>
+                  <List.Header as="a">{product.name}</List.Header>
+                  <List.Description floated="left">
+                    {product.description}
+                  </List.Description>
+                  {/* <List.Description>Quantity: {product.Order_Product.quantity}</List.Description> */}
+                  <List.Description>{product.description}</List.Description>
+                  <List.Description verticalAlign="bottom">
+                    Price: ${product.price}.00
+                  </List.Description>
+                </List.Content>
+                <List.Content floated="right">
+                  <List.Content verticalAlign="top">
+                    Quantity: {product.Order_Product.quantity}
+                  </List.Content>
+                  {/* <List.Content verticalAlign='top'>
+                  Price: ${product.price}.00
+                  </List.Content> */}
+                  <List.Content verticalAlign="bottom">
+                    <Button
+                      value={product.id}
+                      name="productRemove"
+                      onClick={this.handleClick}
+                    >
+                      Remove from Cart
+                    </Button>
+                  </List.Content>
+                </List.Content>
               </List.Item>
             ))}
           </List>
@@ -60,7 +93,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCartProducts: () => dispatch(getCartProducts())
+    getCartProducts: () => dispatch(getCartProducts()),
+    removeItem: productRemove => dispatch(removeProductFromCart(productRemove))
   }
 }
 

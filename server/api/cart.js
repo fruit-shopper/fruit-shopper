@@ -27,6 +27,8 @@ router.post('/:productId', async (req, res, next) => {
 })
 
 router.get('/', async (req, res, next) => {
+  req.session.cart = 1
+  console.log(req.session.cart)
   try {
     const cartContents = await Order.findAll({
       where: {
@@ -42,5 +44,19 @@ router.get('/', async (req, res, next) => {
     res.json(cartContents)
   } catch (error) {
     next(error)
+  }
+})
+
+router.delete('/', async (req, res, next) => {
+  try {
+    console.log(req.body)
+    const deletedItem = await OrderProduct.destroy({
+      where: {
+        productId: req.body
+      }
+    })
+    res.json(deletedItem)
+  } catch (err) {
+    next(err)
   }
 })

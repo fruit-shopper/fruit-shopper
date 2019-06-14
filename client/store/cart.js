@@ -4,6 +4,7 @@ import axios from 'axios'
 
 const SET_QUANTITY_PRICE = 'SET_QUANTITY_PRICE'
 const GET_CART = 'GET_CART'
+const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM'
 
 //INITIAL STATE
 const initialState = []
@@ -17,6 +18,11 @@ const setQP = QP => ({
 const getCart = cartContents => ({
   type: GET_CART,
   cartContents
+})
+
+const removeCartItem = item => ({
+  type: REMOVE_CART_ITEM,
+  item
 })
 
 /**
@@ -39,6 +45,17 @@ export const getCartProducts = () => {
       const {data} = await axios.get('/api/cart')
       dispatch(getCart(data))
       console.log('this is the data', data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const removeProductFromCart = item => {
+  return async function(dispatch) {
+    try {
+      const {data} = await axios.delete('/api/cart', item)
+      dispatch(removeCartItem(data))
     } catch (error) {
       console.log(error)
     }
