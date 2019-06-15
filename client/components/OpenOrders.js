@@ -14,12 +14,10 @@ class CurrentOrders extends Component {
       return <div>The are no past orders in your order history.</div>
     } else {
       let currentOrdersList = this.props.currentOrders
-
-      console.log(this.props)
       return (
         <div>
           <Header as="h3" color="brown" className="centered">
-            Current Orders
+            Open Orders
           </Header>
           <Divider hidden />
           {currentOrdersList.map(order => (
