@@ -39,8 +39,8 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
           </a>
           <AccountManagementUser />
           <Link to="/manageProducts">Manage Products</Link>
-          <Link to="/manageOrders">Manage Products</Link>
-          <Link to="/manageUsers">Manage Products</Link>
+          <Link to="/manageOrders">Manage Orders</Link>
+          <Link to="/manageUsers">Manage Users</Link>
         </div>
       )}
     </nav>

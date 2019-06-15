@@ -10,7 +10,10 @@ import {
   OpenOrders,
   PastOrders,
   SingleProduct,
-  Cart
+  Cart,
+  AdminProducts,
+  AdminOrders,
+  AdminUsers
 } from './components'
 import {me} from './store'
 
@@ -62,9 +65,9 @@ class Routes extends Component {
             <Route path="/open_orders_user" component={OpenOrders} />
             <Route path="/past_orders_user" component={PastOrders} />
             <Route path="/cart" component={Cart} />
-            <Route path="/manageProducts" component={UserHome} />
-            <Route path="/manageOrders" component={UserHome} />
-            <Route path="/manageUsers" component={UserHome} />
+            <Route path="/manageProducts" component={AdminProducts} />
+            <Route path="/manageOrders" component={AdminOrders} />
+            <Route path="/manageUsers" component={AdminUsers} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

@@ -25,3 +25,9 @@ form div {
   text-align: justify;
   margin: auto;
 }
+
+.justify-products {
+  max-width: 200px;
+  text-align: justify;
+  margin: auto;
+}

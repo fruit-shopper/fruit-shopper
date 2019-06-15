@@ -89,7 +89,7 @@ export const createProduct = product => {
   }
 }
 
-export const removePorduct = id => {
+export const removeProduct = id => {
   return async dispatch => {
     try {
       await axios.delete(`/api/products/${id}`)
