@@ -5,25 +5,40 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import AccountManagementUser from '../components/AccountManagementUser'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
+const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
   <div>
     <h1>Welcome to Fruit-Shopper!</h1>
     <nav>
-      {isLoggedIn ? (
+      {!isLoggedIn &&
+        !isAdmin && (
+          <div>
+            <Link to="/home">Home</Link>
+            <Link to="/products">All Products</Link>
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Sign Up</Link>
+          </div>
+        )}
+      {isLoggedIn &&
+        !isAdmin && (
+          <div>
+            <Link to="/home">Home</Link>
+            <Link to="/products">All Products</Link>
+            <Link to="/login">Login as Admin</Link>
+            <a href="#" onClick={handleClick}>
+              Logout
+            </a>
+            <AccountManagementUser />
+          </div>
+        )}
+      {isAdmin && (
         <div>
-          {/* The navbar will show these links after you log in */}
           <Link to="/home">Home</Link>
           <Link to="/products">All Products</Link>
           <a href="#" onClick={handleClick}>
             Logout
           </a>
           <AccountManagementUser />
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
+          <Link to="/admin">Admin Entrance</Link>
         </div>
       )}
     </nav>
@@ -36,7 +51,8 @@ const Navbar = ({handleClick, isLoggedIn}) => (
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: !!state.user.id && state.user.admin === true
   }
 }
 
