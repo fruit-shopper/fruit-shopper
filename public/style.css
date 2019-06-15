@@ -34,9 +34,9 @@ form div {
   margin-right: 10px;
 }
 
-.dropdown-height {
-  height: 3em;
-}
+/* .dropdown {
+  height: 3.5em;
+} */
 .order {
   width: 50%;
   margin: auto;

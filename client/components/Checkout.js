@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Form, Dropdown} from 'semantic-ui-react'
+import {Form, Dropdown, Header, Checkbox} from 'semantic-ui-react'
 import _ from 'lodash'
 import faker from 'faker'
 
@@ -10,10 +10,21 @@ const stateOptions = _.map(addressDefinitions.state, (state, index) => ({
   value: addressDefinitions.state_abbr[index]
 }))
 
-export class Checkout extends Component {
+let sameAsBilling = false
+
+class Checkout extends Component {
+  billingAdressCheckbox = () => {
+    if (!sameAsBilling) {
+      sameAsBilling = true
+    } else {
+      sameAsBilling = false
+    }
+  }
+
   render() {
     return (
       <div className="checkout-form">
+        <Header textAlign="center">Enter shipping address</Header>
         <Form>
           <Form.Group>
             <Form.Input label="First Name" placeholder="First Name" width={6} />
@@ -37,31 +48,38 @@ export class Checkout extends Component {
             <Form.Input
               label="City"
               placeholer="City"
-              width={8}
+              width={5}
               className="margin-right"
+            />
+
+            <label>
+              <b>State</b>
+            </label>
+            <Dropdown
+              search
+              selection
+              options={stateOptions}
+              className="dropdown"
+            />
+            <Form.Input label="ZIP" placeholer="ZIP" width={4} />
+          </Form.Group>
+          {/* <Form.Group> */}
+          {/* </Form.Group> */}
+          {/* <Form.Group> */}
+          {/* </Form.Group> */}
+
+          <Form.Group>
+            <Form.Input
+              label="Phone number"
+              placeholder="Phone number"
+              width={6}
             />
           </Form.Group>
         </Form>
-        <Form.Group>
-          <Dropdown
-            label="State"
-            search
-            selection
-            options={stateOptions}
-            className="dropdown-height"
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Input label="ZIP" placeholer="ZIP" width={3} />
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Input
-            label="Phone number"
-            placeholder="Phone number"
-            width={6}
-          />
-        </Form.Group>
+        <Checkbox
+          label="Shipping address the same as billing"
+          onClick={this.billingAdressCheckbox}
+        />
       </div>
     )
   }
