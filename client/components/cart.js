@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {
   Button,
   Header,
@@ -38,7 +39,7 @@ export class Cart extends Component {
           <Header as="h1">Your Cart</Header>
         </div>
         <Container>
-          <List divided relaxed>
+          <List divided relaxed="true">
             {this.props.cartContents[0].products.map(product => (
               <List.Item key={product.id}>
                 <Image
@@ -80,6 +81,10 @@ export class Cart extends Component {
             ))}
           </List>
         </Container>
+        {/* this button is for testing */}
+        <Button primary>
+          <Link to="/checkout">Checkout</Link>
+        </Button>
       </div>
     )
   }
