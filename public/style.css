@@ -37,3 +37,10 @@ form div {
 .dropdown-height {
   height: 3em;
 }
+.order {
+  width: 50%;
+  margin: auto;
+  border: 1px solid #e6eaf2;
+  padding: 30px;
+  margin-bottom: 50px;
+}

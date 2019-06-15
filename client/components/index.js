@@ -10,7 +10,10 @@ export {default as AllProducts} from './all-products'
 export {default as SingleProduct} from './Single-Product'
 export {default as OpenOrders} from './OpenOrders'
 export {default as PastOrders} from './PastOrders'
-export {default as SingleOrderView} from './SingleOrderView'
+export {
+  default as OrderHistorySingleOrderView
+} from './OrderHistorySingleOrderView'
+export {default as OrderHistoryProduct} from './OrderHistorySingleProduct'
 export {default as Checkout} from './Checkout'
 export {Login, Signup} from './auth-form'
 export {default as Cart} from './cart'

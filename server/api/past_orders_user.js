@@ -16,7 +16,6 @@ router.get('/', async (req, res, next) => {
         }
       ]
     })
-    pastOrders = pastOrders[0].dataValues.products
     res.json(pastOrders)
   } catch (err) {
     next(err)

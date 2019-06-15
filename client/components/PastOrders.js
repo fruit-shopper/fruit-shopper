@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getPastOrdersUser} from '../store/past-orders-user'
-import SingleOrderView from './SingleOrderView'
+import OrderHistorySingleOrderView from './OrderHistorySingleOrderView'
+import {Divider, Header} from 'semantic-ui-react'
 
 // display any past orders that user has
 class PastOrders extends Component {
@@ -13,12 +14,15 @@ class PastOrders extends Component {
       return <div>The are no past orders in your order history.</div>
     } else {
       let pastOrdersList = this.props.pastOrders
-      console.log('props in past orders ', pastOrdersList)
+
       return (
         <div>
-          <h2 className="justify-text"> Your past orders. </h2>
+          <Header as="h3" color="brown" className="centered">
+            Past Orders
+          </Header>
+          <Divider hidden />
           {pastOrdersList.map(order => (
-            <SingleOrderView order={order} key={order.id} />
+            <OrderHistorySingleOrderView order={order} key={order.id} />
           ))}
         </div>
       )
