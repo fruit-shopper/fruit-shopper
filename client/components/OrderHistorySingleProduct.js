@@ -3,8 +3,6 @@ import {Link} from 'react-router-dom'
 import {Image, Divider} from 'semantic-ui-react'
 
 export const OrderHistorySingleProduct = props => {
-  console.log('props in single product: ', props.product.Order_Product)
-
   return (
     <div>
       {' '}
@@ -20,10 +18,7 @@ export const OrderHistorySingleProduct = props => {
       <span>Quantity: {props.product.Order_Product.quantity} </span>
       <br />
       <br />
-      <span>
-        <text>Description: </text>
-        {props.product.description}
-      </span>
+      <span>Description: {props.product.description}</span>
       <Divider hidden />
     </div>
   )
