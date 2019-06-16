@@ -5,7 +5,7 @@ export class Checkout extends Component {
   render() {
     return (
       <div>
-        <CheckoutShipping />
+        <CheckoutShipping parentProps={this.props} />
       </div>
     )
   }

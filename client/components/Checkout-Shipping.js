@@ -1,13 +1,16 @@
 /* eslint-disable complexity */
 // Helper styles for demo
-import {MoreResources, DisplayFormikState} from './helper'
-
+// import {MoreResources, DisplayFormikState} from './helper'
+import {Divider, Form} from 'semantic-ui-react'
 import React from 'react'
 // import { render } from 'react-dom';
 import {Formik} from 'formik'
 import * as Yup from 'yup'
 
-const CheckoutShipping = () => (
+import {withFormik} from 'formik'
+import {connect} from 'react-redux'
+
+const CheckoutShipping = parentProps => (
   <div className="shipping-adress-form">
     <h1>Enter Shipping address</h1>
 
@@ -18,7 +21,8 @@ const CheckoutShipping = () => (
         address: '',
         state: '',
         city: '',
-        zip: ''
+        zip: '',
+        isBilling: false
       }}
       onSubmit={(values, {setSubmitting}) => {
         setTimeout(() => {
@@ -31,9 +35,9 @@ const CheckoutShipping = () => (
           .email()
           .required('Email is required'),
         fullname: Yup.string().required('Full name is required'),
-        address: Yup.string().required('Shipping Adress is required'),
+        address: Yup.string().required('Street address is required'),
         city: Yup.string().required('State is required'),
-        zip: Yup.number('Zip code has to be a number value').required(),
+        zip: Yup.number().required('Zip code has to be a number value'),
         state: Yup.string('Enter a valid state')
           .oneOf([
             'Alabama',
@@ -108,12 +112,14 @@ const CheckoutShipping = () => (
           values.state &&
           values.city &&
           values.zip
+
+        console.log(parentProps)
         return (
-          // console.log(props)
-          <form
+          <Form
             onSubmit={() => {
               handleSubmit()
-              handleReset()
+              // handleReset()
+              // parentProps.history.push('/payment')
             }}
           >
             <label htmlFor="fullname" style={{display: 'block'}}>
@@ -138,8 +144,7 @@ const CheckoutShipping = () => (
                 <div className="input-feedback">{errors.fullname}</div>
               )}
 
-            <br />
-            <br />
+            <Divider hidden />
             <label htmlFor="address" style={{display: 'block'}}>
               Street Address
             </label>
@@ -161,8 +166,7 @@ const CheckoutShipping = () => (
                 <div className="input-feedback">{errors.address}</div>
               )}
 
-            <br />
-            <br />
+            <Divider hidden />
 
             <label htmlFor="city" style={{display: 'block'}}>
               City
@@ -183,8 +187,7 @@ const CheckoutShipping = () => (
                 <div className="input-feedback">{errors.city}</div>
               )}
 
-            <br />
-            <br />
+            <Divider hidden />
 
             <label htmlFor="city" style={{display: 'block'}}>
               State
@@ -208,8 +211,7 @@ const CheckoutShipping = () => (
                 <div className="input-feedback">{errors.state}</div>
               )}
 
-            <br />
-            <br />
+            <Divider hidden />
             <label htmlFor="zip" style={{display: 'block'}}>
               Zip code
             </label>
@@ -227,8 +229,7 @@ const CheckoutShipping = () => (
             {errors.zip &&
               touched.zip && <div className="input-feedback">{errors.zip}</div>}
 
-            <br />
-            <br />
+            <Divider hidden />
 
             <label htmlFor="email" style={{display: 'block'}}>
               Email
@@ -251,20 +252,37 @@ const CheckoutShipping = () => (
                 <div className="input-feedback">{errors.email}</div>
               )}
 
-            <button
-              type="button"
-              className="outline"
-              onClick={handleReset}
-              disabled={!dirty || isSubmitting}
-            >
-              Reset
-            </button>
-            <button type="submit" disabled={isSubmitting || !isEnabled}>
-              Submit
-            </button>
+            <Divider hidden />
+            <Form.Group>
+              <input
+                id="isBilling"
+                type="checkbox"
+                checked={values.isBilling}
+                onChange={handleChange}
+              />
+              <Divider hidden />
 
-            {/* <DisplayFormikState {...props} /> */}
-          </form>
+              <label htmlFor="isBilling">
+                Check if the same as Billing Address
+              </label>
+            </Form.Group>
+            <Divider hidden />
+            <Form.Group>
+              <button
+                type="button"
+                className="outline"
+                onClick={handleReset}
+                disabled={!dirty || isSubmitting}
+              >
+                Reset
+              </button>
+              <button type="submit" disabled={isSubmitting || !isEnabled}>
+                Submit
+              </button>
+
+              {/* <DisplayFormikState {...props} /> */}
+            </Form.Group>
+          </Form>
         )
       }}
     </Formik>
