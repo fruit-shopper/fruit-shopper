@@ -31,7 +31,7 @@ router.use(async (req, res, next) => {
       req.session.cart = order.id
     }
     req.order = order
-    console.log('order in middleware', order)
+    //console.log('order in middleware', order)
     next()
   } catch (error) {
     next(error)
@@ -62,13 +62,29 @@ router.post('/:productId', async (req, res, next) => {
   }
 })
 
+router.delete('/:itemId', async (req, res, next) => {
+  try {
+    console.log('delete req body', req.params.itemId)
+    await OrderProduct.destroy({
+      where: {
+        productId: req.params.itemId
+      }
+    })
+    //res.json(deletedItem)
+    res.sendStatus(204)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.get('/', async (req, res, next) => {
   console.log(req.session.cart)
   try {
-    const cartContents = await Order.findAll({
+    const cartContents = await Order.findOne({
       where: {
-        userId: req.user.id,
-        status: 'cart'
+        // userId: req.user.id,
+        // status: 'cart'
+        id: req.order.id
       },
       include: [
         {
@@ -79,19 +95,5 @@ router.get('/', async (req, res, next) => {
     res.json(cartContents)
   } catch (error) {
     next(error)
-  }
-})
-
-router.delete('/', async (req, res, next) => {
-  try {
-    console.log(req.body)
-    const deletedItem = await OrderProduct.destroy({
-      where: {
-        productId: req.body
-      }
-    })
-    res.json(deletedItem)
-  } catch (err) {
-    next(err)
   }
 })
