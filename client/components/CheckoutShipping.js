@@ -3,14 +3,12 @@
 // import {MoreResources, DisplayFormikState} from './helper'
 import {Divider, Form, Header} from 'semantic-ui-react'
 import React from 'react'
-// import { render } from 'react-dom';
 import {Formik} from 'formik'
 import * as Yup from 'yup'
+import CheckoutPayment from './CheckoutPayment'
 
-import {withFormik} from 'formik'
-import {connect} from 'react-redux'
-
-const CheckoutShipping = parentProps => (
+let proceedToPayment = false
+const CheckoutShipping = products => (
   <div className="shipping-adress-form">
     <Header as="h2" textAlign="center">
       Enter Shipping address
@@ -114,13 +112,17 @@ const CheckoutShipping = parentProps => (
           values.state &&
           values.city &&
           values.zip
-
+        if (proceedToPayment) {
+          return <p>payment</p>
+        }
         return (
           <Form
             onSubmit={() => {
               handleSubmit()
-              // handleReset()
-              // parentProps.history.push('/payment')
+              handleReset()
+              // <CheckoutPayment />
+              console.log(props)
+              console.log(products)
             }}
           >
             <label htmlFor="fullname" style={{display: 'block'}}>

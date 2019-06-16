@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getCartProducts} from '../store/cart'
 import {Divider, Header, Image, Item, List} from 'semantic-ui-react'
+import CheckoutShipping from './CheckoutShipping'
 import {calculateGrandTotal} from './cart'
 
 class CartProductViewCheckout extends Component {
@@ -47,6 +48,7 @@ class CartProductViewCheckout extends Component {
           Your Cart Total: ${calculateGrandTotal(this.props.cartContents)}
         </h4>
         <Divider hidden />
+        <CheckoutShipping products={this.props.cartContents} />
       </div>
     )
   }
