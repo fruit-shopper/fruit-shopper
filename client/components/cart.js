@@ -22,7 +22,11 @@ export class Cart extends Component {
     this.props.removeItem(event.target.value)
   }
   render() {
-    if (!this.props.cartContents || this.props.cartContents.length === 0) {
+    if (
+      !this.props.cartContents ||
+      this.props.cartContents.length === 0 ||
+      this.props.cartContents.products.length === 0
+    ) {
       return <div>Your cart is empty! Time to shop!</div>
     }
     return (

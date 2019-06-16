@@ -70,7 +70,7 @@ const cartReducer = function(state = initialState, action) {
     case GET_CART:
       return action.cartContents
     case REMOVE_CART_ITEM:
-      return state.filter(product => product.id !== action.item)
+      return state.products.filter(product => product.id !== action.item)
     default:
       return state
   }
