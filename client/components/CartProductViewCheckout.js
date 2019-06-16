@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getCartProducts} from '../store/cart'
-import {Divider, Header, Image, Item, List} from 'semantic-ui-react'
+import {Divider, Header, Image, Item, Button, Icon} from 'semantic-ui-react'
 import CheckoutShipping from './CheckoutShipping'
 import {calculateGrandTotal} from './cart'
+import {Link} from 'react-router-dom'
 
 class CartProductViewCheckout extends Component {
   componentDidMount() {
@@ -22,6 +23,14 @@ class CartProductViewCheckout extends Component {
 
     return (
       <div className="justify-text">
+        <Link to="/products">
+          <Button animated color="blue">
+            <Button.Content visible>Continue Shopping</Button.Content>
+            <Button.Content hidden>
+              <Icon name="arrow left" />
+            </Button.Content>
+          </Button>
+        </Link>
         <Header as="h2" textAlign="center">
           Your Order.
         </Header>
