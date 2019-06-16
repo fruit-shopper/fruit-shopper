@@ -11,7 +11,8 @@ import {
   PastOrders,
   SingleProduct,
   Cart,
-  AdminHome
+  // AdminHome,
+  Checkout
 } from './components'
 import {me} from './store'
 
@@ -39,6 +40,7 @@ class Routes extends Component {
               <Route path="/cart" component={Cart} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
+              <Route path="/checkout" component={Checkout} />
             </Switch>
           )}
         {isLoggedIn &&
@@ -51,6 +53,7 @@ class Routes extends Component {
               <Route path="/open_orders_user" component={OpenOrders} />
               <Route path="/past_orders_user" component={PastOrders} />
               <Route path="/cart" component={Cart} />
+              <Route path="/checkout" component={Checkout} />
               <Route path="/login" component={Login} />
             </Switch>
           )}

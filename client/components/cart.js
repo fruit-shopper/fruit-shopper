@@ -11,15 +11,23 @@ export class Cart extends Component {
       // productRemove: 0
     }
     this.handleClick = this.handleClick.bind(this)
+    this.calculateGrandTotal = this.calculateGrandTotal.bind(this)
   }
   componentDidMount() {
-    console.log('comp mounting')
+    // console.log('comp mounting')
     this.props.getCartProducts()
     console.log(this.props)
   }
   handleClick(event) {
     // console.log("remove button's product id", event.target.value)
     this.props.removeItem(event.target.value)
+  }
+  calculateGrandTotal(cart) {
+    let grandTotal = 0
+    cart.products.map(product => {
+      grandTotal += product.price * product.Order_Product.quantity
+    })
+    return grandTotal
   }
   render() {
     if (
@@ -30,14 +38,12 @@ export class Cart extends Component {
     ) {
       return <div>Your cart is empty! Time to shop!</div>
     }
+    let grandTotal = 0
+
     return (
       <div id="cartPage">
         <div id="header">
           <Header as="h1">Your Cart</Header>
-          {/* this button is for testing */}
-          <Button primary>
-            <Link to="/checkout">Checkout</Link>
-          </Button>
         </div>
         <Container>
           <List divided relaxed>
@@ -68,6 +74,10 @@ export class Cart extends Component {
                   {/* <List.Content verticalalign='top'>
                   Price: ${product.price}.00
                   </List.Content> */}
+                  {/* Is this price pulled from correct place? Doublecheck with Team. */}
+                  <List.Content aligned="left">
+                    Subtotal: ${product.price * product.Order_Product.quantity}{' '}
+                  </List.Content>
                   <List.Content verticalalign="bottom">
                     <Button
                       type="submit"
@@ -82,6 +92,16 @@ export class Cart extends Component {
               </List.Item>
             ))}
           </List>
+          <h3>
+            Your Cart Total: ${this.calculateGrandTotal(
+              this.props.cartContents
+            )}
+          </h3>
+
+          {/* this button is for testing */}
+          <Button>
+            <Link to="/checkout">Checkout</Link>
+          </Button>
         </Container>
       </div>
     )
