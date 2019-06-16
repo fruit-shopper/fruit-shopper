@@ -69,16 +69,14 @@ const cartReducer = function(state = initialState, action) {
   switch (action.type) {
     case GET_CART:
       return action.cartContents
+    // return  {...state, products: action.cartContents}
     // case SET_QUANTITY_PRICE:
     //   return [...state, action.QP]
     case REMOVE_CART_ITEM:
-      return {
-        ...state,
-        products: [
-          ...state.products.filter(product => product.id !== action.item)
-        ]
-      }
-    // return state.products.filter(product => product.id !== action.item)
+      let updatedCart = state.products.filter(
+        product => product.id !== Number(action.item)
+      )
+      return {...state, products: updatedCart}
     default:
       return state
   }
