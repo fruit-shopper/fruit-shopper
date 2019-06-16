@@ -53,9 +53,10 @@ export const getCartProducts = () => {
 
 export const removeProductFromCart = item => {
   return async function(dispatch) {
+    console.log('in delete thunk product id:', item)
     try {
-      const {data} = await axios.delete('/api/cart', item)
-      dispatch(removeCartItem(data))
+      await axios.delete(`/api/cart/${item}`)
+      dispatch(removeCartItem(item))
     } catch (error) {
       console.log(error)
     }
@@ -68,6 +69,16 @@ const cartReducer = function(state = initialState, action) {
   switch (action.type) {
     case GET_CART:
       return action.cartContents
+    // case SET_QUANTITY_PRICE:
+    //   return [...state, action.QP]
+    case REMOVE_CART_ITEM:
+      return {
+        ...state,
+        products: [
+          ...state.products.filter(product => product.id !== action.item)
+        ]
+      }
+    // return state.products.filter(product => product.id !== action.item)
     default:
       return state
   }
