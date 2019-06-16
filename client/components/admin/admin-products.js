@@ -60,8 +60,8 @@ class AdminProducts extends React.Component {
   handleResultSelect(evt, {result}) {
     // this.setState({value: result.name})
     // console.log('Select result: ', result)
-    let link = `/products/${result.id}`
-    this.props.toSingleProductPage(link)
+    let link = `/products/edit/${result.id}`
+    this.props.toEditProductPage(link)
   }
 
   handleSearchChange = (evt, {value}) => {
@@ -146,7 +146,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     filterByCat: category => dispatch(filterByCategory(category)),
     remove: productId => dispatch(removeProduct(productId)),
     fetchInitialProducts: () => dispatch(fetchProducts()),
-    toSingleProductPage: link => dispatch(() => ownProps.history.push(link))
+    toEditProductPage: link => dispatch(() => ownProps.history.push(link))
   }
 }
 

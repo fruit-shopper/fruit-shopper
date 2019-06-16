@@ -12,6 +12,8 @@ import {
   SingleProduct,
   Cart,
   AdminProducts,
+  EditProduct,
+  NewProduct,
   AdminOrders,
   AdminUsers
 } from './components'
@@ -59,6 +61,8 @@ class Routes extends Component {
         {isAdmin && (
           <Switch>
             {/* Routes placed here are only available for admin */}
+            <Route path="/products/new" component={NewProduct} />
+            <Route path="/products/edit/:productId" component={EditProduct} />
             <Route path="/products/:productId" component={SingleProduct} />
             <Route path="/products" component={AllProducts} />
             <Route path="/home" component={UserHome} />

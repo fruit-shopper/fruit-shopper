@@ -17,9 +17,15 @@ const Products = props => {
         <div key={product.id} className="centered">
           <Grid.Column>
             <Image src={product.image} alt="image" size="small" />
-            <Link to={`/products/${product.id}`}>
-              <h3> {product.name}</h3>
-            </Link>
+            {fromAdmin ? (
+              <Link to={`/products/edit/${product.id}`}>
+                <h3> {product.name}</h3>
+              </Link>
+            ) : (
+              <Link to={`/products/${product.id}`}>
+                <h3> {product.name}</h3>
+              </Link>
+            )}
             <p>
               {' '}
               {product.categories.reduce(
