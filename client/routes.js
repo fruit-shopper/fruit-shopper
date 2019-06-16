@@ -66,7 +66,7 @@ class Routes extends Component {
             <Route path="/open_orders_user" component={OpenOrders} />
             <Route path="/past_orders_user" component={PastOrders} />
             <Route path="/cart" component={Cart} />
-            <Route path="/admin" component={AdminHome} />
+            {/* <Route path="/admin" component={AdminHome} /> */}
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
