@@ -5,6 +5,7 @@ import {Divider, Form, Header} from 'semantic-ui-react'
 import React from 'react'
 import {Formik} from 'formik'
 import * as Yup from 'yup'
+const states = require('./us_states')
 import CheckoutPayment from './CheckoutPayment'
 
 let proceedToPayment = false
@@ -39,57 +40,7 @@ const CheckoutShipping = products => (
         city: Yup.string().required('State is required'),
         zip: Yup.number().required('Zip code has to be a number value'),
         state: Yup.string('Enter a valid state')
-          .oneOf([
-            'Alabama',
-            'Alaska',
-            'Arizona',
-            'Arkansas',
-            'California',
-            'Colorado ',
-            'Connecticut',
-            'Delaware',
-            'Florida',
-            'Georgia',
-            'Hawaii',
-            'Idaho',
-            'Illinois',
-            'Indiana',
-            'Iowa',
-            'Kansas',
-            'Kentucky',
-            'Louisiana',
-            'Maine',
-            'Maryland',
-            'Massachusetts',
-            'Michigan',
-            'Minnesota',
-            'Mississippi',
-            'Missouri',
-            'Montana Nebraska',
-            'Nevada',
-            'New Hampshire',
-            'New Jersey',
-            'New Mexico',
-            'New York',
-            'North Carolina',
-            'North Dakota',
-            'Ohio',
-            'Oklahoma',
-            'Oregon',
-            'Pennsylvania',
-            'Rhode Island',
-            'South Carolina',
-            'South Dakota',
-            'Tennessee',
-            'Texas',
-            'Utah',
-            'Vermont',
-            'Virginia',
-            'Washington',
-            'West Virginia',
-            'Wisconsin',
-            'Wyoming'
-          ])
+          .oneOf(states)
           .required('Valid state is required.')
       })}
     >
