@@ -1,5 +1,7 @@
 const router = require('express').Router()
-const {Product, Order, User} = require('../db/models')
+const {Product, Order} = require('../db/models')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -8,7 +10,9 @@ router.get('/', async (req, res, next) => {
     let pastOrders = await Order.findAll({
       where: {
         userId: userId,
-        status: 'completed'
+        status: {
+          [Op.or]: ['created', 'processing']
+        }
       },
       include: [
         {

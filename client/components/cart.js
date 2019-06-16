@@ -1,37 +1,45 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {
-  Button,
-  Header,
-  Grid,
-  Image,
-  Container,
-  GridColumn,
-  GridRow,
-  List
-} from 'semantic-ui-react'
+import {Link} from 'react-router-dom'
+import {Button, Header, Image, Container, List} from 'semantic-ui-react'
 import {getCartProducts, removeProductFromCart} from '../store/cart'
 
 export class Cart extends Component {
   constructor() {
     super()
     this.state = {
-      productRemove: 0
+      // productRemove: 0
     }
     this.handleClick = this.handleClick.bind(this)
+    this.calculateGrandTotal = this.calculateGrandTotal.bind(this)
   }
   componentDidMount() {
-    console.log('comp mounting')
+    // console.log('comp mounting')
     this.props.getCartProducts()
     console.log(this.props)
   }
   handleClick(event) {
+    // console.log("remove button's product id", event.target.value)
     this.props.removeItem(event.target.value)
   }
+  calculateGrandTotal(cart) {
+    let grandTotal = 0
+    cart.products.map(product => {
+      grandTotal += product.price * product.Order_Product.quantity
+    })
+    return grandTotal
+  }
   render() {
-    if (!this.props.cartContents || this.props.cartContents.length === 0) {
+    if (
+      !this.props.cartContents ||
+      this.props.cartContents.length === 0 ||
+      !this.props.cartContents.products ||
+      this.props.cartContents.products.length === 0
+    ) {
       return <div>Your cart is empty! Time to shop!</div>
     }
+    let grandTotal = 0
+
     return (
       <div id="cartPage">
         <div id="header">
@@ -39,7 +47,7 @@ export class Cart extends Component {
         </div>
         <Container>
           <List divided relaxed>
-            {this.props.cartContents[0].products.map(product => (
+            {this.props.cartContents.products.map(product => (
               <List.Item key={product.id}>
                 <Image
                   src={product.image}
@@ -66,10 +74,15 @@ export class Cart extends Component {
                   {/* <List.Content verticalalign='top'>
                   Price: ${product.price}.00
                   </List.Content> */}
+                  {/* Is this price pulled from correct place? Doublecheck with Team. */}
+                  <List.Content aligned="left">
+                    Subtotal: ${product.price * product.Order_Product.quantity}{' '}
+                  </List.Content>
                   <List.Content verticalalign="bottom">
                     <Button
+                      type="submit"
                       value={product.id}
-                      name="productRemove"
+                      // name="productRemove"
                       onClick={this.handleClick}
                     >
                       Remove from Cart
@@ -79,6 +92,16 @@ export class Cart extends Component {
               </List.Item>
             ))}
           </List>
+          <h3>
+            Your Cart Total: ${this.calculateGrandTotal(
+              this.props.cartContents
+            )}
+          </h3>
+
+          {/* this button is for testing */}
+          <Button>
+            <Link to="/checkout">Checkout</Link>
+          </Button>
         </Container>
       </div>
     )
@@ -86,6 +109,7 @@ export class Cart extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log('in state ', state)
   return {
     cartContents: state.cart
   }
@@ -94,7 +118,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getCartProducts: () => dispatch(getCartProducts()),
-    removeItem: productRemove => dispatch(removeProductFromCart(productRemove))
+    removeItem: productRemoveId =>
+      dispatch(removeProductFromCart(productRemoveId))
   }
 }
 
