@@ -18,11 +18,10 @@ export class Cart extends Component {
     console.log(this.props)
   }
   handleClick(event) {
-    console.log("remove button's product id", event.target.value)
+    // console.log("remove button's product id", event.target.value)
     this.props.removeItem(event.target.value)
   }
   render() {
-    console.log('props', this.props)
     if (
       !this.props.cartContents ||
       this.props.cartContents.length === 0 ||
@@ -90,6 +89,7 @@ export class Cart extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log('in state ', state)
   return {
     cartContents: state.cart
   }
