@@ -3,7 +3,6 @@ import {Item, Divider, Header} from 'semantic-ui-react'
 import OrderHistorySingleProduct from './OrderHistorySingleProduct'
 
 export const OrderHistorySingleOrderView = props => {
-  console.log('++++++in OrderHistoryDSingleOrderView: ', props)
   const orderInfo = props.order
   const productsInfo = orderInfo.products
   const orderStatus = props.order.status

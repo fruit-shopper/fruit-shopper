@@ -4,6 +4,14 @@ import {Link} from 'react-router-dom'
 import {Button, Header, Image, Container, List} from 'semantic-ui-react'
 import {getCartProducts, removeProductFromCart} from '../store/cart'
 
+export const calculateGrandTotal = cart => {
+  let grandTotal = 0
+  cart.products.map(product => {
+    grandTotal += product.Order_Product.price * product.Order_Product.quantity
+  })
+  return grandTotal
+}
+
 export class Cart extends Component {
   constructor() {
     super()
@@ -11,7 +19,7 @@ export class Cart extends Component {
       // productRemove: 0
     }
     this.handleClick = this.handleClick.bind(this)
-    this.calculateGrandTotal = this.calculateGrandTotal.bind(this)
+    // this.calculateGrandTotal = this.calculateGrandTotal.bind(this)
   }
   componentDidMount() {
     // console.log('comp mounting')
@@ -22,13 +30,7 @@ export class Cart extends Component {
     // console.log("remove button's product id", event.target.value)
     this.props.removeItem(event.target.value)
   }
-  calculateGrandTotal(cart) {
-    let grandTotal = 0
-    cart.products.map(product => {
-      grandTotal += product.price * product.Order_Product.quantity
-    })
-    return grandTotal
-  }
+
   render() {
     if (
       !this.props.cartContents ||
@@ -38,7 +40,6 @@ export class Cart extends Component {
     ) {
       return <div>Your cart is empty! Time to shop!</div>
     }
-    let grandTotal = 0
 
     return (
       <div id="cartPage">
@@ -64,7 +65,7 @@ export class Cart extends Component {
                   {/* <List.Description>Quantity: {product.Order_Product.quantity}</List.Description> */}
                   <List.Description>{product.description}</List.Description>
                   <List.Description verticalalign="bottom">
-                    Price: ${product.price}.00
+                    Price: ${product.Order_Product.price}.00
                   </List.Description>
                 </List.Content>
                 <List.Content floated="right">
@@ -93,9 +94,7 @@ export class Cart extends Component {
             ))}
           </List>
           <h3>
-            Your Cart Total: ${this.calculateGrandTotal(
-              this.props.cartContents
-            )}
+            Your Cart Total: ${calculateGrandTotal(this.props.cartContents)}
           </h3>
 
           {/* this button is for testing */}

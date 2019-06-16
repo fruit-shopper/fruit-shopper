@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom'
 //add middleware for url path
 class AccountManagementUser extends Component {
   render() {
-    console.log(this.props)
     return (
       <Dropdown text="Manage my account" align="right">
         <Dropdown.Menu>

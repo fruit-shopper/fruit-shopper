@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 // Helper styles for demo
 // import {MoreResources, DisplayFormikState} from './helper'
-import {Divider, Form} from 'semantic-ui-react'
+import {Divider, Form, Header} from 'semantic-ui-react'
 import React from 'react'
 // import { render } from 'react-dom';
 import {Formik} from 'formik'
@@ -12,7 +12,9 @@ import {connect} from 'react-redux'
 
 const CheckoutShipping = parentProps => (
   <div className="shipping-adress-form">
-    <h1>Enter Shipping address</h1>
+    <Header as="h2" textAlign="center">
+      Enter Shipping address
+    </Header>
 
     <Formik
       initialValues={{
@@ -113,7 +115,6 @@ const CheckoutShipping = parentProps => (
           values.city &&
           values.zip
 
-        console.log(parentProps)
         return (
           <Form
             onSubmit={() => {
