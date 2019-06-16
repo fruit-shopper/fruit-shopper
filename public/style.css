@@ -26,10 +26,6 @@ form div {
   margin: auto;
 }
 
-.checkout-form {
-  max-width: 40%;
-  margin: 0 auto;
-}
 .margin-right {
   margin-right: 10px;
 }
@@ -46,6 +42,15 @@ form div {
 }
 
 /* added for the form */
+
+.shipping-adress-form {
+  width: 30%;
+  margin: 0 auto;
+}
+
+.text-input {
+  width: 100%;
+}
 
 input {
   padding: 0.5rem;

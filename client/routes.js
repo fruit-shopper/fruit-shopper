@@ -11,7 +11,7 @@ import {
   PastOrders,
   SingleProduct,
   Cart,
-  AdminHome,
+  // AdminHome,
   Checkout
 } from './components'
 import {me} from './store'

@@ -8,7 +8,7 @@ import {Formik} from 'formik'
 import * as Yup from 'yup'
 
 const CheckoutShipping = () => (
-  <div className="app">
+  <div className="shipping-adress-form">
     <h1>Enter Shipping address</h1>
 
     <Formik
@@ -29,8 +29,8 @@ const CheckoutShipping = () => (
       validationSchema={Yup.object().shape({
         email: Yup.string()
           .email()
-          .required('Email is Required'),
-        fullname: Yup.string().required('Full name is Required'),
+          .required('Email is required'),
+        fullname: Yup.string().required('Full name is required'),
         address: Yup.string().required('Shipping Adress is required'),
         city: Yup.string().required('State is required'),
         zip: Yup.number('Zip code has to be a number value').required(),
@@ -101,13 +101,25 @@ const CheckoutShipping = () => (
           handleSubmit,
           handleReset
         } = props
-
+        const isEnabled =
+          values.email &&
+          values.fullname &&
+          values.address &&
+          values.state &&
+          values.city &&
+          values.zip
         return (
           // console.log(props)
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={() => {
+              handleSubmit()
+              handleReset()
+            }}
+          >
             <label htmlFor="fullname" style={{display: 'block'}}>
               Full name
             </label>
+
             <input
               id="fullname"
               placeholder="Enter your full name"
@@ -247,17 +259,15 @@ const CheckoutShipping = () => (
             >
               Reset
             </button>
-            <button type="submit" disabled={isSubmitting}>
+            <button type="submit" disabled={isSubmitting || !isEnabled}>
               Submit
             </button>
 
-            <DisplayFormikState {...props} />
+            {/* <DisplayFormikState {...props} /> */}
           </form>
         )
       }}
     </Formik>
-
-    {/* <MoreResources /> */}
   </div>
 )
 
