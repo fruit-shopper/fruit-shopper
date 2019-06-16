@@ -1,23 +1,14 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {
-  Button,
-  Header,
-  Grid,
-  Image,
-  Container,
-  GridColumn,
-  GridRow,
-  List
-} from 'semantic-ui-react'
+import {Button, Header, Image, Container, List} from 'semantic-ui-react'
 import {getCartProducts, removeProductFromCart} from '../store/cart'
 
 export class Cart extends Component {
   constructor() {
     super()
     this.state = {
-      productRemove: 0
+      // productRemove: 0
     }
     this.handleClick = this.handleClick.bind(this)
   }
@@ -27,20 +18,31 @@ export class Cart extends Component {
     console.log(this.props)
   }
   handleClick(event) {
+    console.log("remove button's product id", event.target.value)
     this.props.removeItem(event.target.value)
   }
   render() {
-    if (!this.props.cartContents || this.props.cartContents.length === 0) {
+    console.log('props', this.props)
+    if (
+      !this.props.cartContents ||
+      this.props.cartContents.length === 0 ||
+      !this.props.cartContents.products ||
+      this.props.cartContents.products.length === 0
+    ) {
       return <div>Your cart is empty! Time to shop!</div>
     }
     return (
       <div id="cartPage">
         <div id="header">
           <Header as="h1">Your Cart</Header>
+          {/* this button is for testing */}
+          <Button primary>
+            <Link to="/checkout">Checkout</Link>
+          </Button>
         </div>
         <Container>
-          <List divided relaxed="true">
-            {this.props.cartContents[0].products.map(product => (
+          <List divided relaxed>
+            {this.props.cartContents.products.map(product => (
               <List.Item key={product.id}>
                 <Image
                   src={product.image}
@@ -69,8 +71,9 @@ export class Cart extends Component {
                   </List.Content> */}
                   <List.Content verticalalign="bottom">
                     <Button
+                      type="submit"
                       value={product.id}
-                      name="productRemove"
+                      // name="productRemove"
                       onClick={this.handleClick}
                     >
                       Remove from Cart
@@ -81,10 +84,6 @@ export class Cart extends Component {
             ))}
           </List>
         </Container>
-        {/* this button is for testing */}
-        <Button primary>
-          <Link to="/checkout">Checkout</Link>
-        </Button>
       </div>
     )
   }
@@ -99,7 +98,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getCartProducts: () => dispatch(getCartProducts()),
-    removeItem: productRemove => dispatch(removeProductFromCart(productRemove))
+    removeItem: productRemoveId =>
+      dispatch(removeProductFromCart(productRemoveId))
   }
 }
 
