@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from './Navbar'
+import Navbar from '../navbar'
 import {
   putProduct,
   fetchProducts,
@@ -12,7 +12,15 @@ class EditProduct extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedProjectId: 0
+      selectedCategoryId: 0,
+      categories: [
+        'tropical',
+        'US-grown',
+        'organic',
+        'gift',
+        'top pick',
+        'in season'
+      ]
     }
     this.handleAssign = this.handleAssign.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -21,36 +29,36 @@ class EditProduct extends React.Component {
   }
 
   // componentDidMount() {
-  //   this.props.fetchInitialRobots()
+  //   this.props.fetchInitialProducts()
   // }
 
   handleSelect = function(evt) {
     this.setState({
-      selectedProjectId: evt.target.value
+      selectedCategoryId: evt.target.value
     })
   }
 
-  handleAssign = function(robotId, projectId) {
-    this.props.assign(robotId, projectId)
+  handleAssign = function(productId, categoryId) {
+    this.props.assign(productId, categoryId)
   }
 
-  handleUnassign = function(robotId, projectId) {
-    this.props.unassign(robotId, projectId)
+  handleUnassign = function(productId, categoryId) {
+    this.props.unassign(productId, categoryId)
   }
 
   handleSubmit(evt) {
     evt.preventDefault()
-    const robotName = evt.target.robotName.value
-    const fuelLevel = evt.target.fuelLevel.value
-    const robotId = evt.target.robotId.value
-    this.props.put({id: robotId, name: robotName, fuelLevel: fuelLevel})
+    const productName = evt.target.productName.value
+    const description = evt.target.description.value
+    const productId = evt.target.productId.value
+    this.props.put({id: productId, name: productName, description: description})
   }
 
   render() {
     // If refresh page instead of click link into the page, robots will be empty, should I fetch robts in componentDidMount()? No, should I fetch robots before mount?
     console.log('this.props: ', this.props)
-    let robotId = this.props.match.params.robotId
-    if (this.props.robots.length === 0) {
+    let productId = this.props.match.params.productId
+    if (this.props.products.length === 0) {
       // sometime there would be a second render after didMount, this branch will ensure that the second render taking over the screen
       return (
         <div>
@@ -60,34 +68,34 @@ class EditProduct extends React.Component {
         </div>
       )
     } else {
-      const robots = this.props.robots
-      const theRobot = robots.find(elem => String(elem.id) === robotId)
+      const products = this.props.products
+      const theProduct = products.find(elem => String(elem.id) === productId)
       return (
-        <div id="editRobotPage">
+        <div id="editProductPage">
           <div id="header">
-            <h1>Edit Robot</h1>
+            <h1>Edit Product</h1>
           </div>
           <Navbar />
           <form onSubmit={this.handleSubmit}>
-            <input type="hidden" name="robotId" value={theRobot.id} />
-            <label htmlFor="robotName">Robot Name:</label>
-            <input type="text" name="robotName" />
-            <label htmlFor="fuelLevel">Fuel Level:</label>
-            <input type="number" name="fuelLevel" />
+            <input type="hidden" name="robotId" value={theProduct.id} />
+            <label htmlFor="productName">Product Name:</label>
+            <input type="text" name="productName" />
+            <label htmlFor="description">Description:</label>
+            <input type="number" name="description" />
             <button type="submit" className="submitButton">
               Save Changes
             </button>
           </form>
           <hr />
-          <div> Projects assigned to {theRobot.name}: </div>
+          <div> Categories assigned to {theProduct.name}: </div>
           <br />
           <select onChange={this.handleSelect}>
             <option value="" disabled selected>
-              Select your project
+              Select your category
             </option>
-            {this.props.projects.map(project => (
-              <option className="option" key={project.id} value={project.id}>
-                {project.title}
+            {this.state.categories.map(cat => (
+              <option className="option" key={cat.id} value={cat.id}>
+                {cat.name}
               </option>
             ))}
           </select>
@@ -114,18 +122,18 @@ class EditProduct extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    robots: state.robots,
-    projects: state.projects
+    products: state.products,
+    categories: state.categories
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
-    fetchInitialRobots: () => dispatch(fetchRobots()),
-    put: robot => dispatch(putRobot(robot)),
-    unassign: (robotId, projectId) =>
-      dispatch(removeRobotAssociation(robotId, projectId)),
-    assign: (robotId, projectId) =>
-      dispatch(createRobotAssociation(robotId, projectId))
+    fetchInitialProducts: () => dispatch(fetchProducts()),
+    put: product => dispatch(putProduct(product)),
+    unassign: (productId, categoryId) =>
+      dispatch(removeProCatAssociation(productId, categoryId)),
+    assign: (productId, categoryId) =>
+      dispatch(createProCatAssociation(productId, categoryId))
   }
 }
 

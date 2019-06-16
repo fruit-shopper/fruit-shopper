@@ -14,18 +14,6 @@ import {Select, Button, Search} from 'semantic-ui-react'
 class AllProducts extends React.Component {
   constructor(props) {
     super(props)
-    this.catOptions = [
-      'tropical',
-      'US-grown',
-      'organic',
-      'gift',
-      'top pick',
-      'in season'
-    ].map(cat => ({
-      key: cat,
-      text: cat,
-      value: cat
-    }))
     this.initialState = {isLoading: false, results: [], value: ''}
 
     this.state = this.initialState
@@ -36,7 +24,7 @@ class AllProducts extends React.Component {
     this.handleResultSelect = this.handleResultSelect.bind(this)
   }
   componentDidMount() {
-    this.props.fetchInitialProducts()
+    // this.props.fetchInitialProducts()
   }
 
   handleDesPriceReorder() {
@@ -98,7 +86,11 @@ class AllProducts extends React.Component {
         <Button onClick={this.handleIncPriceReorder}>Ascending Price</Button>
         <Select
           placeholder="Select by Category"
-          options={this.catOptions}
+          options={this.props.categories.map(cat => ({
+            key: cat.id,
+            text: cat.name,
+            value: cat.name
+          }))}
           onChange={evt => this.handleSelectByCat(evt)}
         />
         <Search
@@ -127,7 +119,8 @@ class AllProducts extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    products: state.products
+    products: state.products,
+    categories: state.categories
   }
 }
 

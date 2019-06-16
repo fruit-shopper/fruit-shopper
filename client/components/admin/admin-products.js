@@ -38,7 +38,7 @@ class AdminProducts extends React.Component {
     this.handleRemove = this.handleRemove.bind(this)
   }
   componentDidMount() {
-    this.props.fetchInitialProducts()
+    // this.props.fetchInitialProducts()
   }
 
   handleDesPriceReorder() {
@@ -104,7 +104,11 @@ class AdminProducts extends React.Component {
         <Button onClick={this.handleIncPriceReorder}>Ascending Price</Button>
         <Select
           placeholder="Select by Category"
-          options={this.catOptions}
+          options={this.props.categories.map(cat => ({
+            key: cat.id,
+            text: cat.name,
+            value: cat.name
+          }))}
           onChange={evt => this.handleSelectByCat(evt)}
         />
         <Search
@@ -135,7 +139,8 @@ class AdminProducts extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    products: state.products
+    products: state.products,
+    categories: state.categories
   }
 }
 
