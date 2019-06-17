@@ -3,40 +3,53 @@ import {Link} from 'react-router-dom'
 import {Button, Grid, Image} from 'semantic-ui-react'
 
 const Products = props => {
-  const {displayedProducts, handleUnassign, orderId, handleAssign} = props
+  const {
+    displayedProducts,
+    handleRemove,
+    handleUnassign,
+    orderId,
+    handleAssign,
+    fromAdmin
+  } = props
   return (
     <Grid columns="equal" className="centered">
       {displayedProducts.map(product => (
         <div key={product.id} className="centered">
           <Grid.Column>
-            <Image src={product.image} alt="image" />
-            <Link to={`/products/${product.id}`}>
-              <h3> {product.name}</h3>
-            </Link>
+            <Image src={product.image} alt="image" size="small" />
+            {fromAdmin ? (
+              <Link to={`/products/edit/${product.id}`}>
+                <h3> {product.name}</h3>
+              </Link>
+            ) : (
+              <Link to={`/products/${product.id}`}>
+                <h3> {product.name}</h3>
+              </Link>
+            )}
             <p>
-              Category:{' '}
+              {' '}
               {product.categories.reduce(
                 (result, elem) => result + '  ' + elem.name,
                 ''
               )}
             </p>
-            <div className="justify-text">{product.description}</div>
+            {fromAdmin ? (
+              <div />
+            ) : (
+              <div className="justify-products">
+                {product.description.substr(0, 80)}
+              </div>
+            )}
             <p>Price: {product.price}</p>
-            {/* <p>Quantity: {product.quantity}</p> */}
+            {fromAdmin ? <p>Quantity: {product.quantity}</p> : <div />}
             <div>
-              {handleAssign ? (
+              {handleRemove ? (
                 <Button
-                  color="green"
-                  onClick={event => handleAssign(product.id)}
+                  color="red"
+                  size="mini"
+                  onClick={event => handleRemove(product.id)}
                 >
-                  Add to Cart
-                </Button>
-              ) : (
-                <div />
-              )}
-              {handleUnassign ? (
-                <Button onClick={event => handleUnassign(orderId, product.id)}>
-                  unassign
+                  Remove
                 </Button>
               ) : (
                 <div />

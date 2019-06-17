@@ -74,7 +74,7 @@ router.post('/', async (req, res, next) => {
 // update product
 router.put('/:productId', async (req, res, next) => {
   try {
-    let theProduct = await Product.findById(req.params.productId)
+    let theProduct = await Product.findByPk(req.params.productId)
     let product = await theProduct.update(req.body)
     res.json(product)
   } catch (error) {
