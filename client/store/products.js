@@ -66,17 +66,6 @@ export const filterByCat = category => {
 }
 
 //define thunk method
-export const filterByCategory = category => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.get('/api/products')
-      dispatch(setProducts(data))
-      dispatch(filterByCat(category))
-    } catch (error) {
-      console.log('Error inside thunk method filterByCategory: ', error)
-    }
-  }
-}
 
 export const fetchProducts = () => {
   return async dispatch => {
@@ -117,18 +106,26 @@ export const putProduct = product => {
   return async dispatch => {
     try {
       const {data} = await axios.put(`/api/products/${product.id}`, product)
-      console.log('returned product by axios put: ', data)
+      // console.log('returned product by axios put: ', data)
       // api code changed by Olga, so use 'data' instead of '{ data }'
       const productWithAssociation = await axios.get(
         `/api/products/${product.id}`
       )
-      console.log(
-        'returned product by axios get with association: ',
-        productWithAssociation
-      )
       dispatch(updateProduct(productWithAssociation))
     } catch (error) {
       console.log('Error inside thunk method putProduct: ', error)
+    }
+  }
+}
+
+export const filterByCategory = category => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get('/api/products')
+      dispatch(setProducts(data))
+      dispatch(filterByCat(category))
+    } catch (error) {
+      console.log('Error inside thunk method filterByCategory: ', error)
     }
   }
 }
