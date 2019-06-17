@@ -6,6 +6,7 @@ import history from '../history'
  */
 const GET_PRODUCT = 'GET_PRODUCT'
 const CREATE_REVIEW = 'CREATE_REVIEW'
+
 // const REMOVE_PRODUCT = 'REMOVE_PRODUCT'
 
 /**
@@ -23,10 +24,27 @@ const getProduct = product => ({
 // const removeProduct = () => ({
 //   type: REMOVE_PRODUCT
 // })
+
 export const addReview = reviewText => {
   return {
     type: CREATE_REVIEW,
     reviewText
+  }
+}
+
+export const createReview = (reviewText, productId) => {
+  return async dispatch => {
+    console.log('1', productId)
+    console.log('2', reviewText)
+    try {
+      const {data} = await axios.post(`/api/products/${productId}`, {
+        reviewText
+      })
+      console.log(data)
+      dispatch(addReview(data))
+    } catch (error) {
+      console.log('Error inside thunk method: ', error)
+    }
   }
 }
 
@@ -44,20 +62,6 @@ export const fetchProduct = productId => {
   }
 }
 
-export const createReview = (reviewText, productId) => {
-  return async dispatch => {
-    console.log('1', productId)
-    console.log('2', reviewText)
-    try {
-      const res = await axios.post(`/api/products/${productId}`, {reviewText})
-
-      dispatch(addReview(res))
-    } catch (error) {
-      console.log('Error inside thunk method: ', error)
-    }
-  }
-}
-
 /**
  * REDUCER
  */
@@ -66,12 +70,11 @@ export default function(state = defaultProduct, action) {
     case GET_PRODUCT:
       return action.product
     // case REMOVE_PRODUCT:
-    //   return defaultUser
-
-    // not sure
     case CREATE_REVIEW:
-      return action.reviewText
+      return {...state, reviews: [...state.reviews, action.reviewText]}
     default:
       return state
   }
 }
+
+// console.log(item)

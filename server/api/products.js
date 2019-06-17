@@ -6,7 +6,7 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      include: [Review, Order, Category]
+      include: [Category]
     })
     res.json(products)
   } catch (error) {
@@ -113,15 +113,17 @@ router.delete('/:productId', async (req, res, next) => {
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 router.post('/:productId', async (req, res, next) => {
   try {
-    console.log('in backend', req.body.reviewText)
+    // console.log('in backend',typeof req.body.reviewText)
+    // console.log(req.user)
 
-    // Review.create({
-    //   review: req.body,
-    //   rating: 1,
-    //   productId: req.params.productId,
-    //   userId:
-    // })
-    // res.json()
+    let newReview = await Review.create({
+      text: req.body.reviewText,
+      rating: 1,
+      productId: req.params.productId,
+      userId: req.user.id
+    })
+    console.log(newReview.dataValues)
+    res.json(newReview.dataValues)
   } catch (err) {
     next(err)
   }

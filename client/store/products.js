@@ -210,6 +210,7 @@ const productReducer = function(state = initialState, action) {
       return state.filter(elem =>
         elem.categories.some(cat => cat.name === action.category)
       )
+
     default:
       return state
   }

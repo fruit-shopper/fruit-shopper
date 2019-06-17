@@ -1,10 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchProduct} from '../store/product'
+import {fetchProduct, createReview} from '../store/product'
 import {Grid, Image, Button, Input, Form, TextArea} from 'semantic-ui-react'
 import Review from './Review'
 import {setQuantityPrice} from '../store/cart'
-import {createReview} from '../store/product'
 import {Link} from 'react-router-dom'
 import {getPastOrdersUser} from '../store/past-orders-user'
 
@@ -55,12 +54,13 @@ class SingleProduct extends Component {
   }
 
   render() {
+    console.log('props in single product ', this.props)
     const {isLoggedIn} = this.props
     // console.log('Single-Product', this.props)
     let status = displayStatus(this.props.product.available)
     const reviews = this.props.product.reviews
     if (reviews === undefined) {
-      return <p>This product has no reviews</p>
+      return <p>This product has no reviews!!!!!!!</p>
     } else if (reviews.length === 0) {
       return <p>This product has no reviws.</p>
     } else {
@@ -69,7 +69,6 @@ class SingleProduct extends Component {
           order.products.map(product => {
             if (product.id === this.props.product.id) {
               madePurchase = true
-              
             }
           })
           console.log(madePurchase)
