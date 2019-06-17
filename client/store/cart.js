@@ -44,7 +44,7 @@ export const getCartProducts = () => {
     try {
       const {data} = await axios.get('/api/cart')
       dispatch(getCart(data))
-      console.log('this is the data', data)
+      // console.log('this is the data', data)
     } catch (error) {
       console.log(error)
     }
@@ -53,7 +53,7 @@ export const getCartProducts = () => {
 
 export const removeProductFromCart = item => {
   return async function(dispatch) {
-    console.log('in delete thunk product id:', item)
+    // console.log('in delete thunk product id:', item)
     try {
       await axios.delete(`/api/cart/${item}`)
       dispatch(removeCartItem(item))
