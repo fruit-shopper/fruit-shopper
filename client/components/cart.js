@@ -109,17 +109,16 @@ export class Cart extends Component {
                   </List.Description>
                 </List.Content>
                 <List.Content floated="right">
-                  <List.Content verticalalign="top">
-                    Quantity: {product.Order_Product.quantity}
-                  </List.Content>
+                  <List.Content verticalalign="top">Quantity:</List.Content>
                   <List.Content>
-                    <Button
+                    {/* <Button
                       onClick={this.handleClickIncrement}
                       value={product.id}
                     >
                       -
                     </Button>
-                    <Button>+</Button>
+                    <Button>+</Button> */}
+
                     <Dropdown
                       onChange={this.handleChange}
                       options={options}

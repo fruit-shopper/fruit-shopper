@@ -7,7 +7,28 @@ router.use(async (req, res, next) => {
   try {
     let order
     //add if the req.session.cart and the user logs in add the user id to the order in the order table
-    if (req.user) {
+    if (req.user && req.session.cart) {
+      // order = await Order.findOne({
+      //   where: {
+      //     userId: req.user.id,
+      //     id: req.session.cart,
+      //     status: 'cart'
+      //   }
+      // })
+      order = await Order.update(
+        {
+          userId: req.user.id
+        },
+        {
+          where: {
+            id: req.session.cart,
+            status: 'cart'
+          }
+        }
+      )
+      console.log('order', order)
+      order = order.dataValues
+    } else if (req.user) {
       order = await Order.findOrCreate({
         where: {
           userId: req.user.id,
@@ -24,14 +45,6 @@ router.use(async (req, res, next) => {
         }
       })
       order = order.dataValues
-      // } else if(req.user && req.session.cart){
-      //     order = await Order.findOne({
-      //       where: {
-      //         userId: req.user,
-      //         id: req.session.cart,
-      //         status: 'cart'
-      //       }
-      //     })
     } else {
       order = await Order.create({
         status: 'cart'
