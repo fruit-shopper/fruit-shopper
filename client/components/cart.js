@@ -1,14 +1,30 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {Button, Header, Image, Container, List} from 'semantic-ui-react'
+import {
+  Button,
+  Header,
+  Image,
+  Container,
+  List,
+  Dropdown
+} from 'semantic-ui-react'
 import {getCartProducts, removeProductFromCart} from '../store/cart'
+
+const options = [
+  {text: '1', value: 1},
+  {text: '2', value: 2},
+  {text: '3', value: 3},
+  {text: '4', value: 4},
+  {text: '5', value: 5},
+  {text: '6', value: 6}
+]
 
 export class Cart extends Component {
   constructor() {
     super()
     this.state = {
-      // productRemove: 0
+      currentQuantity: 0
     }
     this.handleClick = this.handleClick.bind(this)
     this.calculateGrandTotal = this.calculateGrandTotal.bind(this)
@@ -19,8 +35,17 @@ export class Cart extends Component {
     console.log(this.props)
   }
   handleClick(event) {
+    event.preventDefault()
     // console.log("remove button's product id", event.target.value)
     this.props.removeItem(event.target.value)
+  }
+
+  handleChange(event) {
+    event.preventDefault()
+  }
+  handleClickIncrement(event) {
+    event.preventDefault()
+    //call the thunk here
   }
   calculateGrandTotal(cart) {
     let grandTotal = 0
@@ -71,12 +96,28 @@ export class Cart extends Component {
                   <List.Content verticalalign="top">
                     Quantity: {product.Order_Product.quantity}
                   </List.Content>
+                  <List.Content>
+                    <Button
+                      onClick={this.handleClickIncrement}
+                      value={product.id}
+                    >
+                      -
+                    </Button>
+                    <Button>+</Button>
+                    <Dropdown
+                      onChange={this.handleChange}
+                      options={options}
+                      defaultValue={product.Order_Product.quantity}
+                      value={value}
+                    />
+                  </List.Content>
                   {/* <List.Content verticalalign='top'>
                   Price: ${product.price}.00
                   </List.Content> */}
                   {/* Is this price pulled from correct place? Doublecheck with Team. */}
                   <List.Content aligned="left">
                     Subtotal: ${product.price * product.Order_Product.quantity}{' '}
+                    .00
                   </List.Content>
                   <List.Content verticalalign="bottom">
                     <Button
@@ -95,12 +136,15 @@ export class Cart extends Component {
           <h3>
             Your Cart Total: ${this.calculateGrandTotal(
               this.props.cartContents
-            )}
+            )}.00
           </h3>
 
           {/* this button is for testing */}
           <Button>
             <Link to="/checkout">Checkout</Link>
+          </Button>
+          <Button>
+            <Link to="/products">Keep Shopping</Link>
           </Button>
         </Container>
       </div>

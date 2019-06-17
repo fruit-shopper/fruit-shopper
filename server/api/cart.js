@@ -77,6 +77,17 @@ router.delete('/:itemId', async (req, res, next) => {
   }
 })
 
+//edit the quantity
+// router.put('/', async (req, res, next) => {
+//   try {
+//     const currentOrder = await OrderProduct.findOne({
+//       where: {
+//         productId: req.params.productId
+//       }
+//     })
+//   } catch (error) {}
+// })
+
 router.get('/', async (req, res, next) => {
   console.log(req.session.cart)
   try {
