@@ -72,7 +72,7 @@ class EditProduct extends React.Component {
     this.props.unassign(productId, categoryId)
   }
 
-  handleSubmit(evt) {
+  async handleSubmit(evt) {
     evt.preventDefault()
     console.log('this.state: ', this.state)
     // const productName = evt.target.productName.value
@@ -93,8 +93,10 @@ class EditProduct extends React.Component {
     }
     if (this.state.description !== '')
       objToReturn.description = this.state.description
-    console.log('objToReturn: ', objToReturn)
-    this.props.put(objToReturn)
+    // console.log('objToReturn: ', objToReturn)
+    await this.props.put(objToReturn)
+    await this.props.fetchInitialProducts()
+    this.props.toAdminProductsPage('/manageProducts')
   }
 
   render() {
@@ -117,7 +119,6 @@ class EditProduct extends React.Component {
     } else {
       let {name, price, quantity, image, available, description} = this.state
       const products = this.props.products
-      const categories = this.props.categories
       const theProduct = products.find(elem => String(elem.id) === productId)
       return (
         <div>
@@ -130,6 +131,7 @@ class EditProduct extends React.Component {
             <Form.Group>
               <Form.Input
                 required
+                label="Fruit Name:"
                 placeholder={theProduct.name}
                 name="name"
                 value={name}
@@ -137,12 +139,14 @@ class EditProduct extends React.Component {
               />
               <Form.Input
                 placeholder={theProduct.price}
+                label="Price:"
                 name="price"
                 value={price}
                 onChange={this.handleChange}
               />
               <Form.Input
                 placeholder={theProduct.quantity}
+                label="Quantity:"
                 name="quantity"
                 value={quantity}
                 onChange={this.handleChange}
@@ -152,6 +156,7 @@ class EditProduct extends React.Component {
               {/* <Form.Input type="hidden" name="id" value={theProduct.id} onChange={this.handleChange} /> */}
               <Form.Input
                 placeholder={theProduct.image}
+                label="Image Url:"
                 name="image"
                 value={image}
                 onChange={this.handleChange}
@@ -173,22 +178,26 @@ class EditProduct extends React.Component {
                 onChange={this.handleChange}
               />
             </Form.Field>
-            <Button type="submit">Save Changes</Button>
+            <Button type="submit" color="green">
+              Save Changes
+            </Button>
           </Form>
           <hr />
           <div>This product belongs to Category:</div>
           <div>
-            {theProduct.categories.map(cat => (
-              <div key={cat.id}>
-                {cat.name}
-                <Button
-                  size="tiny"
-                  onClick={evt => this.handleUnassign(theProduct.id, cat.id)}
-                >
-                  unassign
-                </Button>
-              </div>
-            ))}
+            {theProduct.categories &&
+              theProduct.categories.map(cat => (
+                <span key={cat.id} className="inline-seperate">
+                  {cat.name}
+                  <Button
+                    color="red"
+                    size="tiny"
+                    onClick={evt => this.handleUnassign(theProduct.id, cat.id)}
+                  >
+                    unassign
+                  </Button>
+                </span>
+              ))}
           </div>
           <br />
           <hr />
@@ -203,6 +212,7 @@ class EditProduct extends React.Component {
             onChange={evt => this.handleSelect(evt)}
           />
           <Button
+            color="green"
             size="tiny"
             onClick={evt =>
               this.handleAssign(theProduct.id, this.selectedCatId)
@@ -222,14 +232,15 @@ const mapStateToProps = state => {
     categories: state.categories
   }
 }
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchInitialProducts: () => dispatch(fetchProducts()),
     put: product => dispatch(putProduct(product)),
     unassign: (productId, categoryId) =>
       dispatch(removeProCatAssociation(productId, categoryId)),
     assign: (productId, categoryId) =>
-      dispatch(createProCatAssociation(productId, categoryId))
+      dispatch(createProCatAssociation(productId, categoryId)),
+    toAdminProductsPage: link => dispatch(() => ownProps.history.push(link))
   }
 }
 

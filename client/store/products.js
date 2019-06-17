@@ -82,6 +82,7 @@ export const createProduct = product => {
   return async dispatch => {
     try {
       const res = await axios.post('/api/products', product)
+      // console.log('retruned data from createProduct: ', res.data)
       dispatch(addProduct(res.data))
     } catch (error) {
       console.log('Error inside thunk method createProducts: ', error)

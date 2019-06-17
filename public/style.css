@@ -32,6 +32,10 @@ form div {
   margin: auto;
 }
 
+.inline-seperate {
+  margin: 2rem;
+}
+
 .margin-right {
   margin-right: 10px;
 }
