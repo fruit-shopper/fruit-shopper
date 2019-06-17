@@ -95,11 +95,10 @@ class SingleProduct extends Component {
               name="quantity"
               onChange={this.handleChange}
             />
-            <Link to="/cart">
-              <Button color="green" type="submit" onClick={this.handleClick}>
-                Add To Cart
-              </Button>
-            </Link>
+
+            <Button color="green" type="submit" onClick={this.handleClick}>
+              Add To Cart
+            </Button>
           </Grid.Column>
           <Grid.Column width={5} />
           <Grid.Row className="ui centered column" width={10}>
