@@ -27,11 +27,11 @@ const Products = props => {
               </Link>
             )}
             <p>
-              {' '}
-              {product.categories.reduce(
-                (result, elem) => result + '  ' + elem.name,
-                ''
-              )}
+              {product.categories &&
+                product.categories.reduce(
+                  (result, elem) => result + elem.name + ', ',
+                  ''
+                )}
             </p>
             {fromAdmin ? (
               <div />
