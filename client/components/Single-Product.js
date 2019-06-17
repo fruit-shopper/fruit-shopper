@@ -41,6 +41,7 @@ class SingleProduct extends Component {
   }
 
   render() {
+    console.log('Single-Product', this.props)
     let status = displayStatus(this.props.product.available)
     const reviews = this.props.product.reviews
     if (reviews === undefined) {
