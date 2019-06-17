@@ -40,10 +40,9 @@ class SingleProduct extends Component {
     const reviews = this.props.product.reviews
     if (reviews === undefined) {
       return <p>This product has no reviews</p>
+    } else if (reviews.length === 0) {
+      return <p>This product has no reviws.</p>
     } else {
-      // if (reviews.length === 0) {
-      //   return <p>This product has no reviws.</p>;
-      // } else {
       return (
         <Grid>
           <Grid.Column width={5} />
