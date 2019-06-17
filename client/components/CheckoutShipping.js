@@ -9,6 +9,7 @@ const states = require('./us_states')
 import CheckoutPayment from './CheckoutPayment'
 
 let proceedToPayment = false
+
 const CheckoutShipping = products => (
   <div className="shipping-adress-form">
     <Header as="h2" textAlign="center">
@@ -71,7 +72,6 @@ const CheckoutShipping = products => (
             onSubmit={() => {
               handleSubmit()
               handleReset()
-              // <CheckoutPayment />
               console.log(props)
               console.log(products)
             }}
