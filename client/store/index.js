@@ -9,6 +9,7 @@ import cart from './cart'
 import pastOrdersUser from './past-orders-user'
 import currentOrdersUser from './current-orders-user'
 import categories from './categories'
+import orders from './orders'
 
 const reducer = combineReducers({
   user,
@@ -17,7 +18,8 @@ const reducer = combineReducers({
   cart,
   pastOrdersUser,
   currentOrdersUser,
-  categories
+  categories,
+  orders
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -28,3 +30,4 @@ export default store
 export * from './user'
 export * from './products'
 export * from './categories'
+export * from './orders'
