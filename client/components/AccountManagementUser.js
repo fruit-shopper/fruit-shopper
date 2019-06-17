@@ -7,13 +7,12 @@ class AccountManagementUser extends Component {
     return (
       <Dropdown text="Manage my account" align="right">
         <Dropdown.Menu>
-          <Dropdown.Item>
-            {' '}
-            <Link to="/open_orders_user">Open Orders</Link>
-          </Dropdown.Item>
-          <Dropdown.Item>
-            <Link to="/past_orders_user">Past Orders</Link>
-          </Dropdown.Item>
+          <Link to="/open_orders_user">
+            <Dropdown.Item> Open Orders</Dropdown.Item>
+          </Link>
+          <Link to="/past_orders_user">
+            <Dropdown.Item>Past Orders</Dropdown.Item>
+          </Link>
         </Dropdown.Menu>
       </Dropdown>
     )
