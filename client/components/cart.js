@@ -98,9 +98,9 @@ export class Cart extends Component {
           </h3>
 
           {/* this button is for testing */}
-          <Button>
-            <Link to="/checkout">Checkout</Link>
-          </Button>
+          <Link to="/checkout">
+            <Button>Checkout</Button>
+          </Link>
         </Container>
       </div>
     )

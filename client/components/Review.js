@@ -15,10 +15,10 @@ export const Review = props => {
       {/* <div className="ui star rating" data-rating="3"></div> */}
       <div className="justify-text">{props.review.text}</div>
       <Divider />
-      {/* <h3 align="right">
+      <h3 align="right">
         Rating:{' '}
         <Rating icon="star" rating={props.review.rating} maxRating={5} />
-      </h3> */}
+      </h3>
     </Container>
   )
 }
