@@ -5,6 +5,7 @@ import {Grid, Image, Button, Input} from 'semantic-ui-react'
 import Review from './Review'
 import {setQuantityPrice} from '../store/cart'
 import {Link} from 'react-router-dom'
+import {getPastOrdersUser} from '../store/past-orders-user'
 
 const displayStatus = status => {
   return status ? '' : 'Currently not available'
@@ -41,6 +42,7 @@ class SingleProduct extends Component {
   }
 
   render() {
+    const {isLoggedIn} = this.props
     console.log('Single-Product', this.props)
     let status = displayStatus(this.props.product.available)
     const reviews = this.props.product.reviews
@@ -49,6 +51,11 @@ class SingleProduct extends Component {
     } else if (reviews.length === 0) {
       return <p>This product has no reviws.</p>
     } else {
+      if (isLoggedIn) {
+        //get users past orders
+        // let userOrders = this.props
+        //check if this product is one of them
+      }
       return (
         <Grid>
           <Grid.Column width={5} />
@@ -89,12 +96,15 @@ class SingleProduct extends Component {
 }
 
 const mapStateToProps = state => ({
+  isLoggedIn: !!state.user.id,
+  pastOrders: state.pastOrdersUser,
   product: state.product
 })
 
 const mapDispatchToProps = dispatch => {
   return {
     loadProduct: productId => dispatch(fetchProduct(productId)),
+    getPastOrdersUser: () => dispatch(getPastOrdersUser()),
     setQuantityPrice: (productId, quantityPrice) =>
       dispatch(setQuantityPrice(productId, quantityPrice))
   }
