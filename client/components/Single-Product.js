@@ -6,6 +6,10 @@ import Review from './Review'
 import {setQuantityPrice} from '../store/cart'
 import {Link} from 'react-router-dom'
 
+const displayStatus = status => {
+  return status ? '' : 'Currently not available'
+}
+
 class SingleProduct extends Component {
   constructor() {
     super()
@@ -37,6 +41,7 @@ class SingleProduct extends Component {
   }
 
   render() {
+    let status = displayStatus(this.props.product.available)
     const reviews = this.props.product.reviews
     if (reviews === undefined) {
       return <p>This product has no reviews</p>
@@ -57,6 +62,7 @@ class SingleProduct extends Component {
             </p>
 
             <p>Price: ${this.props.product.price}</p>
+            <p>{status}</p>
             <Input
               placeholder="Quantity"
               value={this.state.quantity}
