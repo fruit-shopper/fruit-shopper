@@ -24,7 +24,8 @@ const Product = db.define('product', {
   },
   description: {
     type: Sequelize.TEXT,
-    allowNull: false
+    allowNull: false,
+    defaultValue: 'There is no description for this product.'
   },
   image: {
     type: Sequelize.STRING,
