@@ -110,6 +110,23 @@ router.delete('/:productId', async (req, res, next) => {
     next(error)
   }
 })
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+router.post('/:productId', async (req, res, next) => {
+  try {
+    console.log('in backend', req.body.reviewText)
+
+    // Review.create({
+    //   review: req.body,
+    //   rating: 1,
+    //   productId: req.params.productId,
+    //   userId:
+    // })
+    // res.json()
+  } catch (err) {
+    next(err)
+  }
+})
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 router.use((req, res, next) => {
   const err = new Error('API route under /api/products not found!')

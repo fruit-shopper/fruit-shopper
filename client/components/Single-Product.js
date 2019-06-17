@@ -1,29 +1,35 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchProduct} from '../store/product'
-import {Grid, Image, Button, Input} from 'semantic-ui-react'
+import {Grid, Image, Button, Input, Form, TextArea} from 'semantic-ui-react'
 import Review from './Review'
 import {setQuantityPrice} from '../store/cart'
+import {createReview} from '../store/product'
 import {Link} from 'react-router-dom'
 import {getPastOrdersUser} from '../store/past-orders-user'
 
 const displayStatus = status => {
   return status ? '' : 'Currently not available'
 }
+let madePurchase = false
 
 class SingleProduct extends Component {
   constructor() {
     super()
     this.state = {
       quantity: 0,
-      price: 0
+      price: 0,
+      reviewText: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.handleReviewSubmit = this.handleReviewSubmit.bind(this)
   }
+
   componentDidMount() {
     const productId = this.props.match.params.productId
     this.props.loadProduct(productId)
+    this.props.getPastOrdersUser()
   }
 
   handleChange(event) {
@@ -35,15 +41,22 @@ class SingleProduct extends Component {
       price: this.props.product.price
     })
   }
-  handleClick() {
-    event.preventDefault()
+
+  handleReviewSubmit() {
     const productId = this.props.match.params.productId
+    event.preventDefault()
+    this.props.createReview(this.state.reviewText, productId)
+    console.log('in HandlereviewSubmit')
+  }
+  handleClick() {
+    const productId = this.props.match.params.productId
+    event.preventDefault()
     this.props.setQuantityPrice(productId, this.state)
   }
 
   render() {
     const {isLoggedIn} = this.props
-    console.log('Single-Product', this.props)
+    // console.log('Single-Product', this.props)
     let status = displayStatus(this.props.product.available)
     const reviews = this.props.product.reviews
     if (reviews === undefined) {
@@ -52,9 +65,15 @@ class SingleProduct extends Component {
       return <p>This product has no reviws.</p>
     } else {
       if (isLoggedIn) {
-        //get users past orders
-        // let userOrders = this.props
-        //check if this product is one of them
+        this.props.pastOrders.map(order => {
+          order.products.map(product => {
+            if (product.id === this.props.product.id) {
+              madePurchase = true
+              
+            }
+          })
+          console.log(madePurchase)
+        })
       }
       return (
         <Grid>
@@ -85,6 +104,28 @@ class SingleProduct extends Component {
           </Grid.Column>
           <Grid.Column width={5} />
           <Grid.Row className="ui centered column" width={10}>
+            {madePurchase ? (
+              <div className="single-product-review">
+                <Form>
+                  <Form.Field
+                    id="form-textarea-control-opinion"
+                    control={TextArea}
+                    label="Review"
+                    placeholder="Your product review..."
+                    value={this.state.reviewText}
+                    name="reviewText"
+                    onChange={this.handleChange}
+                  />
+                  <Button
+                    className="review-button"
+                    onClick={this.handleReviewSubmit}
+                  >
+                    Submit Review
+                  </Button>
+                </Form>
+              </div>
+            ) : null}
+
             <h3>Product Reviews: </h3>
 
             {reviews.map(review => <Review review={review} key={review.id} />)}
@@ -105,6 +146,8 @@ const mapDispatchToProps = dispatch => {
   return {
     loadProduct: productId => dispatch(fetchProduct(productId)),
     getPastOrdersUser: () => dispatch(getPastOrdersUser()),
+    createReview: (productId, reviewText) =>
+      dispatch(createReview(productId, reviewText)),
     setQuantityPrice: (productId, quantityPrice) =>
       dispatch(setQuantityPrice(productId, quantityPrice))
   }

@@ -131,3 +131,14 @@ button.outline {
   border: 1px solid #aaa;
   color: #555;
 }
+
+.single-product-review {
+  width: 100%;
+  height: 200px;
+  margin: 20px;
+}
+.review-button {
+  position: relative;
+  left: 20px;
+  top: 60px;
+}
