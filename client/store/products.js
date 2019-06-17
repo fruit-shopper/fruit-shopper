@@ -58,7 +58,7 @@ export const filterProducts = filterCriterion => {
   }
 }
 
-export const filterByCategory = category => {
+export const filterByCat = category => {
   return {
     type: FILTER_BY_CATEGORY,
     category
@@ -66,6 +66,18 @@ export const filterByCategory = category => {
 }
 
 //define thunk method
+export const filterByCategory = category => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.get('/api/products')
+      dispatch(setProducts(data))
+      dispatch(filterByCat(category))
+    } catch (error) {
+      console.log('Error inside thunk method filterByCategory: ', error)
+    }
+  }
+}
+
 export const fetchProducts = () => {
   return async dispatch => {
     try {
