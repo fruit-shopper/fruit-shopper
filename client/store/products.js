@@ -103,9 +103,15 @@ export const removeProduct = id => {
 export const putProduct = product => {
   return async dispatch => {
     try {
-      await axios.put(`/api/products/${product.id}`, product)
-      const {productWithAssociation} = await axios.get(
+      const {data} = await axios.put(`/api/products/${product.id}`, product)
+      console.log('returned product by axios put: ', data)
+      // api code changed by Olga, so use 'data' instead of '{ data }'
+      const productWithAssociation = await axios.get(
         `/api/products/${product.id}`
+      )
+      console.log(
+        'returned product by axios get with association: ',
+        productWithAssociation
       )
       dispatch(updateProduct(productWithAssociation))
     } catch (error) {
