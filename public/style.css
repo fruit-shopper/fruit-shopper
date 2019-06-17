@@ -26,8 +26,17 @@ form div {
   margin: auto;
 }
 
+.justify-products {
+  max-width: 200px;
+  text-align: justify;
+  margin: auto;
+}
+
 .margin-right {
   margin-right: 10px;
+}
+.float-right {
+  float: right;
 }
 
 /* .dropdown {
@@ -44,12 +53,17 @@ form div {
 /* added for the form */
 
 .shipping-adress-form {
-  width: 30%;
+  width: 50%;
   margin: 0 auto;
 }
 
 .text-input {
   width: 100%;
+}
+.item-price-checkout {
+  color: purple;
+  padding-left: 5px;
+  padding-right: 20px;
 }
 
 input {

@@ -2,18 +2,31 @@ import _ from 'loadsh'
 import React from 'react'
 // import {Navbar} from '../components'
 import {connect} from 'react-redux'
-import Products from './products'
+import Products from '../products'
 import {
   fetchProducts,
   reorderByDesPrice,
   reorderByIncPrice,
-  filterByCategory
-} from '../store/products'
+  filterByCategory,
+  removeProduct
+} from '../../store/products'
 import {Select, Button, Search} from 'semantic-ui-react'
 
-class AllProducts extends React.Component {
+class AdminProducts extends React.Component {
   constructor(props) {
     super(props)
+    this.catOptions = [
+      'tropical',
+      'US-grown',
+      'organic',
+      'gift',
+      'top pick',
+      'in season'
+    ].map(cat => ({
+      key: cat,
+      text: cat,
+      value: cat
+    }))
     this.initialState = {isLoading: false, results: [], value: ''}
 
     this.state = this.initialState
@@ -22,6 +35,7 @@ class AllProducts extends React.Component {
     this.handleSelectByCat = this.handleSelectByCat.bind(this)
     this.handleSearchChange = this.handleSearchChange.bind(this)
     this.handleResultSelect = this.handleResultSelect.bind(this)
+    this.handleRemove = this.handleRemove.bind(this)
   }
   componentDidMount() {
     // this.props.fetchInitialProducts()
@@ -39,11 +53,15 @@ class AllProducts extends React.Component {
     this.props.filterByCat(evt.target.textContent)
   }
 
+  handleRemove(productId) {
+    this.props.remove(productId)
+  }
+
   handleResultSelect(evt, {result}) {
     // this.setState({value: result.name})
     // console.log('Select result: ', result)
-    let link = `/products/${result.id}`
-    this.props.toSingleProductPage(link)
+    let link = `/products/edit/${result.id}`
+    this.props.toEditProductPage(link)
   }
 
   handleSearchChange = (evt, {value}) => {
@@ -76,9 +94,9 @@ class AllProducts extends React.Component {
 
   render() {
     return (
-      <div id="allProductsPage">
+      <div id="adminProductsPage">
         <div id="header">
-          <h1>All Products</h1>
+          <h1>Manage Products</h1>
         </div>
         {/* <Navbar /> */}
         <hr />
@@ -110,6 +128,8 @@ class AllProducts extends React.Component {
             displayedProducts={this.props.products.filter(
               product => product.available === true
             )}
+            handleRemove={this.handleRemove}
+            fromAdmin={true}
           />
         )}
       </div>
@@ -129,9 +149,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     reorderByDesP: () => dispatch(reorderByDesPrice()),
     reorderByIncP: () => dispatch(reorderByIncPrice()),
     filterByCat: category => dispatch(filterByCategory(category)),
+    remove: productId => dispatch(removeProduct(productId)),
     fetchInitialProducts: () => dispatch(fetchProducts()),
-    toSingleProductPage: link => dispatch(() => ownProps.history.push(link))
+    toEditProductPage: link => dispatch(() => ownProps.history.push(link))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)
+export default connect(mapStateToProps, mapDispatchToProps)(AdminProducts)

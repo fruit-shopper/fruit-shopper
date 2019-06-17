@@ -1,18 +1,19 @@
 /* eslint-disable complexity */
 // Helper styles for demo
 // import {MoreResources, DisplayFormikState} from './helper'
-import {Divider, Form} from 'semantic-ui-react'
+import {Divider, Form, Header} from 'semantic-ui-react'
 import React from 'react'
-// import { render } from 'react-dom';
 import {Formik} from 'formik'
 import * as Yup from 'yup'
+const states = require('./us_states')
+import CheckoutPayment from './CheckoutPayment'
 
-import {withFormik} from 'formik'
-import {connect} from 'react-redux'
-
-const CheckoutShipping = parentProps => (
+let proceedToPayment = false
+const CheckoutShipping = products => (
   <div className="shipping-adress-form">
-    <h1>Enter Shipping address</h1>
+    <Header as="h2" textAlign="center">
+      Enter Shipping address
+    </Header>
 
     <Formik
       initialValues={{
@@ -39,57 +40,7 @@ const CheckoutShipping = parentProps => (
         city: Yup.string().required('State is required'),
         zip: Yup.number().required('Zip code has to be a number value'),
         state: Yup.string('Enter a valid state')
-          .oneOf([
-            'Alabama',
-            'Alaska',
-            'Arizona',
-            'Arkansas',
-            'California',
-            'Colorado ',
-            'Connecticut',
-            'Delaware',
-            'Florida',
-            'Georgia',
-            'Hawaii',
-            'Idaho',
-            'Illinois',
-            'Indiana',
-            'Iowa',
-            'Kansas',
-            'Kentucky',
-            'Louisiana',
-            'Maine',
-            'Maryland',
-            'Massachusetts',
-            'Michigan',
-            'Minnesota',
-            'Mississippi',
-            'Missouri',
-            'Montana Nebraska',
-            'Nevada',
-            'New Hampshire',
-            'New Jersey',
-            'New Mexico',
-            'New York',
-            'North Carolina',
-            'North Dakota',
-            'Ohio',
-            'Oklahoma',
-            'Oregon',
-            'Pennsylvania',
-            'Rhode Island',
-            'South Carolina',
-            'South Dakota',
-            'Tennessee',
-            'Texas',
-            'Utah',
-            'Vermont',
-            'Virginia',
-            'Washington',
-            'West Virginia',
-            'Wisconsin',
-            'Wyoming'
-          ])
+          .oneOf(states)
           .required('Valid state is required.')
       })}
     >
@@ -112,14 +63,17 @@ const CheckoutShipping = parentProps => (
           values.state &&
           values.city &&
           values.zip
-
-        console.log(parentProps)
+        if (proceedToPayment) {
+          return <p>payment</p>
+        }
         return (
           <Form
             onSubmit={() => {
               handleSubmit()
-              // handleReset()
-              // parentProps.history.push('/payment')
+              handleReset()
+              // <CheckoutPayment />
+              console.log(props)
+              console.log(products)
             }}
           >
             <label htmlFor="fullname" style={{display: 'block'}}>

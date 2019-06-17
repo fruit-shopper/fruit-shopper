@@ -19,6 +19,13 @@ const options = [
   {text: '5', value: 5},
   {text: '6', value: 6}
 ]
+export const calculateGrandTotal = cart => {
+  let grandTotal = 0
+  cart.products.map(product => {
+    grandTotal += product.Order_Product.price * product.Order_Product.quantity
+  })
+  return grandTotal
+}
 
 export class Cart extends Component {
   constructor() {
@@ -27,7 +34,7 @@ export class Cart extends Component {
       currentQuantity: 0
     }
     this.handleClick = this.handleClick.bind(this)
-    this.calculateGrandTotal = this.calculateGrandTotal.bind(this)
+    // this.calculateGrandTotal = this.calculateGrandTotal.bind(this)
   }
   componentDidMount() {
     // console.log('comp mounting')
@@ -63,7 +70,6 @@ export class Cart extends Component {
     ) {
       return <div>Your cart is empty! Time to shop!</div>
     }
-    let grandTotal = 0
 
     return (
       <div id="cartPage">
@@ -89,7 +95,7 @@ export class Cart extends Component {
                   {/* <List.Description>Quantity: {product.Order_Product.quantity}</List.Description> */}
                   <List.Description>{product.description}</List.Description>
                   <List.Description verticalalign="bottom">
-                    Price: ${product.price}.00
+                    Price: ${product.Order_Product.price}.00
                   </List.Description>
                 </List.Content>
                 <List.Content floated="right">

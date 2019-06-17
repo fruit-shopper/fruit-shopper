@@ -11,10 +11,15 @@ import {
   PastOrders,
   SingleProduct,
   Cart,
+  AdminProducts,
+  EditProduct,
+  NewProduct,
+  AdminOrders,
+  AdminUsers,
   // AdminHome,
   Checkout
 } from './components'
-import {me} from './store'
+import {me, fetchProducts, fetchCategories} from './store'
 
 /**
  * COMPONENT
@@ -60,13 +65,18 @@ class Routes extends Component {
         {isAdmin && (
           <Switch>
             {/* Routes placed here are only available for admin */}
+            <Route path="/products/new" component={NewProduct} />
+            <Route path="/products/edit/:productId" component={EditProduct} />
             <Route path="/products/:productId" component={SingleProduct} />
             <Route path="/products" component={AllProducts} />
             <Route path="/home" component={UserHome} />
             <Route path="/open_orders_user" component={OpenOrders} />
             <Route path="/past_orders_user" component={PastOrders} />
             <Route path="/cart" component={Cart} />
-            {/* <Route path="/admin" component={AdminHome} /> */}
+            <Route path="/checkout" component={Checkout} />
+            <Route path="/manageProducts" component={AdminProducts} />
+            <Route path="/manageOrders" component={AdminOrders} />
+            <Route path="/manageUsers" component={AdminUsers} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -93,7 +103,8 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
-      // dispatch(fetchProducts())
+      dispatch(fetchProducts())
+      dispatch(fetchCategories())
     }
   }
 }
