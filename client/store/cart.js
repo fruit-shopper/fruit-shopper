@@ -42,9 +42,11 @@ export const setQuantityPrice = (productId, quantityPrice) => {
 export const getCartProducts = () => {
   return async function(dispatch) {
     try {
+      console.log('in the get thunk')
+      //error here
       const {data} = await axios.get('/api/cart')
-      dispatch(getCart(data))
       console.log('response from getCartProducts', data)
+      dispatch(getCart(data))
     } catch (error) {
       console.log(error)
     }
