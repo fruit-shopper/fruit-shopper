@@ -41,10 +41,12 @@ const User = db.define('user', {
   shippingAddress: {
     type: Sequelize.TEXT,
     defaultValue: null
+    //allowNull: true
   },
   billingAddress: {
     type: Sequelize.TEXT,
     defaultValue: null
+    //allowNull: true
   }
 })
 

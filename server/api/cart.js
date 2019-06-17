@@ -6,6 +6,7 @@ module.exports = router
 router.use(async (req, res, next) => {
   try {
     let order
+    //add if the req.session.cart and the user logs in add the user id to the order in the order table
     if (req.user) {
       order = await Order.findOrCreate({
         where: {

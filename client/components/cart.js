@@ -31,15 +31,21 @@ export class Cart extends Component {
   constructor() {
     super()
     this.state = {
-      currentQuantity: 0
+      currentQuantity: 0,
+      productId: '',
+      cartId: ''
     }
     this.handleClick = this.handleClick.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+
     // this.calculateGrandTotal = this.calculateGrandTotal.bind(this)
   }
-  componentDidMount() {
+  async componentDidMount() {
     // console.log('comp mounting')
-    this.props.getCartProducts()
-    console.log(this.props)
+    await this.props.getCartProducts()
+    this.setState({
+      cartId: this.props.cartId
+    })
   }
   handleClick(event) {
     event.preventDefault()
@@ -49,6 +55,10 @@ export class Cart extends Component {
 
   handleChange(event) {
     event.preventDefault()
+    console.log(this.state.currentQuantity)
+    console.log('event', event)
+    console.log('state', this.state)
+    console.log('props', this.props)
   }
   handleClickIncrement(event) {
     event.preventDefault()
@@ -114,7 +124,10 @@ export class Cart extends Component {
                       onChange={this.handleChange}
                       options={options}
                       defaultValue={product.Order_Product.quantity}
-                      value={value}
+                      selection
+                      //need to grab the value clicked and the associated product.id
+                      //value={product.Order_Product.quantity}
+                      //seletedId={product.id}
                     />
                   </List.Content>
                   {/* <List.Content verticalalign='top'>
@@ -161,7 +174,8 @@ export class Cart extends Component {
 const mapStateToProps = state => {
   console.log('in state ', state)
   return {
-    cartContents: state.cart
+    cartContents: state.cart,
+    cartId: state.cart.id
   }
 }
 
