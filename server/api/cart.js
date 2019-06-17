@@ -6,6 +6,7 @@ module.exports = router
 router.use(async (req, res, next) => {
   try {
     let order
+    //add if the req.session.cart and the user logs in add the user id to the order in the order table
     if (req.user) {
       order = await Order.findOrCreate({
         where: {
@@ -76,6 +77,17 @@ router.delete('/:itemId', async (req, res, next) => {
     next(err)
   }
 })
+
+//edit the quantity
+// router.put('/', async (req, res, next) => {
+//   try {
+//     const currentOrder = await OrderProduct.findOne({
+//       where: {
+//         productId: req.params.productId
+//       }
+//     })
+//   } catch (error) {}
+// })
 
 router.get('/', async (req, res, next) => {
   console.log(req.session.cart)
