@@ -24,12 +24,21 @@ router.use(async (req, res, next) => {
         }
       })
       order = order.dataValues
+      // } else if(req.user && req.session.cart){
+      //     order = await Order.findOne({
+      //       where: {
+      //         userId: req.user,
+      //         id: req.session.cart,
+      //         status: 'cart'
+      //       }
+      //     })
     } else {
       order = await Order.create({
         status: 'cart'
       })
       order = order.dataValues
       req.session.cart = order.id
+      console.log('session in the create new cart', req.session)
     }
     req.order = order
     //console.log('order in middleware', order)
@@ -104,6 +113,7 @@ router.get('/', async (req, res, next) => {
         }
       ]
     })
+    console.log('cart from the api request', cartContents)
     res.json(cartContents)
   } catch (error) {
     next(error)
