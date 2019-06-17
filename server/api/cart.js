@@ -15,7 +15,7 @@ router.use(async (req, res, next) => {
       //     status: 'cart'
       //   }
       // })
-      order = await Order.update(
+      const [numAffectedRows, updatedRow] = await Order.update(
         {
           userId: req.user.id
         },
@@ -23,11 +23,13 @@ router.use(async (req, res, next) => {
           where: {
             id: req.session.cart,
             status: 'cart'
-          }
+          },
+          returning: true,
+          plain: true
         }
       )
-      console.log('order', order)
-      order = order.dataValues
+      console.log('updatedRow', updatedRow)
+      order = updatedRow.dataValues
     } else if (req.user) {
       order = await Order.findOrCreate({
         where: {
