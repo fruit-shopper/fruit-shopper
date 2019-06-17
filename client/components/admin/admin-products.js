@@ -8,7 +8,7 @@ import {
   reorderByDesPrice,
   reorderByIncPrice,
   filterByCategory,
-  removeProduct
+  putProduct
 } from '../../store/products'
 import {Select, Button, Search} from 'semantic-ui-react'
 
@@ -54,8 +54,10 @@ class AdminProducts extends React.Component {
     this.props.filterByCat(evt.target.textContent)
   }
 
-  handleRemove(productId) {
-    this.props.remove(productId)
+  handleRemove(product) {
+    // NOT real remove from DB, ONLY UPDATE "available" to false
+    product.available = false
+    this.props.remove(product)
   }
 
   handleNewProduct(evt) {
@@ -157,7 +159,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     reorderByDesP: () => dispatch(reorderByDesPrice()),
     reorderByIncP: () => dispatch(reorderByIncPrice()),
     filterByCat: category => dispatch(filterByCategory(category)),
-    remove: productId => dispatch(removeProduct(productId)),
+    remove: product => dispatch(putProduct(product)),
     fetchInitialProducts: () => dispatch(fetchProducts()),
     toEditProductPage: link => dispatch(() => ownProps.history.push(link)),
     toNewProductPage: link => dispatch(() => ownProps.history.push(link))
