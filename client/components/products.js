@@ -47,7 +47,7 @@ const Products = props => {
                 <Button
                   color="red"
                   size="mini"
-                  onClick={event => handleRemove(product.id)}
+                  onClick={event => handleRemove(product)}
                 >
                   Remove
                 </Button>
