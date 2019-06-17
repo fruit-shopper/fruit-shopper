@@ -36,6 +36,7 @@ class AdminProducts extends React.Component {
     this.handleSearchChange = this.handleSearchChange.bind(this)
     this.handleResultSelect = this.handleResultSelect.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
+    this.handleNewProduct = this.handleNewProduct.bind(this)
   }
   componentDidMount() {
     // this.props.fetchInitialProducts()
@@ -55,6 +56,10 @@ class AdminProducts extends React.Component {
 
   handleRemove(productId) {
     this.props.remove(productId)
+  }
+
+  handleNewProduct(evt) {
+    this.props.toNewProductPage('/products/new')
   }
 
   handleResultSelect(evt, {result}) {
@@ -111,6 +116,9 @@ class AdminProducts extends React.Component {
           }))}
           onChange={evt => this.handleSelectByCat(evt)}
         />
+        <Button onClick={this.handleNewProduct} color="green">
+          New Product
+        </Button>
         <Search
           loading={this.state.isLoading}
           onResultSelect={this.handleResultSelect}
@@ -151,7 +159,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     filterByCat: category => dispatch(filterByCategory(category)),
     remove: productId => dispatch(removeProduct(productId)),
     fetchInitialProducts: () => dispatch(fetchProducts()),
-    toEditProductPage: link => dispatch(() => ownProps.history.push(link))
+    toEditProductPage: link => dispatch(() => ownProps.history.push(link)),
+    toNewProductPage: link => dispatch(() => ownProps.history.push(link))
   }
 }
 
