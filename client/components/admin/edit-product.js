@@ -95,6 +95,7 @@ class EditProduct extends React.Component {
       objToReturn.description = this.state.description
     // console.log('objToReturn: ', objToReturn)
     await this.props.put(objToReturn)
+    await this.props.fetchInitialProducts()
     this.props.toAdminProductsPage('/manageProducts')
   }
 
