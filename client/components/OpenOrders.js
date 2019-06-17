@@ -11,7 +11,7 @@ class CurrentOrders extends Component {
   }
   render() {
     if (!this.props.currentOrders || this.props.currentOrders.length === 0) {
-      return <div>The are no past orders in your order history.</div>
+      return <div>The are no open orders in your order history.</div>
     } else {
       let currentOrdersList = this.props.currentOrders
       return (
