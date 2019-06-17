@@ -26,6 +26,7 @@ class EditProduct extends React.Component {
       {key: 'f', text: 'No', value: 'False'}
     ]
     this.productId = 0
+    this.selectedCatId = 0
     this.state = {
       name: '',
       price: '',
@@ -55,12 +56,15 @@ class EditProduct extends React.Component {
   }
 
   handleSelect = function(evt) {
-    this.setState({
-      selectedCategoryId: evt.target.value
-    })
+    const selectedCats = this.props.categories.filter(
+      elem => elem.name === evt.target.textContent
+    )
+    this.selectedCatId = selectedCats[0].id
   }
 
   handleAssign = function(productId, categoryId) {
+    // console.log('productId: ', productId)
+    // console.log('categoryId: ', categoryId)
     this.props.assign(productId, categoryId)
   }
 
@@ -171,54 +175,43 @@ class EditProduct extends React.Component {
             </Form.Field>
             <Button type="submit">Save Changes</Button>
           </Form>
+          <hr />
+          <div>This product belongs to Category:</div>
+          <div>
+            {theProduct.categories.map(cat => (
+              <div key={cat.id}>
+                {cat.name}
+                <Button
+                  size="tiny"
+                  onClick={evt => this.handleUnassign(theProduct.id, cat.id)}
+                >
+                  unassign
+                </Button>
+              </div>
+            ))}
+          </div>
+          <br />
+          <hr />
+          <div>Assign Categories for this products:</div>
+          <Select
+            placeholder="Select a Category to assign"
+            options={this.props.categories.map(cat => ({
+              key: cat.id,
+              text: cat.name,
+              value: cat.name
+            }))}
+            onChange={evt => this.handleSelect(evt)}
+          />
+          <Button
+            size="tiny"
+            onClick={evt =>
+              this.handleAssign(theProduct.id, this.selectedCatId)
+            }
+          >
+            Assign
+          </Button>
         </div>
       )
-      // return (
-      //   <div id="editProductPage">
-      //     <div id="header">
-      //       <h1>Edit Product</h1>
-      //     </div>
-      //     <Navbar />
-      //     <form onSubmit={this.handleSubmit}>
-      //       <input type="hidden" name="robotId" value={theProduct.id} />
-      //       <label htmlFor="productName">Product Name:</label>
-      //       <input type="text" name="productName" />
-      //       <label htmlFor="description">Description:</label>
-      //       <input type="number" name="description" />
-      //       <button type="submit" className="submitButton">
-      //         Save Changes
-      //       </button>
-      //     </form>
-      //     <hr />
-      //     <div> Categories assigned to {theProduct.name}: </div>
-      //     <br />
-      //     <select onChange={this.handleSelect}>
-      //       <option value="" disabled selected>
-      //         Select your category
-      //       </option>
-      //       {this.state.categories.map(cat => (
-      //         <option className="option" key={cat.id} value={cat.id}>
-      //           {cat.name}
-      //         </option>
-      //       ))}
-      //     </select>
-      //     <button
-      //       type="button"
-      //       className="submitButton"
-      //       onClick={event =>
-      //         this.handleAssign(robotId, this.state.selectedProjectId)
-      //       }
-      //     >
-      //       Assign
-      //     </button>
-      //     <hr />
-      //     <Projects
-      //       displayedProjects={theRobot.projects}
-      //       robotId={robotId}
-      //       handleUnassign={this.handleUnassign}
-      //     />
-      //   </div>
-      // )
     }
   }
 }
