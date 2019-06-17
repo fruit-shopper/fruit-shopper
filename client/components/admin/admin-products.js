@@ -15,18 +15,6 @@ import {Select, Button, Search} from 'semantic-ui-react'
 class AdminProducts extends React.Component {
   constructor(props) {
     super(props)
-    this.catOptions = [
-      'tropical',
-      'US-grown',
-      'organic',
-      'gift',
-      'top pick',
-      'in season'
-    ].map(cat => ({
-      key: cat,
-      text: cat,
-      value: cat
-    }))
     this.initialState = {isLoading: false, results: [], value: ''}
 
     this.state = this.initialState

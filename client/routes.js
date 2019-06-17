@@ -19,7 +19,7 @@ import {
   // AdminHome,
   Checkout
 } from './components'
-import {me, fetchProducts, fetchCategories} from './store'
+import {me, fetchProducts, fetchCategories, fetchOrders} from './store'
 
 /**
  * COMPONENT
@@ -105,6 +105,7 @@ const mapDispatch = dispatch => {
       dispatch(me())
       dispatch(fetchProducts())
       dispatch(fetchCategories())
+      dispatch(fetchOrders())
     }
   }
 }
