@@ -21,7 +21,13 @@ import {
   ResetPasswordFrom,
   SingleOrder
 } from './components'
-import {me, fetchProducts, fetchCategories, fetchOrders} from './store'
+import {
+  me,
+  fetchProducts,
+  fetchCategories,
+  fetchOrders,
+  fetchUsers
+} from './store'
 
 /**
  * COMPONENT
@@ -109,6 +115,7 @@ const mapDispatch = dispatch => {
       dispatch(fetchProducts())
       dispatch(fetchCategories())
       dispatch(fetchOrders())
+      dispatch(fetchUsers())
     }
   }
 }

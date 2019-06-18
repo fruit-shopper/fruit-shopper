@@ -28,7 +28,8 @@ class ResetPasswordForm extends React.Component {
     } else {
       this.props.updateUser({
         id: this.props.user.id,
-        password: password1
+        password: password1,
+        reset: false
       })
       this.props.toPage('/home')
     }
