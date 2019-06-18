@@ -8,6 +8,7 @@ const UPDATE_ORDER = 'UPDATE_ORDER'
 const REORDER_DES_TIME = 'REORDER_DES_TIME'
 const REORDER_INC_TIME = 'REORDER_INC_TIME'
 const FILTER_BY_STATUS = 'FILTER_BY_STATUS'
+const UPDATE_ORDER_STATUS_CREATED = 'UPDATE_ORDER_STATUS_CREATED'
 
 // define action creator
 export const setOrders = orders => {
@@ -53,6 +54,13 @@ export const reorderByIncTime = () => {
 export const filterBySt = status => {
   return {
     type: FILTER_BY_STATUS,
+    status
+  }
+}
+
+export const updateOrderStatusCreated = status => {
+  return {
+    type: UPDATE_ORDER_STATUS_CREATED,
     status
   }
 }
@@ -115,6 +123,16 @@ export const filterByStatus = status => {
     }
   }
 }
+export const updateOrderToCreated = orderId => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.put(`/api/orders/checkout/${orderId}`)
+      dispatch(updateOrderStatusCreated(data))
+    } catch (error) {
+      console.log('Error inside thunk method update order to created ', error)
+    }
+  }
+}
 
 // define initial state
 const initialState = []
@@ -147,6 +165,7 @@ const orderReducer = function(state = initialState, action) {
       })()
     case FILTER_BY_STATUS:
       return state.filter(elem => elem.status === action.status)
+
     default:
       return state
   }

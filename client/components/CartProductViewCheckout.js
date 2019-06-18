@@ -4,6 +4,7 @@ import {getCartProducts} from '../store/cart'
 import {Divider, Header, Image, Item, Button, Icon} from 'semantic-ui-react'
 import CheckoutShipping from './CheckoutShipping'
 import {calculateGrandTotal} from './cart'
+import {updateOrderToCreated} from '../store/orders'
 // import {updateOrderStatus} from './current-orders-user.js'
 import {Link} from 'react-router-dom'
 
@@ -62,7 +63,10 @@ class CartProductViewCheckout extends Component {
           Your Cart Total: ${calculateGrandTotal(this.props.cartContents)}
         </h4>
         <Divider hidden />
-        <CheckoutShipping products={this.props.cartContents} />
+        <CheckoutShipping
+          products={this.props.cartContents}
+          updateStatus={this.props.updateOrderToCreated}
+        />
       </div>
     )
   }
@@ -76,8 +80,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCartProducts: () => dispatch(getCartProducts())
-
+    getCartProducts: () => dispatch(getCartProducts()),
+    updateOrderToCreated: orderId => dispatch(updateOrderToCreated(orderId))
     // updateCustomerShippingInfo: (customerId) => dipatch(updateCustomerShippingInfo)
     // updateOrderStatus: (orderId) => dispatch(updateOrderStatus)
   }
