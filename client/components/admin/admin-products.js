@@ -10,12 +10,13 @@ import {
   filterByCategory,
   putProduct
 } from '../../store/products'
-import {Select, Button, Search} from 'semantic-ui-react'
+import {Select, Button, Search, Pagination} from 'semantic-ui-react'
 
 class AdminProducts extends React.Component {
   constructor(props) {
     super(props)
-    this.initialState = {isLoading: false, results: [], value: ''}
+    this.numberPerPage = 16
+    this.initialState = {isLoading: false, results: [], value: '', page: 1}
 
     this.state = this.initialState
     this.handleDesPriceReorder = this.handleDesPriceReorder.bind(this)
@@ -25,9 +26,15 @@ class AdminProducts extends React.Component {
     this.handleResultSelect = this.handleResultSelect.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
     this.handleNewProduct = this.handleNewProduct.bind(this)
+    this.handlePageChange = this.handlePageChange.bind(this)
   }
   componentDidMount() {
     // this.props.fetchInitialProducts()
+  }
+
+  handlePageChange(evt, data) {
+    // console.log('data: ', data)
+    this.setState({page: data.activePage})
   }
 
   handleDesPriceReorder() {
@@ -90,46 +97,59 @@ class AdminProducts extends React.Component {
   render() {
     return (
       <div id="adminProductsPage">
-        <div id="header">
-          <h1>Manage Products</h1>
-        </div>
-        {/* <Navbar /> */}
-        <hr />
-        <Button onClick={this.handleDesPriceReorder}>Decending Price</Button>
-        <Button onClick={this.handleIncPriceReorder}>Ascending Price</Button>
-        <Select
-          placeholder="Select by Category"
-          options={this.props.categories.map(cat => ({
-            key: cat.id,
-            text: cat.name,
-            value: cat.name
-          }))}
-          onChange={evt => this.handleSelectByCat(evt)}
-        />
-        <Button onClick={this.handleNewProduct} color="green">
-          New Product
-        </Button>
-        <Search
-          loading={this.state.isLoading}
-          onResultSelect={this.handleResultSelect}
-          onSearchChange={_.debounce(this.handleSearchChange, 500, {
-            leading: true
-          })}
-          results={this.state.results}
-          value={this.state.value}
-        />
-        <hr />
-        {!this.props.products || this.props.products.length === 0 ? (
-          <div>No Products!</div>
-        ) : (
-          <Products
-            displayedProducts={this.props.products.filter(
-              product => product.available === true
-            )}
-            handleRemove={this.handleRemove}
-            fromAdmin={true}
+        <div>
+          <div id="header">
+            <h1>Manage Products</h1>
+          </div>
+          {/* <Navbar /> */}
+          <hr />
+          <Button onClick={this.handleDesPriceReorder}>Decending Price</Button>
+          <Button onClick={this.handleIncPriceReorder}>Ascending Price</Button>
+          <Select
+            placeholder="Select by Category"
+            options={this.props.categories.map(cat => ({
+              key: cat.id,
+              text: cat.name,
+              value: cat.name
+            }))}
+            onChange={evt => this.handleSelectByCat(evt)}
           />
-        )}
+          <Button onClick={this.handleNewProduct} color="green">
+            New Product
+          </Button>
+          <Search
+            loading={this.state.isLoading}
+            onResultSelect={this.handleResultSelect}
+            onSearchChange={_.debounce(this.handleSearchChange, 500, {
+              leading: true
+            })}
+            results={this.state.results}
+            value={this.state.value}
+          />
+          <hr />
+          {!this.props.products || this.props.products.length === 0 ? (
+            <div>No Products!</div>
+          ) : (
+            <Products
+              displayedProducts={this.props.products
+                .filter(product => product.available === true)
+                .slice(
+                  this.numberPerPage * (this.state.page - 1),
+                  this.numberPerPage * this.state.page
+                )}
+              handleRemove={this.handleRemove}
+              fromAdmin={true}
+            />
+          )}
+        </div>
+        <Pagination
+          defaultActivePage={1}
+          totalPages={Math.ceil(
+            this.props.products.filter(product => product.available === true)
+              .length / this.numberPerPage
+          )}
+          onPageChange={this.handlePageChange}
+        />
       </div>
     )
   }

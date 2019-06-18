@@ -2,7 +2,7 @@ import React from 'react'
 // import {Navbar} from '../components'
 import {connect} from 'react-redux'
 import {fetchUsers, filterByType, removeUser, putUser} from '../../store/users'
-import {Select, Button, Search} from 'semantic-ui-react'
+import {Select, Button, Search, Grid} from 'semantic-ui-react'
 
 class AdminUsers extends React.Component {
   constructor(props) {
@@ -37,58 +37,56 @@ class AdminUsers extends React.Component {
         {!this.props.users || this.props.users.length === 0 ? (
           <div>No Users!</div>
         ) : (
-          <ul>
+          <Grid columns={7} divided>
             {this.props.users.map(elem => (
-              <li key={elem.id}>
-                <span className="inline-seperate">User ID: {elem.id}</span>
-                <span className="inline-seperate">Email: {elem.email}</span>
-                <span className="inline-seperate">
+              <Grid.Row key={elem.id}>
+                <Grid.Column>User ID: {elem.id}</Grid.Column>
+                <Grid.Column>Email: {elem.email}</Grid.Column>
+                <Grid.Column>
                   Created: {elem.createdAt.substring(0, 10)}
-                </span>
-                <span className="inline-seperate">
+                </Grid.Column>
+                <Grid.Column>
                   Updated: {elem.updatedAt.substring(0, 10)}
-                </span>
-                <span className="inline-seperate">Delete user:</span>
-                <Button
-                  className="inline-seperate"
-                  size="mini"
-                  color="red"
-                  onClick={event => this.handleRemove(elem.id)}
-                >
-                  Remove
-                </Button>
-                {elem.admin && (
-                  <Button className="inline-seperate" size="mini">
-                    Admin User
-                  </Button>
-                )}
-                {!elem.admin && (
+                </Grid.Column>
+                <Grid.Column>
+                  {elem.admin ? (
+                    <Button size="mini">Admin User</Button>
+                  ) : (
+                    <Button
+                      size="mini"
+                      color="green"
+                      onClick={() => this.handlePromote(elem.id)}
+                    >
+                      Promote to Admin
+                    </Button>
+                  )}
+                </Grid.Column>
+                <Grid.Column>
+                  {elem.reset ? (
+                    <Button size="mini" color="orange">
+                      Password Reseting needed
+                    </Button>
+                  ) : (
+                    <Button
+                      size="mini"
+                      onClick={event => this.handleReset(elem.id)}
+                    >
+                      Mark as to be reset
+                    </Button>
+                  )}
+                </Grid.Column>
+                <Grid.Column>
                   <Button
-                    className="inline-seperate"
                     size="mini"
-                    color="green"
-                    onClick={() => this.handlePromote(elem.id)}
+                    color="red"
+                    onClick={event => this.handleRemove(elem.id)}
                   >
-                    Promote to Admin
+                    Remove
                   </Button>
-                )}
-                {elem.reset && (
-                  <Button className="inline-seperate" size="mini">
-                    Password need Reset
-                  </Button>
-                )}
-                {!elem.reset && (
-                  <Button
-                    className="inline-seperate"
-                    size="mini"
-                    onClick={event => this.handleReset(elem.id)}
-                  >
-                    Mark to Reset
-                  </Button>
-                )}
-              </li>
+                </Grid.Column>
+              </Grid.Row>
             ))}
-          </ul>
+          </Grid>
         )}
       </div>
     )

@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {auth} from '../store'
 import {Button, Input} from 'semantic-ui-react'
 import {withRouter} from 'react-router'
-import {putUser} from '../store/users'
+import {putUser, fetchUsers} from '../store/users'
 
 /**
  * COMPONENT
@@ -31,6 +31,7 @@ class ResetPasswordForm extends React.Component {
         password: password1,
         reset: false
       })
+      // this.props.fetchInitialUsers()
       this.props.toPage('/home')
     }
   }
@@ -94,7 +95,8 @@ const mapState = state => {
 const mapDispatch = (dispatch, ownProps) => {
   return {
     updateUser: user => dispatch(putUser(user)),
-    toPage: link => dispatch(() => ownProps.history.push(link))
+    toPage: link => dispatch(() => ownProps.history.push(link)),
+    fetchInitialUsers: () => dispatch(() => fetchUsers())
   }
 }
 

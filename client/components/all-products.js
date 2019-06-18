@@ -9,12 +9,13 @@ import {
   reorderByIncPrice,
   filterByCategory
 } from '../store/products'
-import {Select, Button, Search} from 'semantic-ui-react'
+import {Select, Button, Search, Pagination} from 'semantic-ui-react'
 
 class AllProducts extends React.Component {
   constructor(props) {
     super(props)
-    this.initialState = {isLoading: false, results: [], value: ''}
+    this.numberPerPage = 12
+    this.initialState = {isLoading: false, results: [], value: '', page: 1}
 
     this.state = this.initialState
     this.handleDesPriceReorder = this.handleDesPriceReorder.bind(this)
@@ -22,9 +23,15 @@ class AllProducts extends React.Component {
     this.handleSelectByCat = this.handleSelectByCat.bind(this)
     this.handleSearchChange = this.handleSearchChange.bind(this)
     this.handleResultSelect = this.handleResultSelect.bind(this)
+    this.handlePageChange = this.handlePageChange.bind(this)
   }
   componentDidMount() {
     // this.props.fetchInitialProducts()
+  }
+
+  handlePageChange(evt, data) {
+    // console.log('data: ', data)
+    this.setState({page: data.activePage})
   }
 
   handleDesPriceReorder() {
@@ -36,6 +43,7 @@ class AllProducts extends React.Component {
   }
 
   handleSelectByCat(evt) {
+    this.setState({page: 1})
     this.props.filterByCat(evt.target.textContent)
   }
 
@@ -77,41 +85,54 @@ class AllProducts extends React.Component {
   render() {
     return (
       <div id="allProductsPage">
-        <div id="header">
-          <h1>All Products</h1>
-        </div>
-        {/* <Navbar /> */}
-        <hr />
-        <Button onClick={this.handleDesPriceReorder}>Decending Price</Button>
-        <Button onClick={this.handleIncPriceReorder}>Ascending Price</Button>
-        <Select
-          placeholder="Select by Category"
-          options={this.props.categories.map(cat => ({
-            key: cat.id,
-            text: cat.name,
-            value: cat.name
-          }))}
-          onChange={evt => this.handleSelectByCat(evt)}
-        />
-        <Search
-          loading={this.state.isLoading}
-          onResultSelect={this.handleResultSelect}
-          onSearchChange={_.debounce(this.handleSearchChange, 500, {
-            leading: true
-          })}
-          results={this.state.results}
-          value={this.state.value}
-        />
-        <hr />
-        {!this.props.products || this.props.products.length === 0 ? (
-          <div>No Products!</div>
-        ) : (
-          <Products
-            displayedProducts={this.props.products.filter(
-              product => product.available === true
-            )}
+        <div>
+          <div id="header">
+            <h1>All Products</h1>
+          </div>
+          {/* <Navbar /> */}
+          <hr />
+          <Button onClick={this.handleDesPriceReorder}>Decending Price</Button>
+          <Button onClick={this.handleIncPriceReorder}>Ascending Price</Button>
+          <Select
+            placeholder="Select by Category"
+            options={this.props.categories.map(cat => ({
+              key: cat.id,
+              text: cat.name,
+              value: cat.name
+            }))}
+            onChange={evt => this.handleSelectByCat(evt)}
           />
-        )}
+          <Search
+            loading={this.state.isLoading}
+            onResultSelect={this.handleResultSelect}
+            onSearchChange={_.debounce(this.handleSearchChange, 500, {
+              leading: true
+            })}
+            results={this.state.results}
+            value={this.state.value}
+          />
+          <hr />
+          {!this.props.products || this.props.products.length === 0 ? (
+            <div>No Products!</div>
+          ) : (
+            <Products
+              displayedProducts={this.props.products
+                .filter(product => product.available === true)
+                .slice(
+                  this.numberPerPage * (this.state.page - 1),
+                  this.numberPerPage * this.state.page
+                )}
+            />
+          )}
+        </div>
+        <Pagination
+          defaultActivePage={1}
+          totalPages={Math.ceil(
+            this.props.products.filter(product => product.available === true)
+              .length / this.numberPerPage
+          )}
+          onPageChange={this.handlePageChange}
+        />
       </div>
     )
   }
