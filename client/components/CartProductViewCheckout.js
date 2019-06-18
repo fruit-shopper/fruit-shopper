@@ -5,21 +5,28 @@ import {getCartProducts} from '../store/cart'
 import {Divider, Header, Image, Item, Button, Icon} from 'semantic-ui-react'
 import CheckoutShipping from './CheckoutShipping'
 import {calculateGrandTotal} from './cart'
-import {Link} from 'react-router-dom'
+import {updateOrderToCreated} from '../store/orders'
+// import {updateOrderStatus} from './current-orders-user.js'
+import {Link, withRouter} from 'react-router-dom'
 
 class CartProductViewCheckout extends Component {
   componentDidMount() {
     this.props.getCartProducts()
   }
+  //create a function to pass down to component
+  //it needs to dispatch an action to:
+  // write customer shipping/billing address to database
+  // change order status to processing
 
   render() {
+    console.log('Where is history ', this.props)
     if (
       !this.props.cartContents ||
       this.props.cartContents.length === 0 ||
       !this.props.cartContents.products ||
       this.props.cartContents.products.length === 0
     ) {
-      return <div>Cart is loading...</div>
+      return <div>There are no products in cart</div>
     }
 
     return (
@@ -58,7 +65,11 @@ class CartProductViewCheckout extends Component {
           Your Cart Total: ${calculateGrandTotal(this.props.cartContents)}
         </h4>
         <Divider hidden />
-        <CheckoutShipping products={this.props.cartContents} />
+        <CheckoutShipping
+          products={this.props.cartContents}
+          updateStatus={this.props.updateOrderToCreated}
+          history={this.props.history}
+        />
       </div>
     )
   }
@@ -72,11 +83,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCartProducts: () => dispatch(getCartProducts())
-    // recordShippingAddress: (shippingInfo) => dispatch(recordShippingAddress(shippingInfo))
+    getCartProducts: () => dispatch(getCartProducts()),
+    updateOrderToCreated: (orderId, address) =>
+      dispatch(updateOrderToCreated(orderId, address))
+    // updateCustomerShippingInfo: (customerId) => dipatch(updateCustomerShippingInfo)
+    // updateOrderStatus: (orderId) => dispatch(updateOrderStatus)
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  CartProductViewCheckout
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(CartProductViewCheckout)
 )

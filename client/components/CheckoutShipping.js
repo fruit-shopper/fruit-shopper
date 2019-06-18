@@ -5,10 +5,12 @@ import {Divider, Form, Header} from 'semantic-ui-react'
 import React from 'react'
 import {Formik} from 'formik'
 import * as Yup from 'yup'
+// import {connect} from 'react-redux'
 const states = require('./us_states')
-import CheckoutPayment from './CheckoutPayment'
+// import CheckoutPayment from './CheckoutPayment'
 
 let proceedToPayment = false
+
 const CheckoutShipping = products => (
   <div className="shipping-adress-form">
     <Header as="h2" textAlign="center">
@@ -28,6 +30,7 @@ const CheckoutShipping = products => (
       onSubmit={(values, {setSubmitting}) => {
         setTimeout(() => {
           // alert(JSON.stringify(values, null, 2));
+
           setSubmitting(false)
         }, 500)
       }}
@@ -66,14 +69,32 @@ const CheckoutShipping = products => (
         if (proceedToPayment) {
           return <p>payment</p>
         }
+
+        function handleSubmitShipping(parentProps, props) {
+          let address =
+            props.values.address +
+            ',' +
+            props.values.city +
+            ',' +
+            props.values.state +
+            ' ' +
+            props.values.zip
+          // console.log(address)
+          // console.log('>>>>>>>> ',  val)
+          parentProps.updateStatus(parentProps.products.id, address)
+        }
+
+        // console.log('PROPS==> ', products)
         return (
           <Form
-            onSubmit={() => {
+            onSubmit={async () => {
               handleSubmit()
+
+              await handleSubmitShipping(products, props)
+              // console.log('PRODUCTS: !!!!!!!',products)
+              // handleSubmitShipping(products, props)
               handleReset()
-              // <CheckoutPayment />
-              console.log(props)
-              console.log(products)
+              products.history.push('/payment')
             }}
           >
             <label htmlFor="fullname" style={{display: 'block'}}>
@@ -243,4 +264,11 @@ const CheckoutShipping = products => (
   </div>
 )
 
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     updateOrderToCreated: (orderId)=> dispatch(updateOrderToCreated(orderId)),
+//   }
+// }
+
 export default CheckoutShipping
+// export default connect(null, mapDispatchToProps)(CheckoutShipping)
