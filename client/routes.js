@@ -19,7 +19,8 @@ import {
   // AdminHome,
   Checkout,
   ResetPasswordFrom,
-  SingleOrder
+  SingleOrder,
+  Payment
 } from './components'
 import {
   me,
@@ -53,6 +54,7 @@ class Routes extends Component {
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
               <Route path="/checkout" component={Checkout} />
+              <Route path="/payment" component={Payment} />
             </Switch>
           )}
         {isLoggedIn &&
@@ -66,6 +68,7 @@ class Routes extends Component {
               <Route path="/past_orders_user" component={PastOrders} />
               <Route path="/cart" component={Cart} />
               <Route path="/checkout" component={Checkout} />
+              <Route path="/payment" component={Payment} />
               <Route path="/reset_password" component={ResetPasswordFrom} />
             </Switch>
           )}
@@ -82,6 +85,7 @@ class Routes extends Component {
             <Route path="/past_orders_user" component={PastOrders} />
             <Route path="/cart" component={Cart} />
             <Route path="/checkout" component={Checkout} />
+            <Route path="/payment" component={Payment} />
             <Route path="/manageProducts" component={AdminProducts} />
             <Route path="/manageOrders" component={AdminOrders} />
             <Route path="/manageUsers" component={AdminUsers} />

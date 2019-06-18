@@ -15,6 +15,7 @@ export {
 } from './OrderHistorySingleOrderView'
 export {default as OrderHistoryProduct} from './OrderHistorySingleProduct'
 export {default as Checkout} from './Checkout'
+export {default as Payment} from './Payment'
 export {Login, Signup} from './auth-form'
 export {default as Cart} from './cart'
 export {default as AdminProducts} from './admin/admin-products'
