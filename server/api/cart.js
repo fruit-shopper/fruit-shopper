@@ -124,15 +124,29 @@ router.delete('/:itemId', async (req, res, next) => {
 })
 
 //edit the quantity
-// router.put('/', async (req, res, next) => {
-//   try {
-//     const currentOrder = await OrderProduct.findOne({
-//       where: {
-//         productId: req.params.productId
-//       }
-//     })
-//   } catch (error) {}
-// })
+router.put('/:orderId/:productId', async (req, res, next) => {
+  try {
+    // console.log("req body in api route", req.body.quantity)
+    // console.log("params in route", req.params)
+    const [numAffectedRows, updatedRow] = await OrderProduct.update(
+      {
+        quantity: req.body.quantity
+      },
+      {
+        where: {
+          productId: req.params.productId,
+          orderId: req.params.orderId
+        },
+        returning: true,
+        plain: true
+      }
+    )
+    console.log('response from api route', updatedRow)
+    res.json(updatedRow)
+  } catch (error) {
+    next(error)
+  }
+})
 
 router.get('/', async (req, res, next) => {
   console.log(req.session.cart)
