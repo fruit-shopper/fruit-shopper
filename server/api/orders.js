@@ -47,6 +47,37 @@ router.put('/:orderId', async (req, res, next) => {
   }
 })
 
+router.put('/checkout/:orderId', async (req, res, next) => {
+  // console.log('+++++++++>', req.params.orderId)
+  try {
+    let [numRows, updatedOrder] = await Order.update(
+      {
+        status: 'created'
+      },
+      {
+        where: {
+          id: req.params.orderId
+        },
+        returning: true,
+        plain: true
+      }
+    )
+    let shippingAddress = await User.update(
+      {
+        shippingAddress: req.body.address
+      },
+      {
+        where: {
+          id: updatedOrder.userId
+        }
+      }
+    )
+    res.json(updatedOrder)
+  } catch (error) {
+    next(error)
+  }
+})
+
 // delete order
 router.delete('/:orderId', async (req, res, next) => {
   try {
