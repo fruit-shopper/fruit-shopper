@@ -125,7 +125,6 @@ router.delete('/:itemId', async (req, res, next) => {
 
 //edit the quantity
 router.put('/:orderId/:productId', async (req, res, next) => {
-  console.log('Req:::', req.user)
   try {
     // console.log("req body in api route", req.body.quantity)
     // console.log("params in route", req.params)

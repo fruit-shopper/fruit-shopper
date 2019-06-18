@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getCartProducts} from '../store/cart'
+// import {recordShippingAddress} from '../store/user'
 import {Divider, Header, Image, Item, Button, Icon} from 'semantic-ui-react'
 import CheckoutShipping from './CheckoutShipping'
 import {calculateGrandTotal} from './cart'
