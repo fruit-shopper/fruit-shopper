@@ -45,7 +45,9 @@ class SingleProduct extends Component {
     const productId = this.props.match.params.productId
     event.preventDefault()
     this.props.createReview(this.state.reviewText, productId)
-    console.log('in HandlereviewSubmit')
+    this.setState({
+      reviewText: ''
+    })
   }
   handleClick() {
     const productId = this.props.match.params.productId
@@ -54,12 +56,12 @@ class SingleProduct extends Component {
   }
 
   render() {
-    console.log('props in single product ', this.props)
+    // console.log('props in single product ', this.props)
     const {isLoggedIn} = this.props
     // console.log('Single-Product', this.props)
     let status = displayStatus(this.props.product.available)
     const reviews = this.props.product.reviews
-    console.log('Props in single component ', this.props)
+    // console.log('Props in single component ', this.props)
     if (reviews === undefined) {
       return <p>This product has no reviews!!!!!!!</p>
     } else if (reviews.length === 0) {

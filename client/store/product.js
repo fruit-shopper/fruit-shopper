@@ -41,7 +41,8 @@ export const createReview = (reviewText, productId) => {
       const {data} = await axios.post(`/api/products/${productId}`, {
         reviewText
       })
-      console.log(data)
+      data.user = {name: data.name}
+      console.log('DATA: ', data)
       dispatch(addReview(data))
     } catch (error) {
       console.log('Error inside thunk method: ', error)
@@ -72,13 +73,13 @@ export default function(state = defaultProduct, action) {
       return action.product
     // case REMOVE_PRODUCT:
     case CREATE_REVIEW:
-      let oldReviews = state.reviews
+      // let oldReviews = state.reviews
       // oldReviews.map(item => console.log('==>',item))
       // console.log('-------->',typeof action.reviewText)
-      let returnedTarget = Object.assign(oldReviews, {...action.reviewText})
+      // let returnedTarget = Object.assign(oldReviews, {...action.reviewText})
       // /fix this
       // console.log('==>',  returnedTarget)
-      return {...state, reviews: returnedTarget}
+      return {...state, reviews: [...state.reviews, action.reviewText]}
     default:
       return state
   }
