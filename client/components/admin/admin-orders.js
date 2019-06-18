@@ -54,7 +54,9 @@ class AdminOrders extends React.Component {
     this.props.put({id: orderId, status: evt.target.textContent})
   }
 
-  handleView(order) {}
+  handleView(order) {
+    this.props.toPage(`/orders/${order.id}`)
+  }
 
   render() {
     return (
@@ -132,7 +134,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     filterBySt: status => dispatch(filterByStatus(status)),
     remove: id => dispatch(removeOrder(id)),
     fetchInitialOrders: () => dispatch(fetchOrders()),
-    put: order => dispatch(putOrder(order))
+    put: order => dispatch(putOrder(order)),
+    toPage: link => dispatch(ownProps.history.push(link))
   }
 }
 

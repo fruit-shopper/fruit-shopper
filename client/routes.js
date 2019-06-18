@@ -19,9 +19,16 @@ import {
   // AdminHome,
   Checkout,
   ResetPasswordFrom,
+  SingleOrder,
   Payment
 } from './components'
-import {me, fetchProducts, fetchCategories, fetchOrders} from './store'
+import {
+  me,
+  fetchProducts,
+  fetchCategories,
+  fetchOrders,
+  fetchUsers
+} from './store'
 
 /**
  * COMPONENT
@@ -82,6 +89,7 @@ class Routes extends Component {
             <Route path="/manageProducts" component={AdminProducts} />
             <Route path="/manageOrders" component={AdminOrders} />
             <Route path="/manageUsers" component={AdminUsers} />
+            <Route path="/orders/:orderId" component={SingleOrder} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -111,6 +119,7 @@ const mapDispatch = dispatch => {
       dispatch(fetchProducts())
       dispatch(fetchCategories())
       dispatch(fetchOrders())
+      dispatch(fetchUsers())
     }
   }
 }
