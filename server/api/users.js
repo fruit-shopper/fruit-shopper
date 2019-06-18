@@ -1,9 +1,11 @@
 const router = require('express').Router()
 const {User, Review, Order} = require('../db/models')
+const adminsOnly = require('./adminCheck')
 module.exports = router
 
+//admin
 // Get /api/users
-router.get('/', async (req, res, next) => {
+router.get('/', adminsOnly, async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
@@ -19,7 +21,7 @@ router.get('/', async (req, res, next) => {
 })
 
 // Get /api/users/userId
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId', adminsOnly, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userid, {
       attributes: {exclude: ['password', 'salt', 'googleId', 'name']},
@@ -31,8 +33,9 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
+//admin
 // add user
-router.post('/', async (req, res, next) => {
+router.post('/', adminsOnly, async (req, res, next) => {
   try {
     let user = await User.create(req.body)
     res.json(user)
@@ -42,7 +45,7 @@ router.post('/', async (req, res, next) => {
 })
 
 // update user
-router.put('/:userId', async (req, res, next) => {
+router.put('/:userId', adminsOnly, async (req, res, next) => {
   try {
     let theUser = await User.findByPk(req.params.userId)
     let user = await theUser.update(req.body)
@@ -53,7 +56,7 @@ router.put('/:userId', async (req, res, next) => {
 })
 
 // delete user
-router.delete('/:userId', async (req, res, next) => {
+router.delete('/:userId', adminsOnly, async (req, res, next) => {
   try {
     await User.destroy({
       where: {
