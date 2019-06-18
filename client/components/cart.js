@@ -10,15 +10,8 @@ import {
   Dropdown
 } from 'semantic-ui-react'
 import {getCartProducts, removeProductFromCart} from '../store/cart'
+import SingleCartItem from './SingleCartItem'
 
-const options = [
-  {text: '1', value: 1},
-  {text: '2', value: 2},
-  {text: '3', value: 3},
-  {text: '4', value: 4},
-  {text: '5', value: 5},
-  {text: '6', value: 6}
-]
 export const calculateGrandTotal = cart => {
   let grandTotal = 0
   cart.products.map(product => {
@@ -55,10 +48,10 @@ export class Cart extends Component {
 
   handleChange(event) {
     event.preventDefault()
-    console.log(this.state.currentQuantity)
-    console.log('event', event)
-    console.log('state', this.state)
-    console.log('props', this.props)
+    // console.log(this.state.currentQuantity)
+    // console.log('event', event)
+    // console.log('state', this.state)
+    // console.log('props', this.props)
   }
   handleClickIncrement(event) {
     event.preventDefault()
@@ -81,6 +74,9 @@ export class Cart extends Component {
       return <div>Your cart is empty! Time to shop!</div>
     }
 
+    console.log('props', this.props)
+    console.log('cartId', this.props.cartId)
+    const currentCartId = this.props.cartId
     return (
       <div id="cartPage">
         <div id="header">
@@ -89,66 +85,11 @@ export class Cart extends Component {
         <Container>
           <List divided relaxed>
             {this.props.cartContents.products.map(product => (
-              <List.Item key={product.id}>
-                <Image
-                  src={product.image}
-                  size="tiny"
-                  verticalalign="middle"
-                  floated="left"
-                  alt="image"
-                />
-                <List.Content>
-                  <List.Header as="a">{product.name}</List.Header>
-                  <List.Description floated="left">
-                    {product.description}
-                  </List.Description>
-                  {/* <List.Description>Quantity: {product.Order_Product.quantity}</List.Description> */}
-                  <List.Description>{product.description}</List.Description>
-                  <List.Description verticalalign="bottom">
-                    Price: ${product.Order_Product.price}.00
-                  </List.Description>
-                </List.Content>
-                <List.Content floated="right">
-                  <List.Content verticalalign="top">Quantity:</List.Content>
-                  <List.Content>
-                    {/* <Button
-                      onClick={this.handleClickIncrement}
-                      value={product.id}
-                    >
-                      -
-                    </Button>
-                    <Button>+</Button> */}
-
-                    <Dropdown
-                      onChange={this.handleChange}
-                      options={options}
-                      defaultValue={product.Order_Product.quantity}
-                      selection
-                      //need to grab the value clicked and the associated product.id
-                      //value={product.Order_Product.quantity}
-                      //seletedId={product.id}
-                    />
-                  </List.Content>
-                  {/* <List.Content verticalalign='top'>
-                  Price: ${product.price}.00
-                  </List.Content> */}
-                  {/* Is this price pulled from correct place? Doublecheck with Team. */}
-                  <List.Content aligned="left">
-                    Subtotal: ${product.price * product.Order_Product.quantity}{' '}
-                    .00
-                  </List.Content>
-                  <List.Content verticalalign="bottom">
-                    <Button
-                      type="submit"
-                      value={product.id}
-                      // name="productRemove"
-                      onClick={this.handleClick}
-                    >
-                      Remove from Cart
-                    </Button>
-                  </List.Content>
-                </List.Content>
-              </List.Item>
+              <SingleCartItem
+                key={product.id}
+                product={product}
+                cartId={currentCartId}
+              />
             ))}
           </List>
           <h3>
