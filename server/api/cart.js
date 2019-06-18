@@ -7,7 +7,50 @@ router.use(async (req, res, next) => {
   try {
     let order
     //add if the req.session.cart and the user logs in add the user id to the order in the order table
-    if (req.user) {
+    console.log('req.session.cart in middleware', req.session.cart)
+    if (req.user && req.session.cart !== undefined) {
+      let oldCart = await Order.findOne({
+        where: {
+          userId: req.user.id
+        }
+      })
+      console.log('old cart', oldCart)
+      if (oldCart) {
+        await OrderProduct.update(
+          {
+            orderId: req.session.cart
+          },
+          {
+            where: {
+              orderId: oldCart.dataValues.id
+            }
+          }
+        )
+        await Order.destroy({
+          where: {
+            id: oldCart.dataValues.id
+          }
+        })
+      }
+
+      const [numAffectedRows, updatedRow] = await Order.update(
+        //const result = await Order.update(
+        {
+          userId: req.user.id
+        },
+        {
+          where: {
+            id: req.session.cart,
+            status: 'cart'
+          },
+          returning: true,
+          plain: true
+        }
+      )
+      req.session.cart = undefined
+      console.log('updatedRow', updatedRow)
+      order = updatedRow.dataValues
+    } else if (req.user) {
       order = await Order.findOrCreate({
         where: {
           userId: req.user.id,
@@ -30,6 +73,7 @@ router.use(async (req, res, next) => {
       })
       order = order.dataValues
       req.session.cart = order.id
+      console.log('session in the create new cart', req.session)
     }
     req.order = order
     //console.log('order in middleware', order)
@@ -50,6 +94,7 @@ router.post('/:productId', async (req, res, next) => {
     //     status: 'cart'
     //   }
     // })
+    console.log('Order ID in post', req.order.id)
     const addProduct = await OrderProduct.create({
       productId: req.params.productId,
       // orderId: newCart[0].dataValues.id,
@@ -79,18 +124,33 @@ router.delete('/:itemId', async (req, res, next) => {
 })
 
 //edit the quantity
-// router.put('/', async (req, res, next) => {
-//   try {
-//     const currentOrder = await OrderProduct.findOne({
-//       where: {
-//         productId: req.params.productId
-//       }
-//     })
-//   } catch (error) {}
-// })
+router.put('/:orderId/:productId', async (req, res, next) => {
+  try {
+    // console.log("req body in api route", req.body.quantity)
+    // console.log("params in route", req.params)
+    const [numAffectedRows, updatedRow] = await OrderProduct.update(
+      {
+        quantity: req.body.quantity
+      },
+      {
+        where: {
+          productId: req.params.productId,
+          orderId: req.params.orderId
+        },
+        returning: true,
+        plain: true
+      }
+    )
+    console.log('response from api route', updatedRow)
+    res.json(updatedRow)
+  } catch (error) {
+    next(error)
+  }
+})
 
 router.get('/', async (req, res, next) => {
   console.log(req.session.cart)
+  console.log('order id in get request', req.order.id)
   try {
     const cartContents = await Order.findOne({
       where: {
@@ -104,6 +164,7 @@ router.get('/', async (req, res, next) => {
         }
       ]
     })
+    console.log('cart from the api request', cartContents)
     res.json(cartContents)
   } catch (error) {
     next(error)

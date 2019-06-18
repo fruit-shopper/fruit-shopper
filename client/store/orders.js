@@ -143,14 +143,13 @@ const orderReducer = function(state = initialState, action) {
       return (() => {
         let newState = state.slice()
         newState.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+        return newState
       })()
     case FILTER_BY_STATUS:
-      return state.filter(elem =>
-        Object.keys(action.filterCriterion).every(
-          key => elem[key] === action.filterCriterion[key]
-        )
-      )
+      return state.filter(elem => elem.status === action.status)
     default:
       return state
   }
 }
+
+export default orderReducer
