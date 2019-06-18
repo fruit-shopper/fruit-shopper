@@ -18,7 +18,8 @@ import {
   AdminUsers,
   // AdminHome,
   Checkout,
-  ResetPasswordFrom
+  ResetPasswordFrom,
+  SingleOrder
 } from './components'
 import {me, fetchProducts, fetchCategories, fetchOrders} from './store'
 
@@ -78,6 +79,7 @@ class Routes extends Component {
             <Route path="/manageProducts" component={AdminProducts} />
             <Route path="/manageOrders" component={AdminOrders} />
             <Route path="/manageUsers" component={AdminUsers} />
+            <Route path="/orders/:orderId" component={SingleOrder} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

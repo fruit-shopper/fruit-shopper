@@ -20,7 +20,7 @@ class ResetPasswordForm extends React.Component {
 
   handleSubmit(evt) {
     evt.preventDefault()
-    const email = evt.target.email.value
+    // const email = evt.target.email.value
     const password1 = evt.target.password1.value
     const password2 = evt.target.password2.value
     if (password1 !== password2) {
@@ -28,7 +28,6 @@ class ResetPasswordForm extends React.Component {
     } else {
       this.props.updateUser({
         id: this.props.user.id,
-        email,
         password: password1
       })
       this.props.toPage('/home')
@@ -43,12 +42,7 @@ class ResetPasswordForm extends React.Component {
     return (
       <div align="center">
         <form onSubmit={this.handleSubmit} name="reset-password">
-          <div>
-            {/* <label focus htmlFor="email"> */}
-            {/* <small>Email</small> */}
-            {/* </label> */}
-            <Input name="email" type="text" placeholder="email" />
-          </div>
+          <div>{this.props.user.email + ', '}Please reset your password:</div>
           <div>
             {/* <label htmlFor="password"> */}
             {/* <small>Password</small> */}
