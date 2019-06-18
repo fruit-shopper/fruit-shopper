@@ -7,8 +7,10 @@ import {
   Image,
   Container,
   List,
-  Dropdown
+  Dropdown,
+  Input
 } from 'semantic-ui-react'
+import {updateCartItem} from '../store/cart'
 
 const options = [
   {text: '1', value: 1},
@@ -18,17 +20,22 @@ const options = [
   {text: '5', value: 5},
   {text: '6', value: 6}
 ]
-const product = this.props
 
 export class SingleCartItem extends Component {
   constructor() {
     super()
     this.state = {
-      selectedQuantity: product.Order_Product.quantity
+      selectedQuantity: 0
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
-
+  componentDidMount() {
+    const product = this.props.product
+    this.setState({
+      selectedQuantity: this.props.product.Order_Product.quantity
+    })
+  }
   handleChange(event) {
     console.log('event target', event.target)
     event.preventDefault()
@@ -36,7 +43,24 @@ export class SingleCartItem extends Component {
       [event.target.name]: event.target.value
     })
   }
+
+  handleClick(event) {
+    event.preventDefault()
+    this.props.updateCartItem(
+      this.props.cartId,
+      this.props.product.id,
+      this.state.selectedQuantity
+    )
+  }
   render() {
+    //console.log("props in the individual product", this.props)
+    const product = this.props.product
+    // console.log(this.props.product)
+    // if(this.props.product === undefined){
+    //   return (
+    //     <div>Loading</div>
+    //   )
+    // }
     return (
       <div>
         <List.Item key={product.id}>
@@ -52,11 +76,13 @@ export class SingleCartItem extends Component {
             <List.Description floated="left">
               {product.description}
             </List.Description>
-            {/* <List.Description>Quantity: {product.Order_Product.quantity}</List.Description> */}
-            <List.Description>{product.description}</List.Description>
-            <List.Description verticalalign="bottom">
-              Price: ${product.Order_Product.price}.00
+            <List.Description>
+              Quantity: {product.Order_Product.quantity}
             </List.Description>
+            <List.Description>{product.description}</List.Description>
+            {/* <List.Description verticalalign="bottom">
+              Price: ${product.Order_Product.price}.00
+            </List.Description> */}
           </List.Content>
           <List.Content floated="right">
             <List.Content verticalalign="top">Quantity:</List.Content>
@@ -69,7 +95,7 @@ export class SingleCartItem extends Component {
                     </Button>
                     <Button>+</Button> */}
 
-              <Dropdown
+              {/* <Dropdown
                 onChange={this.handleChange}
                 name="selectedQuantity"
                 options={options}
@@ -78,11 +104,18 @@ export class SingleCartItem extends Component {
                 //need to grab the value clicked and the associated product.id
                 value={this.state.selectedQuantity}
                 //seletedId={product.id}
+              /> */}
+              <Input
+                placeholder={product.Order_Product.quantity}
+                name="selectedQuantity"
+                value={this.state.selectedQuantity}
+                onChange={this.handleChange}
               />
+              <Button onClick={this.handleClick}>Update</Button>
             </List.Content>
-            {/* <List.Content verticalalign='top'>
-                  Price: ${product.price}.00
-                  </List.Content> */}
+            <List.Content verticalalign="top">
+              Price: ${product.price}.00
+            </List.Content>
             {/* Is this price pulled from correct place? Doublecheck with Team. */}
             <List.Content aligned="left">
               Subtotal: ${product.price * product.Order_Product.quantity} .00
@@ -104,4 +137,11 @@ export class SingleCartItem extends Component {
   }
 }
 
-export default SingleCartItem
+const mapDispatchToProps = dispatch => {
+  return {
+    updateCartItem: (orderId, productId, quantity) =>
+      dispatch(updateCartItem(orderId, productId, quantity))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(SingleCartItem)
