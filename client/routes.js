@@ -17,7 +17,8 @@ import {
   AdminOrders,
   AdminUsers,
   // AdminHome,
-  Checkout
+  Checkout,
+  ResetPasswordFrom
 } from './components'
 import {me, fetchProducts, fetchCategories, fetchOrders} from './store'
 
@@ -41,7 +42,6 @@ class Routes extends Component {
               {/* Routes placed here are available to all visitors */}
               <Route path="/products/:productId" component={SingleProduct} />
               <Route path="/products" component={AllProducts} />
-              <Route path="/home" component={UserHome} />
               <Route path="/cart" component={Cart} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
@@ -59,7 +59,7 @@ class Routes extends Component {
               <Route path="/past_orders_user" component={PastOrders} />
               <Route path="/cart" component={Cart} />
               <Route path="/checkout" component={Checkout} />
-              <Route path="/login" component={Login} />
+              <Route path="/reset_password" component={ResetPasswordFrom} />
             </Switch>
           )}
         {isAdmin && (
@@ -70,6 +70,7 @@ class Routes extends Component {
             <Route path="/products/:productId" component={SingleProduct} />
             <Route path="/products" component={AllProducts} />
             <Route path="/home" component={UserHome} />
+            <Route path="/reset_password" component={ResetPasswordFrom} />
             <Route path="/open_orders_user" component={OpenOrders} />
             <Route path="/past_orders_user" component={PastOrders} />
             <Route path="/cart" component={Cart} />

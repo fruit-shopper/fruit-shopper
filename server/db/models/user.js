@@ -47,6 +47,12 @@ const User = db.define('user', {
     type: Sequelize.TEXT,
     defaultValue: null
     //allowNull: true
+  },
+  reset: {
+    // if the password reset action is needed
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
   }
 })
 

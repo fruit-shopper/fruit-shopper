@@ -10,6 +10,9 @@ const REORDER_INC_TIME = 'REORDER_INC_TIME'
 const FILTER_BY_STATUS = 'FILTER_BY_STATUS'
 const UPDATE_ORDER_STATUS_CREATED = 'UPDATE_ORDER_STATUS_CREATED'
 
+// define initial state
+const initialState = []
+
 // define action creator
 export const setOrders = orders => {
   return {
@@ -134,11 +137,8 @@ export const updateOrderToCreated = orderId => {
   }
 }
 
-// define initial state
-const initialState = []
-
 // define reducer
-const orderReducer = function(state = initialState, action) {
+const ordersReducer = function(state = initialState, action) {
   switch (action.type) {
     case SET_ORDERS:
       return action.orders
@@ -171,4 +171,4 @@ const orderReducer = function(state = initialState, action) {
   }
 }
 
-export default orderReducer
+export default ordersReducer
