@@ -48,7 +48,7 @@ router.put('/:orderId', async (req, res, next) => {
 })
 
 router.put('/checkout/:orderId', async (req, res, next) => {
-  console.log('+++++++++>', req.params.orderId)
+  // console.log('+++++++++>', req.params.orderId)
   try {
     let [numRows, updatedOrder] = await Order.update(
       {
@@ -57,6 +57,18 @@ router.put('/checkout/:orderId', async (req, res, next) => {
       {
         where: {
           id: req.params.orderId
+        },
+        returning: true,
+        plain: true
+      }
+    )
+    let shippingAddress = await User.update(
+      {
+        shippingAddress: req.body.address
+      },
+      {
+        where: {
+          id: updatedOrder.userId
         }
       }
     )

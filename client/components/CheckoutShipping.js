@@ -70,9 +70,18 @@ const CheckoutShipping = products => (
           return <p>payment</p>
         }
 
-        function handleSubmitShipping(parentProps) {
+        function handleSubmitShipping(parentProps, props) {
+          let address =
+            props.values.address +
+            ',' +
+            props.values.city +
+            ',' +
+            props.values.state +
+            ' ' +
+            props.values.zip
+          console.log(address)
           // console.log('>>>>>>>> ',  val)
-          parentProps.updateStatus(parentProps.products.id)
+          parentProps.updateStatus(parentProps.products.id, address)
         }
 
         console.log('PROPS==> ', props.values)
@@ -80,7 +89,8 @@ const CheckoutShipping = products => (
           <Form
             onSubmit={() => {
               handleSubmit()
-              handleSubmitShipping(products)
+
+              handleSubmitShipping(products, props)
               handleReset()
             }}
           >

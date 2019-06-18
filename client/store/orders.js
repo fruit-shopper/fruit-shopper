@@ -126,10 +126,12 @@ export const filterByStatus = status => {
     }
   }
 }
-export const updateOrderToCreated = orderId => {
+export const updateOrderToCreated = (orderId, address) => {
   return async dispatch => {
     try {
-      const {data} = await axios.put(`/api/orders/checkout/${orderId}`)
+      const {data} = await axios.put(`/api/orders/checkout/${orderId}`, {
+        address
+      })
       dispatch(updateOrderStatusCreated(data))
     } catch (error) {
       console.log('Error inside thunk method update order to created ', error)

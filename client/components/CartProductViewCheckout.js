@@ -81,7 +81,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getCartProducts: () => dispatch(getCartProducts()),
-    updateOrderToCreated: orderId => dispatch(updateOrderToCreated(orderId))
+    updateOrderToCreated: (orderId, address) =>
+      dispatch(updateOrderToCreated(orderId, address))
     // updateCustomerShippingInfo: (customerId) => dipatch(updateCustomerShippingInfo)
     // updateOrderStatus: (orderId) => dispatch(updateOrderStatus)
   }
