@@ -59,6 +59,7 @@ class SingleProduct extends Component {
     // console.log('Single-Product', this.props)
     let status = displayStatus(this.props.product.available)
     const reviews = this.props.product.reviews
+    console.log('Props in single component ', this.props)
     if (reviews === undefined) {
       return <p>This product has no reviews!!!!!!!</p>
     } else if (reviews.length === 0) {

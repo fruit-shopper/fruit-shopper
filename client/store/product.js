@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import {SlowBuffer} from 'buffer'
 
 /**
  * ACTION TYPES
@@ -71,7 +72,13 @@ export default function(state = defaultProduct, action) {
       return action.product
     // case REMOVE_PRODUCT:
     case CREATE_REVIEW:
-      return {...state, reviews: [...state.reviews, action.reviewText]}
+      let oldReviews = state.reviews
+      // oldReviews.map(item => console.log('==>',item))
+      // console.log('-------->',typeof action.reviewText)
+      let returnedTarget = Object.assign(oldReviews, {...action.reviewText})
+      // /fix this
+      // console.log('==>',  returnedTarget)
+      return {...state, reviews: returnedTarget}
     default:
       return state
   }

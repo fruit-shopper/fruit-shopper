@@ -9,7 +9,7 @@ const states = require('./us_states')
 import CheckoutPayment from './CheckoutPayment'
 
 let proceedToPayment = false
-const CheckoutShipping = products => (
+const CheckoutShipping = parentProps => (
   <div className="shipping-adress-form">
     <Header as="h2" textAlign="center">
       Enter Shipping address
@@ -73,7 +73,7 @@ const CheckoutShipping = products => (
               handleReset()
               // <CheckoutPayment />
               console.log(props)
-              console.log(products)
+              console.log(parentProps.products)
             }}
           >
             <label htmlFor="fullname" style={{display: 'block'}}>

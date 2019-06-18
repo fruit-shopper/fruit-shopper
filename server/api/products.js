@@ -122,8 +122,11 @@ router.post('/:productId', async (req, res, next) => {
       productId: req.params.productId,
       userId: req.user.id
     })
-    console.log(newReview.dataValues)
-    res.json(newReview.dataValues)
+    newReview = newReview.dataValues
+    Object.assign(newReview, {name: req.user.name})
+    console.log(newReview)
+    // console.log(newReview.dataValues)
+    res.json(newReview)
   } catch (err) {
     next(err)
   }
