@@ -6,7 +6,7 @@ import CheckoutShipping from './CheckoutShipping'
 import {calculateGrandTotal} from './cart'
 import {updateOrderToCreated} from '../store/orders'
 // import {updateOrderStatus} from './current-orders-user.js'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 
 class CartProductViewCheckout extends Component {
   componentDidMount() {
@@ -18,6 +18,7 @@ class CartProductViewCheckout extends Component {
   // change order status to processing
 
   render() {
+    console.log('Where is history ', this.props)
     if (
       !this.props.cartContents ||
       this.props.cartContents.length === 0 ||
@@ -66,6 +67,7 @@ class CartProductViewCheckout extends Component {
         <CheckoutShipping
           products={this.props.cartContents}
           updateStatus={this.props.updateOrderToCreated}
+          history={this.props.history}
         />
       </div>
     )
@@ -88,6 +90,6 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  CartProductViewCheckout
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(CartProductViewCheckout)
 )
