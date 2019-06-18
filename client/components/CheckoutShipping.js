@@ -79,19 +79,22 @@ const CheckoutShipping = products => (
             props.values.state +
             ' ' +
             props.values.zip
-          console.log(address)
+          // console.log(address)
           // console.log('>>>>>>>> ',  val)
           parentProps.updateStatus(parentProps.products.id, address)
         }
 
-        console.log('PROPS==> ', props.values)
+        // console.log('PROPS==> ', products)
         return (
           <Form
-            onSubmit={() => {
+            onSubmit={async () => {
               handleSubmit()
 
-              handleSubmitShipping(products, props)
+              await handleSubmitShipping(products, props)
+              // console.log('PRODUCTS: !!!!!!!',products)
+              // handleSubmitShipping(products, props)
               handleReset()
+              products.history.push('/payment')
             }}
           >
             <label htmlFor="fullname" style={{display: 'block'}}>
