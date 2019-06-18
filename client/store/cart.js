@@ -5,6 +5,7 @@ import axios from 'axios'
 const SET_QUANTITY_PRICE = 'SET_QUANTITY_PRICE'
 const GET_CART = 'GET_CART'
 const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM'
+const UPDATE_ITEM = 'UPDATE_ITEM'
 
 //INITIAL STATE
 const initialState = []
@@ -25,6 +26,11 @@ const removeCartItem = item => ({
   item
 })
 
+const updateItem = updatedItem => ({
+  type: UPDATE_ITEM,
+  updatedItem
+})
+
 /**
  * THUNK CREATORS
  */
@@ -42,9 +48,11 @@ export const setQuantityPrice = (productId, quantityPrice) => {
 export const getCartProducts = () => {
   return async function(dispatch) {
     try {
+      console.log('in the get thunk')
+      //error here
       const {data} = await axios.get('/api/cart')
-      dispatch(getCart(data))
       console.log('response from getCartProducts', data)
+      dispatch(getCart(data))
     } catch (error) {
       console.log(error)
     }
@@ -63,6 +71,21 @@ export const removeProductFromCart = item => {
   }
 }
 
+export const updateCartItem = (orderId, productId, quantity) => {
+  return async function(dispatch) {
+    try {
+      //console.log("quantity in thunk", quantity)
+      const {data} = await axios.put(`api/cart/${orderId}/${productId}`, {
+        quantity: Number(quantity)
+      })
+      //console.log("updated row in thunk", data)
+      dispatch(updateItem(data))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 //REDUCER
 //need this to show the cart
 const cartReducer = function(state = initialState, action) {
@@ -73,10 +96,26 @@ const cartReducer = function(state = initialState, action) {
     // case SET_QUANTITY_PRICE:
     //   return [...state, action.QP]
     case REMOVE_CART_ITEM:
+      // eslint-disable-next-line no-case-declarations
       let updatedCart = state.products.filter(
         product => product.id !== Number(action.item)
       )
       return {...state, products: updatedCart}
+    case UPDATE_ITEM:
+      // eslint-disable-next-line no-case-declarations
+      console.log('!!!!!!!!', action)
+      let updatedCartItem = state.products.map(product => {
+        if (product.id === action.updatedItem.productId) {
+          // console.log('>>>>>÷>>>', product)
+
+          product.Order_Product.quantity = action.updatedItem.quantity
+          return product
+        } else {
+          return product
+        }
+      })
+      console.log('new cart', updatedCartItem)
+      return {...state, products: updatedCartItem}
     default:
       return state
   }
