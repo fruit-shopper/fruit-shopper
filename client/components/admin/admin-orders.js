@@ -15,7 +15,6 @@ class AdminOrders extends React.Component {
   constructor(props) {
     super(props)
     this.statusOptions = [
-      'cart',
       'created',
       'processing',
       'cancelled',
@@ -31,6 +30,7 @@ class AdminOrders extends React.Component {
     this.handleSelectByStatus = this.handleSelectByStatus.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
     this.handleStatusSelect = this.handleStatusSelect.bind(this)
+    this.handleView = this.handleView.bind(this)
   }
 
   handleDesTimeReorder() {
@@ -53,6 +53,8 @@ class AdminOrders extends React.Component {
   handleStatusSelect(evt, orderId) {
     this.props.put({id: orderId, status: evt.target.textContent})
   }
+
+  handleView(order) {}
 
   render() {
     return (
@@ -90,12 +92,23 @@ class AdminOrders extends React.Component {
                   options={this.statusOptions}
                   onChange={evt => this.handleStatusSelect(evt, order.id)}
                 />
+                <span className="inline-seperate">Delete order:</span>
                 <Button
                   className="inline-seperate"
                   size="mini"
+                  color="red"
                   onClick={event => this.handleRemove(order.id)}
                 >
                   Remove
+                </Button>
+                <span className="inline-seperate">View details:</span>
+                <Button
+                  className="inline-seperate"
+                  size="mini"
+                  color="green"
+                  onClick={event => this.handleView(order)}
+                >
+                  View
                 </Button>
               </li>
             ))}
