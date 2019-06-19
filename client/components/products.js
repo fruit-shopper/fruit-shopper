@@ -15,8 +15,13 @@ const Products = props => {
     <Grid columns="equal" className="centered">
       {displayedProducts.map(product => (
         <div key={product.id} className="centered">
-          <Grid.Column>
-            <Image src={product.image} alt="image" size="small" />
+          <Grid.Column className="product-allproducts-view">
+            <Image
+              className="product-image"
+              src={product.image}
+              alt="image"
+              size="small"
+            />
             {fromAdmin ? (
               <Link to={`/products/edit/${product.id}`}>
                 <h3> {product.name}</h3>

@@ -61,12 +61,6 @@ export class SingleCartItem extends Component {
 
   render() {
     const product = this.props.product
-    // console.log(this.props.product)
-    // if(this.props.product === undefined){
-    //   return (
-    //     <div>Loading</div>
-    //   )
-    // }
     return (
       <div>
         <List.Item key={product.id}>
@@ -81,36 +75,48 @@ export class SingleCartItem extends Component {
             <List.Header floated="left" as="a">
               {product.name}
             </List.Header>
-            <List.Description floated="left">
-              {product.description}
-            </List.Description>
-            <b>${product.price}.00</b>
-
-            <List.Content floated="right">
-              <Input
-                label="Quantity:"
-                placeholder={product.Order_Product.quantity}
-                name="selectedQuantity"
-                value={this.state.selectedQuantity}
-                onChange={this.handleChange}
-              />
-              <Button onClick={this.handleClick}>Update</Button>
-            </List.Content>
-            <List.Content aligned="right">
-              <b>Subtotal:</b>
-              ${product.price * product.Order_Product.quantity} .00
-            </List.Content>
-
-            {/* Is this price pulled from correct place? Doublecheck with Team. */}
-            <List.Content verticalalign="bottom">
-              <Button
-                type="submit"
-                value={product.id}
-                onClick={this.handleClickRemove}
+            <div className="item-cart-allinfo">
+              <List.Description
+                className="product-description-cart"
+                floated="left"
               >
-                Remove from Cart
-              </Button>
-            </List.Content>
+                {product.description}
+              </List.Description>
+              <b>${product.price}.00</b>
+
+              <List.Content floated="right">
+                <div className="input-update-items-cart">
+                  <Input
+                    className="quantity-input"
+                    label="Quantity:"
+                    placeholder={product.Order_Product.quantity}
+                    name="selectedQuantity"
+                    value={this.state.selectedQuantity}
+                    onChange={this.handleChange}
+                  />
+                  <Button primary onClick={this.handleClick}>
+                    Update
+                  </Button>
+                </div>
+              </List.Content>
+              <List.Content aligned="left">
+                <b>Subtotal: </b>
+                {'  '}${product.price * product.Order_Product.quantity}.00
+              </List.Content>
+
+              {/* Is this price pulled from correct place? Doublecheck with Team. */}
+              <List.Content>
+                <Button
+                  color="red"
+                  className="cart-remove-button"
+                  type="submit"
+                  value={product.id}
+                  onClick={this.handleClickRemove}
+                >
+                  Remove
+                </Button>
+              </List.Content>
+            </div>
           </List.Content>
         </List.Item>
         <Divider />
