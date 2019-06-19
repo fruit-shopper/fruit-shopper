@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {Product, Review, Order, Category, User} = require('../db/models')
+const adminsOnly = require('./adminCheck')
 module.exports = router
 
 // GET /api/products
@@ -31,38 +32,47 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
+//lock for admin here down
 // set association for product and category
-router.post('/association/:productId/:categoryId', async (req, res, next) => {
-  try {
-    let theCategory = await Category.findByPk(req.params.categoryId)
-    let theProduct = await Product.findByPk(req.params.productId)
-    await theProduct.addCategory(theCategory)
-    let productToReturn = await Product.findByPk(req.params.productId, {
-      include: [Review, Order, Category]
-    })
-    res.json(productToReturn)
-  } catch (error) {
-    next(error)
+router.post(
+  '/association/:productId/:categoryId',
+  adminsOnly,
+  async (req, res, next) => {
+    try {
+      let theCategory = await Category.findByPk(req.params.categoryId)
+      let theProduct = await Product.findByPk(req.params.productId)
+      await theProduct.addCategory(theCategory)
+      let productToReturn = await Product.findByPk(req.params.productId, {
+        include: [Review, Order, Category]
+      })
+      res.json(productToReturn)
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
 
 // set association for product and order(cart)
-router.post('/association/:productId/:orderId', async (req, res, next) => {
-  try {
-    let theOrder = await Order.findByPk(req.params.orderId)
-    let theProduct = await Product.findByPk(req.params.productId)
-    await theProduct.addOrder(theOrder)
-    let productToReturn = await Product.findByPk(req.params.productId, {
-      include: [Review, Order, Category]
-    })
-    res.json(productToReturn)
-  } catch (error) {
-    next(error)
+router.post(
+  '/association/:productId/:orderId',
+  adminsOnly,
+  async (req, res, next) => {
+    try {
+      let theOrder = await Order.findByPk(req.params.orderId)
+      let theProduct = await Product.findByPk(req.params.productId)
+      await theProduct.addOrder(theOrder)
+      let productToReturn = await Product.findByPk(req.params.productId, {
+        include: [Review, Order, Category]
+      })
+      res.json(productToReturn)
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
 
 // add product
-router.post('/', async (req, res, next) => {
+router.post('/', adminsOnly, async (req, res, next) => {
   try {
     let product = await Product.create(req.body)
     res.json(product)
@@ -72,7 +82,7 @@ router.post('/', async (req, res, next) => {
 })
 
 // update product
-router.put('/:productId', async (req, res, next) => {
+router.put('/:productId', adminsOnly, async (req, res, next) => {
   try {
     let theProduct = await Product.findByPk(req.params.productId)
     let product = await theProduct.update(req.body)
@@ -83,22 +93,26 @@ router.put('/:productId', async (req, res, next) => {
 })
 
 // unassociate category from product
-router.delete('/association/:productId/:categoryId', async (req, res, next) => {
-  try {
-    let theCategory = await Category.findByPk(req.params.categoryId)
-    let theProduct = await Product.findByPk(req.params.productId)
-    await theProduct.removeCategory(theCategory)
-    let productToReturn = await Product.findByPk(req.params.productId, {
-      include: [Review, Order, Category]
-    })
-    res.json(productToReturn)
-  } catch (error) {
-    next(error)
+router.delete(
+  '/association/:productId/:categoryId',
+  adminsOnly,
+  async (req, res, next) => {
+    try {
+      let theCategory = await Category.findByPk(req.params.categoryId)
+      let theProduct = await Product.findByPk(req.params.productId)
+      await theProduct.removeCategory(theCategory)
+      let productToReturn = await Product.findByPk(req.params.productId, {
+        include: [Review, Order, Category]
+      })
+      res.json(productToReturn)
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
 
 // delete product
-router.delete('/:productId', async (req, res, next) => {
+router.delete('/:productId', adminsOnly, async (req, res, next) => {
   try {
     await Product.destroy({
       where: {

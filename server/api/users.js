@@ -1,17 +1,78 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const {User, Review, Order} = require('../db/models')
+const adminsOnly = require('./adminCheck')
 module.exports = router
 
+//admin
+// Get /api/users
 router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
-      attributes: ['id', 'email']
+      attributes: {exclude: ['password', 'salt', 'googleId', 'name']},
+      include: [Review, Order]
     })
     res.json(users)
   } catch (err) {
     next(err)
   }
 })
+
+// Get /api/users/userId
+router.get('/:userId', adminsOnly, async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userid, {
+      attributes: {exclude: ['password', 'salt', 'googleId', 'name']},
+      include: [Review, Order]
+    })
+    res.json(user)
+  } catch (error) {
+    next(error)
+  }
+})
+
+//admin
+// add user
+router.post('/', adminsOnly, async (req, res, next) => {
+  try {
+    let user = await User.create(req.body)
+    res.json(user)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// update user
+router.put('/:userId', adminsOnly, async (req, res, next) => {
+  try {
+    let theUser = await User.findByPk(req.params.userId)
+    let user = await theUser.update(req.body)
+    res.json(user)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// delete user
+router.delete('/:userId', adminsOnly, async (req, res, next) => {
+  try {
+    await User.destroy({
+      where: {
+        id: req.params.userId
+      }
+    })
+    res.status(204).end()
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.use((req, res, next) => {
+  const err = new Error('API route under /api/users not found!')
+  err.status = 404
+  next(err)
+})
+
+module.exports = router

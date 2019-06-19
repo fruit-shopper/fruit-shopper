@@ -42,7 +42,8 @@ export const auth = (email, password, method) => async dispatch => {
 
   try {
     dispatch(getUser(res.data))
-    history.push('/home')
+    if (!res.data.reset) history.push('/home')
+    else history.push('/reset_password')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }

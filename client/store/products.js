@@ -11,6 +11,9 @@ const REORDER_INC_PRICE = 'REORDER_INC_PRICE'
 const FILTER_PRODUCTS = 'FILTER_PRODUCTS'
 const FILTER_BY_CATEGORY = 'FILTER_BY_CATEGORY'
 
+// define initial state
+const initialState = []
+
 // define action creator
 export const setProducts = products => ({
   type: SET_PRODUCTS,
@@ -170,9 +173,6 @@ export const createProOrderAssociation = (productId, orderId) => {
     }
   }
 }
-
-// define initial state
-const initialState = []
 
 // define reducer
 const productReducer = function(state = initialState, action) {

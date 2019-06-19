@@ -13,6 +13,7 @@ label {
 nav a {
   display: inline-block;
   margin: 1em;
+  color: navy;
 }
 
 form div {
@@ -33,7 +34,7 @@ form div {
 }
 
 .inline-seperate {
-  margin: 1rem;
+  margin: 0 1rem 0 1rem;
 }
 
 .margin-right {
@@ -64,7 +65,7 @@ form div {
 .text-input {
   width: 100%;
 }
-.item-price-checkout {
+.item-price {
   color: purple;
   padding-left: 5px;
   padding-right: 20px;
@@ -87,7 +88,8 @@ input:focus {
 }
 
 input.error {
-  border-color: red;
+  border-color: #ff4858;
+  font-family: 'Hind Madurai', sans-serif;
 }
 
 label {
@@ -123,7 +125,7 @@ button:disabled {
 }
 
 button + button {
-  margin-left: 0.5rem;
+  /* margin-left: 0.5rem; */
 }
 
 button.outline {
@@ -141,4 +143,107 @@ button.outline {
   position: relative;
   left: 20px;
   top: 60px;
+}
+.product-image {
+  margin-top: 20px;
+}
+
+.pagination-box {
+  text-align: center;
+  height: 100px;
+}
+
+.product-allproducts-view {
+  margin-bottom: 50px;
+}
+
+.descend-ascend-categories-search-outer {
+  display: flex;
+}
+.search-bar {
+  margin-left: auto;
+  padding-right: 50px;
+}
+
+.ascending-descending-category-box {
+  display: flex;
+}
+
+.product-description-cart {
+  max-width: 400px;
+}
+
+.item-cart-allinfo {
+  display: flex;
+}
+.quantity-input {
+  width: 180px;
+  padding-left: 30px;
+}
+
+.input-update-items-cart {
+  /* width: 300px; */
+  display: flex;
+  margin-right: 30px;
+  /* justify-content: center; */
+}
+
+.cart-remove-button {
+  width: 80px;
+  color: red;
+  padding-left: 150px;
+  position: absolute;
+  right: 200px;
+}
+
+.card-checkout-continue-shopping-buttons {
+  width: 100%;
+  display: flex;
+}
+.card-checkout-continue-shopping-buttons > *:last-child {
+  margin-left: auto;
+}
+
+.nav {
+  background: white;
+}
+
+.header-nav h1 {
+  height: 100px;
+  margin-left: 50px;
+  padding-top: 20px;
+  font-family: 'Courgette', cursive;
+  font-size: 4em;
+  color: #f24444;
+}
+
+.cart-header {
+  text-align: center;
+}
+
+.subtotal-shipping {
+  margin-left: 20px;
+}
+.subtotal-shipping-X,
+.subtotal-shipping-quantity {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.payment-page-box {
+  width: 500px;
+  height: 300px;
+  margin: 0 auto;
+  text-align: center;
+}
+.payment-inner-box {
+  width: 200px;
+  height: 200px;
+  padding-top: 100px;
+}
+
+.total-payment-button {
+  font-family: 'Alfa Slab One', cursive;
+  font-size: 2em;
+  color: #32a685;
 }

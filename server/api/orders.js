@@ -1,7 +1,9 @@
 const router = require('express').Router()
 const {Product, Order, User} = require('../db/models')
+const adminsOnly = require('./adminCheck')
 module.exports = router
 
+//admin
 // GET /api/orders
 router.get('/', async (req, res, next) => {
   try {
@@ -27,7 +29,7 @@ router.get('/:orderId', async (req, res, next) => {
 })
 
 // add order
-router.post('/', async (req, res, next) => {
+router.post('/', adminsOnly, async (req, res, next) => {
   try {
     let order = await Order.create(req.body)
     res.json(order)
@@ -37,7 +39,8 @@ router.post('/', async (req, res, next) => {
 })
 
 // update order
-router.put('/:orderId', async (req, res, next) => {
+
+router.put('/:orderId', adminsOnly, async (req, res, next) => {
   try {
     let theOrder = await Order.findByPk(req.params.orderId)
     let order = await theOrder.update(req.body)
@@ -47,8 +50,30 @@ router.put('/:orderId', async (req, res, next) => {
   }
 })
 
+router.put('/checkout/:orderId', async (req, res, next) => {
+  // console.log('+++++++++>', req.params.orderId)
+  try {
+    let order = await Order.findByPk(req.params.orderId)
+    let shippingAddress = await User.update(
+      {
+        shippingAddress: req.body.address,
+        billingAddress: req.body.address
+      },
+      {
+        where: {
+          id: order.dataValues.userId
+        }
+      }
+    )
+    res.json(shippingAddress)
+  } catch (error) {
+    next(error)
+  }
+})
+
 // delete order
-router.delete('/:orderId', async (req, res, next) => {
+//lock for admin
+router.delete('/:orderId', adminsOnly, async (req, res, next) => {
   try {
     await Order.destroy({
       where: {
