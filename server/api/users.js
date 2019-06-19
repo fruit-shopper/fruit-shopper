@@ -45,7 +45,7 @@ router.post('/', adminsOnly, async (req, res, next) => {
 })
 
 // update user
-router.put('/:userId', adminsOnly, async (req, res, next) => {
+router.put('/:userId', async (req, res, next) => {
   try {
     let theUser = await User.findByPk(req.params.userId)
     let user = await theUser.update(req.body)

@@ -91,7 +91,7 @@ export const putUser = user => {
   return async dispatch => {
     try {
       const {data} = await axios.put(`/api/users/${user.id}`, user)
-      const {userWithAsso} = await axios.get(`/api/users/${user.id}`)
+      const {userWithAsso} = await axios.get(`/api/users/${data.id}`)
       dispatch(updateUser(userWithAsso))
     } catch (error) {
       console.log('Error in thunk method putUser: ', error)
