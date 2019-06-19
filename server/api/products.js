@@ -132,7 +132,7 @@ router.post('/:productId', async (req, res, next) => {
 
     let newReview = await Review.create({
       text: req.body.reviewText,
-      rating: 1,
+      rating: 5,
       productId: req.params.productId,
       userId: req.user.id
     })

@@ -11,6 +11,7 @@ router.use(async (req, res, next) => {
     if (req.user && req.session.cart !== undefined) {
       let oldCart = await Order.findOne({
         where: {
+          status: 'cart',
           userId: req.user.id
         }
       })
@@ -48,7 +49,7 @@ router.use(async (req, res, next) => {
         }
       )
       req.session.cart = undefined
-      // console.log('updatedRow', updatedRow)
+      console.log('updatedRow', updatedRow)
       order = updatedRow.dataValues
     } else if (req.user) {
       order = await Order.findOrCreate({
@@ -66,11 +67,14 @@ router.use(async (req, res, next) => {
           status: 'cart'
         }
       })
+      console.log('here', req.user)
+
       order = order.dataValues
     } else {
       order = await Order.create({
         status: 'cart'
       })
+      console.log(order)
       order = order.dataValues
       req.session.cart = order.id
       // console.log('session in the create new cart', req.session)
@@ -95,6 +99,9 @@ router.post('/:productId', async (req, res, next) => {
     //   }
     // })
     // console.log('Order ID in post', req.order.id)
+    console.log('>>>>>>> ', req.params)
+    console.log('>>>>>>>2 ', req.body)
+    console.log('>>>>>>>3 ', req.order)
     const addProduct = await OrderProduct.create({
       productId: req.params.productId,
       // orderId: newCart[0].dataValues.id,

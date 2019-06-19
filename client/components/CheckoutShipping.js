@@ -10,7 +10,8 @@ const states = require('./us_states')
 // import CheckoutPayment from './CheckoutPayment'
 
 let proceedToPayment = false
-const CheckoutShipping = parentProps => (
+
+const CheckoutShipping = products => (
   <div className="shipping-adress-form">
     <Header as="h2" textAlign="center">
       Enter Shipping address
@@ -235,7 +236,6 @@ const CheckoutShipping = parentProps => (
                 onChange={handleChange}
               />
               <Divider hidden />
-
               <label htmlFor="isBilling">
                 Check if the same as Billing Address
               </label>
