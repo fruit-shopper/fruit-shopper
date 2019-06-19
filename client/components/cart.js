@@ -7,7 +7,8 @@ import {
   Image,
   Container,
   List,
-  Dropdown
+  Dropdown,
+  Divider
 } from 'semantic-ui-react'
 import {getCartProducts, removeProductFromCart} from '../store/cart'
 import SingleCartItem from './SingleCartItem'
