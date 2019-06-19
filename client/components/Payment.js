@@ -6,43 +6,59 @@ import axios from 'axios'
 import {toast} from 'react-toastify'
 toast.configure()
 
-const product = {
-  id: 1,
-  name: 'Green Banana',
-  price: 17,
-  quantity: 16795,
-  description:
-    'Green Banana,  Quae et velit et. Blanditiis autem non quam dolorum consequuntur dignissimos enim. Nisi enim voluptas molestiae qui explicabo perspiciatis.',
-  image: '/placeholderFruit.jpg',
-  available: true,
-  createdAt: '2019-06-18T18:28:22.003Z',
-  amount: 400
+function calculateGrandTotal(cart) {
+  let grandTotal = 0
+  cart.cartContents.products.map(product => {
+    grandTotal += product.Order_Product.price * product.Order_Product.quantity
+  })
+  return grandTotal
 }
+let product
+
 function notify_success() {
   toast('Payment Was Successful.', {
     autoClose: 2000
   })
 }
-async function handleToken(token, addresses) {
-  console.log({token, addresses})
-  const response = await axios.post('/api/payment', {token, product})
-  const {status} = response.data
-  console.log('Response:', response.data)
-  if (status === 'success') {
-    notify_success()
-    //toast("Success! Check email for details", { type: "success" });
-  } else {
-    toast('Something went wrong', {type: 'error'})
-  }
-}
+
 export class CheckoutPayment extends Component {
   constructor() {
     super()
   }
   render() {
-    console.log('Props in payment', this.props)
-    let paymentTotal = this.props
+    let paymentTotal = calculateGrandTotal(this.props)
+    product = {
+      id: 1,
+      name: 'Green Banana',
+      price: 17,
+      quantity: 16795,
+      description:
+        'Green Banana,  Quae et velit et. Blanditiis autem non quam dolorum consequuntur dignissimos enim. Nisi enim voluptas molestiae qui explicabo perspiciatis.',
+      image: '/placeholderFruit.jpg',
+      available: true,
+      createdAt: '2019-06-18T18:28:22.003Z',
+      amount: paymentTotal * 100
+    }
 
+    let orderId = this.props.cartContents.id
+    async function handleToken(token, addresses) {
+      console.log({token, addresses})
+      const response = await axios.post('/api/payment', {
+        token,
+        product,
+        orderId
+      })
+      const {status} = response.data
+      console.log('Response:', response.data)
+      if (status === 'success') {
+        notify_success()
+        //toast("Success! Check email for details", { type: "success" });
+      } else {
+        toast('Something went wrong', {type: 'error'})
+      }
+    }
+
+    console.log('Props in payment', this.props)
     return (
       <div>
         <StripeCheckout
@@ -50,8 +66,8 @@ export class CheckoutPayment extends Component {
           token={handleToken}
           billingAddress="2024 N Clifton Ave"
           shippingAddress="2024 N Clifton Ave"
-          amount="400"
-          name="apple"
+          amount={product.amount}
+          name="fruits"
         />
       </div>
     )

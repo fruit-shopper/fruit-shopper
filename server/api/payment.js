@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const stripe = require('stripe')('sk_test_Ek8qADF4HzT74o89zyDK1crM00JlDcl2Ys')
 const uuid = require('uuid/v4')
+const {Order} = require('../db/models')
 
 module.exports = router
 
@@ -8,7 +9,7 @@ router.post('/', async (req, res, next) => {
   let status = ''
   let error
   try {
-    const {product, token} = req.body
+    const {product, token, orderId} = req.body
     const customer = await stripe.customers.create({
       email: token.email,
       source: token.id
@@ -35,6 +36,19 @@ router.post('/', async (req, res, next) => {
       },
       {
         idempotency_key
+      }
+    )
+
+    await Order.update(
+      {
+        status: 'created'
+      },
+      {
+        where: {
+          id: orderId
+        },
+        returning: true,
+        plain: true
       }
     )
     console.log('Charge:', {charge})
