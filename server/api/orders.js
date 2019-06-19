@@ -5,7 +5,7 @@ module.exports = router
 
 //admin
 // GET /api/orders
-router.get('/', adminsOnly, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const orders = await Order.findAll({
       include: [Product, User]
@@ -17,7 +17,7 @@ router.get('/', adminsOnly, async (req, res, next) => {
 })
 
 // GET /api/orders/orderId
-router.get('/:orderId', adminsOnly, async (req, res, next) => {
+router.get('/:orderId', async (req, res, next) => {
   try {
     const order = await Order.findByPk(req.params.orderId, {
       include: [Product, User]
@@ -50,32 +50,34 @@ router.put('/:orderId', adminsOnly, async (req, res, next) => {
   }
 })
 
-router.put('/checkout/:orderId', adminsOnly, async (req, res, next) => {
+router.put('/checkout/:orderId', async (req, res, next) => {
   // console.log('+++++++++>', req.params.orderId)
   try {
-    let [numRows, updatedOrder] = await Order.update(
-      {
-        status: 'created'
-      },
-      {
-        where: {
-          id: req.params.orderId
-        },
-        returning: true,
-        plain: true
-      }
-    )
+    // let [numRows, updatedOrder] = await Order.update(
+    //   {
+    //     status: 'created'
+    //   },
+    //   {
+    //     where: {
+    //       id: req.params.orderId
+    //     },
+    //     returning: true,
+    //     plain: true
+    //   }
+    // )
+    let order = await Order.findByPk(req.params.orderId)
     let shippingAddress = await User.update(
       {
-        shippingAddress: req.body.address
+        shippingAddress: req.body.address,
+        billingAddress: req.body.address
       },
       {
         where: {
-          id: updatedOrder.userId
+          id: order.dataValues.userId
         }
       }
     )
-    res.json(updatedOrder)
+    res.json(shippingAddress)
   } catch (error) {
     next(error)
   }

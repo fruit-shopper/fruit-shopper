@@ -87,24 +87,6 @@ export class SingleCartItem extends Component {
           <List.Content floated="right">
             <List.Content verticalalign="top">Quantity:</List.Content>
             <List.Content>
-              {/* <Button
-                      onClick={this.handleClickIncrement}
-                      value={product.id}
-                    >
-                      -
-                    </Button>
-                    <Button>+</Button> */}
-
-              {/* <Dropdown
-                onChange={this.handleChange}
-                name="selectedQuantity"
-                options={options}
-                //defaultValue={product.Order_Product.quantity}
-                selection
-                //need to grab the value clicked and the associated product.id
-                value={this.state.selectedQuantity}
-                //seletedId={product.id}
-              /> */}
               <Input
                 placeholder={product.Order_Product.quantity}
                 name="selectedQuantity"
