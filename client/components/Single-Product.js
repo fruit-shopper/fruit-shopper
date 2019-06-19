@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchProduct} from '../store/product'
-import {Grid, Image, Button, Input} from 'semantic-ui-react'
+import {Grid, Image, Button, Input, Divider} from 'semantic-ui-react'
 import Review from './Review'
 import {setQuantityPrice} from '../store/cart'
 import {Link} from 'react-router-dom'
@@ -57,11 +57,16 @@ class SingleProduct extends Component {
           <Grid.Column width={3}>
             <h4 className="justify-text">{this.props.product.name}</h4>
 
+            <Divider hidden />
             <p className="justify-text">
               Description: {this.props.product.description}
             </p>
-
-            <p>Price: ${this.props.product.price}</p>
+            <Divider hidden />
+            <p>
+              Price: $<span className="item-price">
+                {this.props.product.price}.00
+              </span>
+            </p>
             <p>{status}</p>
             <Input
               placeholder="Quantity"

@@ -80,7 +80,7 @@ export class Cart extends Component {
     return (
       <div id="cartPage">
         <Container>
-          <div id="header">
+          <div className="cart-header">
             <Header as="h1">Your Cart</Header>
           </div>
           <List divided relaxed>

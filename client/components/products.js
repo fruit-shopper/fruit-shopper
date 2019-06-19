@@ -45,7 +45,9 @@ const Products = props => {
                 {product.description.substr(0, 80)}
               </div>
             )}
-            <p>Price: {product.price}</p>
+            <p>
+              Price: $ <span className="item-price">{product.price}.00</span>
+            </p>
             {fromAdmin ? <p>Quantity: {product.quantity}</p> : <div />}
             <div>
               {handleRemove ? (
