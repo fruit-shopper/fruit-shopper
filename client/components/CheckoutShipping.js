@@ -227,8 +227,8 @@ const CheckoutShipping = products => (
                 <div className="input-feedback">{errors.email}</div>
               )}
 
-            <Divider hidden />
-            <Form.Group>
+            {/* <Divider hidden /> */}
+            {/* <Form.Group>
               <input
                 id="isBilling"
                 type="checkbox"
@@ -240,7 +240,7 @@ const CheckoutShipping = products => (
               <label htmlFor="isBilling">
                 Check if the same as Billing Address
               </label>
-            </Form.Group>
+            </Form.Group> */}
             <Divider hidden />
             <Form.Group>
               <button

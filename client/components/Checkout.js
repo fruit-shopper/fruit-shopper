@@ -40,7 +40,7 @@ class CartProductViewCheckout extends Component {
           </Button>
         </Link>
         <Header as="h2" textAlign="center">
-          Your Order.
+          Your Order
         </Header>
         {this.props.cartContents.products.map(product => (
           <Item key={product.id}>
@@ -49,12 +49,20 @@ class CartProductViewCheckout extends Component {
               <Item.Header>{product.name}</Item.Header>
               <Item.Description className="float-right">
                 Price:{' '}
-                <span className="item-price-checkout">
+                <span className="item-price">
                   ${product.Order_Product.price}.00
                 </span>
-                {'   '}
-                Quantity:
-                {product.Order_Product.quantity}
+                <span className="subtotal-shipping-X">X</span>
+                <span className="subtotal-shipping-quantity">
+                  {product.Order_Product.quantity}
+                </span>
+                <span className="subtotal-shipping">
+                  {'   '}
+                  <b>
+                    ${product.Order_Product.price *
+                      product.Order_Product.quantity}.00
+                  </b>
+                </span>
               </Item.Description>
             </Item.Content>
             <Divider hidden />

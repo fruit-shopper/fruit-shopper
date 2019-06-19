@@ -3,19 +3,23 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import {Image} from 'semantic-ui-react'
+
 import AccountManagementUser from '../components/AccountManagementUser'
 
 const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
-  <div>
-    <h1>Welcome to Fruit-Shopper!</h1>
+  <div className="nav">
+    <span className="header-nav">
+      <h1>Fruit-Shopper</h1>
+    </span>
     <nav>
       {!isLoggedIn &&
         !isAdmin && (
           <div>
             <Link to="/home">Home</Link>
             <Link to="/products">All Products</Link>
-            <Link to="/login">Login</Link>
             <Link to="/signup">Sign Up</Link>
+            <Link to="/login">Login</Link>
             <Link to="/cart">My Cart</Link>
           </div>
         )}

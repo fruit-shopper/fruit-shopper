@@ -6,6 +6,8 @@ import history from './history'
 import store from './store'
 import App from './app'
 import 'semantic-ui-css/semantic.js'
+import {toast} from 'react-toastify'
+toast.configure()
 
 // establishes socket connection
 import './socket'

@@ -8,7 +8,8 @@ import {
   Container,
   List,
   Dropdown,
-  Divider
+  Divider,
+  Icon
 } from 'semantic-ui-react'
 import {getCartProducts, removeProductFromCart} from '../store/cart'
 import SingleCartItem from './SingleCartItem'
@@ -75,15 +76,13 @@ export class Cart extends Component {
       return <div>Your cart is empty! Time to shop!</div>
     }
 
-    console.log('props', this.props)
-    console.log('cartId', this.props.cartId)
     const currentCartId = this.props.cartId
     return (
       <div id="cartPage">
-        <div id="header">
-          <Header as="h1">Your Cart</Header>
-        </div>
         <Container>
+          <div className="cart-header">
+            <Header as="h1">Your Cart</Header>
+          </div>
           <List divided relaxed>
             {this.props.cartContents.products.map(product => (
               <SingleCartItem
@@ -94,18 +93,24 @@ export class Cart extends Component {
             ))}
           </List>
           <h3>
-            Your Cart Total: ${this.calculateGrandTotal(
-              this.props.cartContents
-            )}.00
+            Total: ${this.calculateGrandTotal(this.props.cartContents)}.00
           </h3>
 
-          {/* this button is for testing */}
-          <Button>
-            <Link to="/checkout">Checkout</Link>
-          </Button>
-          <Button>
-            <Link to="/products">Keep Shopping</Link>
-          </Button>
+          <div className="card-checkout-continue-shopping-buttons">
+            <Link to="/products">
+              <Button animated color="blue">
+                <Button.Content visible>Continue Shopping</Button.Content>
+                <Button.Content hidden>
+                  <Icon name="arrow left" />
+                </Button.Content>
+              </Button>
+            </Link>
+            <Link style={{color: 'white'}} to="/checkout">
+              <Button size="massive" width={6} color="green">
+                Checkout{' '}
+              </Button>
+            </Link>
+          </div>
         </Container>
       </div>
     )

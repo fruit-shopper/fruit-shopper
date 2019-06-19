@@ -30,7 +30,6 @@ class AllProducts extends React.Component {
   }
 
   handlePageChange(evt, data) {
-    // console.log('data: ', data)
     this.setState({page: data.activePage})
   }
 
@@ -48,8 +47,6 @@ class AllProducts extends React.Component {
   }
 
   handleResultSelect(evt, {result}) {
-    // this.setState({value: result.name})
-    // console.log('Select result: ', result)
     let link = `/products/${result.id}`
     this.props.toSingleProductPage(link)
   }
@@ -86,31 +83,37 @@ class AllProducts extends React.Component {
     return (
       <div id="allProductsPage">
         <div>
-          <div id="header">
-            <h1>All Products</h1>
-          </div>
-          {/* <Navbar /> */}
+          <div id="header" />
           <hr />
-          <Button onClick={this.handleDesPriceReorder}>Decending Price</Button>
-          <Button onClick={this.handleIncPriceReorder}>Ascending Price</Button>
-          <Select
-            placeholder="Select by Category"
-            options={this.props.categories.map(cat => ({
-              key: cat.id,
-              text: cat.name,
-              value: cat.name
-            }))}
-            onChange={evt => this.handleSelectByCat(evt)}
-          />
-          <Search
-            loading={this.state.isLoading}
-            onResultSelect={this.handleResultSelect}
-            onSearchChange={_.debounce(this.handleSearchChange, 500, {
-              leading: true
-            })}
-            results={this.state.results}
-            value={this.state.value}
-          />
+          <div className="descend-ascend-categories-search-outer">
+            <div className="ascending-descending-category-box">
+              <Button onClick={this.handleDesPriceReorder}>
+                Descending Price
+              </Button>
+              <Button onClick={this.handleIncPriceReorder}>
+                Ascending Price
+              </Button>
+              <Select
+                placeholder="Select by Category"
+                options={this.props.categories.map(cat => ({
+                  key: cat.id,
+                  text: cat.name,
+                  value: cat.name
+                }))}
+                onChange={evt => this.handleSelectByCat(evt)}
+              />
+            </div>
+            <Search
+              className="search-bar"
+              loading={this.state.isLoading}
+              onResultSelect={this.handleResultSelect}
+              onSearchChange={_.debounce(this.handleSearchChange, 500, {
+                leading: true
+              })}
+              results={this.state.results}
+              value={this.state.value}
+            />
+          </div>
           <hr />
           {!this.props.products || this.props.products.length === 0 ? (
             <div>No Products!</div>
@@ -125,14 +128,18 @@ class AllProducts extends React.Component {
             />
           )}
         </div>
-        <Pagination
-          defaultActivePage={1}
-          totalPages={Math.ceil(
-            this.props.products.filter(product => product.available === true)
-              .length / this.numberPerPage
-          )}
-          onPageChange={this.handlePageChange}
-        />
+
+        <div className="pagination-box">
+          <Pagination
+            className="pagination-item"
+            defaultActivePage={1}
+            totalPages={Math.ceil(
+              this.props.products.filter(product => product.available === true)
+                .length / this.numberPerPage
+            )}
+            onPageChange={this.handlePageChange}
+          />
+        </div>
       </div>
     )
   }

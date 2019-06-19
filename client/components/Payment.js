@@ -3,6 +3,7 @@ import StripeCheckout from 'react-stripe-checkout'
 import {connect} from 'react-redux'
 const stripePublic = process.env.STRIPE_PUBLIC_KEY
 import axios from 'axios'
+
 import {toast} from 'react-toastify'
 toast.configure()
 
@@ -15,9 +16,18 @@ function calculateGrandTotal(cart) {
 }
 let product
 
-function notify_success() {
-  toast('Payment Was Successful.', {
-    autoClose: 2000
+function notifySuccess() {
+  // toast('Payment Was Successful.', {
+  //   autoClose: 2000
+  // })
+
+  toast('🦄 Payment Was Successful!', {
+    position: 'top-right',
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true
   })
 }
 
@@ -51,8 +61,7 @@ export class CheckoutPayment extends Component {
       const {status} = response.data
       console.log('Response:', response.data)
       if (status === 'success') {
-        notify_success()
-        //toast("Success! Check email for details", { type: "success" });
+        notifySuccess()
       } else {
         toast('Something went wrong', {type: 'error'})
       }
@@ -60,15 +69,20 @@ export class CheckoutPayment extends Component {
 
     console.log('Props in payment', this.props)
     return (
-      <div>
-        <StripeCheckout
-          stripeKey="pk_test_nqfdZ4fzJB2aBjm2oLWR2z7L00wrgPLOx5"
-          token={handleToken}
-          billingAddress="2024 N Clifton Ave"
-          shippingAddress="2024 N Clifton Ave"
-          amount={product.amount}
-          name="fruits"
-        />
+      <div className="payment-page-box">
+        <div className="payment-inner-box">
+          <span className="total-payment-button">
+            <p>Your total is: $ {paymentTotal}.00</p>
+          </span>
+          <StripeCheckout
+            stripeKey="pk_test_nqfdZ4fzJB2aBjm2oLWR2z7L00wrgPLOx5"
+            token={handleToken}
+            billingAddress="2024 N Clifton Ave"
+            shippingAddress="2024 N Clifton Ave"
+            amount={product.amount}
+            name="fruits"
+          />
+        </div>
       </div>
     )
   }
