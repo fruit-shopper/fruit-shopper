@@ -2,6 +2,7 @@ import React from 'react'
 import {Container, Rating, Divider} from 'semantic-ui-react'
 
 export const Review = props => {
+  // console.log('in Review', props)
   return (
     <Container className="centered" text>
       <h4 align="left">

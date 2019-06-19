@@ -7,7 +7,7 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll({
-      include: [Review, Order, Category]
+      include: [Category]
     })
     res.json(products)
   } catch (error) {
@@ -124,6 +124,28 @@ router.delete('/:productId', adminsOnly, async (req, res, next) => {
     next(error)
   }
 })
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+router.post('/:productId', async (req, res, next) => {
+  try {
+    // console.log('in backend',typeof req.body.reviewText)
+    // console.log(req.user)
+
+    let newReview = await Review.create({
+      text: req.body.reviewText,
+      rating: 5,
+      productId: req.params.productId,
+      userId: req.user.id
+    })
+    newReview = newReview.dataValues
+    Object.assign(newReview, {name: req.user.name})
+    console.log(newReview)
+    // console.log(newReview.dataValues)
+    res.json(newReview)
+  } catch (err) {
+    next(err)
+  }
+})
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 router.use((req, res, next) => {
   const err = new Error('API route under /api/products not found!')

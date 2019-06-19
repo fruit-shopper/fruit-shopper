@@ -37,6 +37,8 @@ const updateItem = updatedItem => ({
 export const setQuantityPrice = (productId, quantityPrice) => {
   return async function(dispatch) {
     try {
+      console.log('ProductId', productId)
+      console.log('QP', quantityPrice)
       const {data} = await axios.post(`/api/cart/${productId}`, quantityPrice)
       dispatch(setQP(data))
     } catch (error) {

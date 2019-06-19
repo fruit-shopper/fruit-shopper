@@ -236,7 +236,6 @@ const CheckoutShipping = products => (
                 onChange={handleChange}
               />
               <Divider hidden />
-
               <label htmlFor="isBilling">
                 Check if the same as Billing Address
               </label>

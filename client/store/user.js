@@ -6,6 +6,7 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const RECORD_SHIPPING_ADDRESS = 'RECORD_SHIPPING_ADDRESS'
 
 /**
  * INITIAL STATE
@@ -17,6 +18,7 @@ const defaultUser = {}
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
+const addOrCreateShipping = () => ({type: RECORD_SHIPPING_ADDRESS})
 
 /**
  * THUNK CREATORS
@@ -57,6 +59,15 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const recordShippingAddress = () => async dispatch => {
+  try {
+    const {data} = await axios.post('/api/checkout')
+    dispatch(addOrCreateShipping(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 /**
  * REDUCER
  */
@@ -66,6 +77,8 @@ export default function(state = defaultUser, action) {
       return action.user
     case REMOVE_USER:
       return defaultUser
+    case RECORD_SHIPPING_ADDRESS:
+      return action.user
     default:
       return state
   }

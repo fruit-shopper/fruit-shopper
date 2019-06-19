@@ -1,10 +1,13 @@
 import axios from 'axios'
 import history from '../history'
+import {SlowBuffer} from 'buffer'
 
 /**
  * ACTION TYPES
  */
 const GET_PRODUCT = 'GET_PRODUCT'
+const CREATE_REVIEW = 'CREATE_REVIEW'
+
 // const REMOVE_PRODUCT = 'REMOVE_PRODUCT'
 
 /**
@@ -22,6 +25,30 @@ const getProduct = product => ({
 // const removeProduct = () => ({
 //   type: REMOVE_PRODUCT
 // })
+
+export const addReview = reviewText => {
+  return {
+    type: CREATE_REVIEW,
+    reviewText
+  }
+}
+
+export const createReview = (reviewText, productId) => {
+  return async dispatch => {
+    console.log('1', productId)
+    console.log('2', reviewText)
+    try {
+      const {data} = await axios.post(`/api/products/${productId}`, {
+        reviewText
+      })
+      data.user = {name: data.name}
+      console.log('DATA: ', data)
+      dispatch(addReview(data))
+    } catch (error) {
+      console.log('Error inside thunk method: ', error)
+    }
+  }
+}
 
 /**
  * THUNK CREATORS
@@ -45,8 +72,17 @@ export default function(state = defaultProduct, action) {
     case GET_PRODUCT:
       return action.product
     // case REMOVE_PRODUCT:
-    //   return defaultUser
+    case CREATE_REVIEW:
+      // let oldReviews = state.reviews
+      // oldReviews.map(item => console.log('==>',item))
+      // console.log('-------->',typeof action.reviewText)
+      // let returnedTarget = Object.assign(oldReviews, {...action.reviewText})
+      // /fix this
+      // console.log('==>',  returnedTarget)
+      return {...state, reviews: [...state.reviews, action.reviewText]}
     default:
       return state
   }
 }
+
+// console.log(item)
