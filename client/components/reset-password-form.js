@@ -31,6 +31,7 @@ class ResetPasswordForm extends React.Component {
         password: password1,
         reset: false
       })
+      // console.log('this.props.user.id: ', this.props.user.id)
       // this.props.fetchInitialUsers()
       this.props.toPage('/home')
     }
