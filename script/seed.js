@@ -166,7 +166,7 @@ async function seed() {
     createArr.push(
       Product.create({
         name: newName,
-        price: Math.floor(Math.random() * 20),
+        price: Math.floor(Math.random() * 20) + 1,
         quantity: faker.random.number(),
         description: `${newName}${', '} ${faker.lorem.paragraph()}`
       })

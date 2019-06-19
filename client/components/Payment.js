@@ -3,6 +3,8 @@ import StripeCheckout from 'react-stripe-checkout'
 import {connect} from 'react-redux'
 const stripePublic = process.env.STRIPE_PUBLIC_KEY
 import axios from 'axios'
+import {Link} from 'react-router-dom'
+import {Button, Icon} from 'semantic-ui-react'
 
 import {toast} from 'react-toastify'
 toast.configure()
@@ -83,6 +85,15 @@ export class CheckoutPayment extends Component {
             name="fruits"
           />
         </div>
+
+        <Link to="/products">
+          <Button animated color="blue">
+            <Button.Content visible>Continue Shopping</Button.Content>
+            <Button.Content hidden>
+              <Icon name="arrow left" />
+            </Button.Content>
+          </Button>
+        </Link>
       </div>
     )
   }
