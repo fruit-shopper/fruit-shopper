@@ -10,7 +10,7 @@ import {
   Dropdown,
   Input
 } from 'semantic-ui-react'
-import {updateCartItem} from '../store/cart'
+import {updateCartItem, removeProductFromCart} from '../store/cart'
 
 const options = [
   {text: '1', value: 1},
@@ -29,6 +29,7 @@ export class SingleCartItem extends Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.handleClickRemove = this.handleClickRemove.bind(this)
   }
   componentDidMount() {
     const product = this.props.product
@@ -52,6 +53,11 @@ export class SingleCartItem extends Component {
       this.state.selectedQuantity
     )
   }
+  handleClickRemove(event) {
+    event.preventDefault()
+    this.props.removeItem(event.target.value)
+  }
+
   render() {
     //console.log("props in the individual product", this.props)
     const product = this.props.product
@@ -107,7 +113,7 @@ export class SingleCartItem extends Component {
                 type="submit"
                 value={product.id}
                 // name="productRemove"
-                onClick={this.handleClick}
+                onClick={this.handleClickRemove}
               >
                 Remove from Cart
               </Button>
@@ -122,7 +128,9 @@ export class SingleCartItem extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     updateCartItem: (orderId, productId, quantity) =>
-      dispatch(updateCartItem(orderId, productId, quantity))
+      dispatch(updateCartItem(orderId, productId, quantity)),
+    removeItem: productRemoveId =>
+      dispatch(removeProductFromCart(productRemoveId))
   }
 }
 
