@@ -24,7 +24,8 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   const googleConfig = {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK
+//     callbackURL: process.env.GOOGLE_CALLBACK
+    callbackURL:  'https://fruit-shopper.herokuapp.com/auth/google/callback'
   }
 
   const strategy = new GoogleStrategy(
